@@ -1,0 +1,74 @@
+class @Graph extends React.Component
+  @propTypes =
+    data: React.PropTypes.array
+
+  componentDidMount: ->
+    data = [this.props.data]
+
+  
+    yaxis: {
+      minTickSize: 1,
+      tickDecimals: 0
+    },
+    xaxis: {
+      mode: "time",
+      minTickSize: [1, "month"]
+    }
+
+    options =
+      series:
+        lines:
+          show: true
+          fill: false
+          steps: false
+          lineWidth: 6
+        points:
+          show: false
+          fill: true
+          radius: 3
+      shadowSize: 0
+      colors: ['#ff5252']
+      grid:
+        color: 'rgba(151, 151, 151, 0.6)'
+        clickable: false
+        margin: 10
+        labelMargin: 10
+        axisMargin: 0
+        borderWidth: { top: 1, bottom: 1, left: 0, right: 0 }
+        markings: [
+          { color: '#cc0000', lineWidth: 5, yaxis: { from: 40, to: 40 } }
+          { color: '#800000', lineWidth: 5, yaxis: { from: 20, to: 20 } }
+        ]
+
+      xaxis:
+        mode: "time"
+        minTickSize: [1, "day"]
+        font:
+          size: 10
+          weight: "bold"
+          family: "HelveticaNeue"
+          color: 'rgba(151, 151, 151, 0.6)'
+      yaxis:
+        tickSize: 10
+        min: 0
+        tickFormatter: (val) -> val
+        font:
+          size: 9
+          weight: "bold"
+          family: "HelveticaNeue"
+          color: "black"
+
+    $(document).ready ->
+      $(window)
+        .on 'resize', ->
+          $('.graph').css('height', $(window).width() * .6)
+          $.plot($('.graph'), data, options)
+        .trigger 'resize'
+    
+
+  componentWillUnmount: ->
+    $(window)
+      .off 'resize'
+
+  render: ->
+    return `<div className="graph"></div>`

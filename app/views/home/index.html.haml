@@ -1,0 +1,13 @@
+%h2 NO<sup>2</sup> Eixample:
+%h1 #{ Log.order(registered_at: :desc).first.value } <span>µg/m<sup>3</sup></span>
+
+%h2 Mitjana Eixample:
+%h1 #{ @median } <span>µg/m<sup>3</sup></span>
+
+%h2 Valor limit de la mitjana anual establert per la legislació espanyola:
+%h1 40 <span>µg/m<sup>3</sup></span>
+
+%h2 Valor limit de la mitjana anual establert per la Organització Mundial de la Salut:
+%h1 20 <span>µg/m<sup>3</sup></span>
+
+= react_component 'Graph', { data: Log.data }

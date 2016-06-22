@@ -1,13 +1,20 @@
-%h2 NO<sup>2</sup> Eixample:
-%h1 #{ Log.order(registered_at: :desc).first.value } <span>µg/m<sup>3</sup></span>
+%h2 Messueres NO<sup>2</sup> a:
 
-%h2 Mitjana Eixample:
-%h1 #{ @median } <span>µg/m<sup>3</sup></span>
+= form_tag filter_path, method: 'post' do |f|
+  = select_tag :location, options_from_collection_for_select(Location.all, "id", "name", @location.id)
+  = submit_tag 'Filter'
 
-%h2 Valor limit de la mitjana anual establert per la legislació espanyola:
-%h1 40 <span>µg/m<sup>3</sup></span>
+- if @logs.length > 0
+  
+  %h1 #{ @logs.first.value } <span>µg/m<sup>3</sup></span>
 
-%h2 Valor limit de la mitjana anual establert per la Organització Mundial de la Salut:
-%h1 20 <span>µg/m<sup>3</sup></span>
+  %h2 Mitjana Eixample:
+  %h1 #{ @logs.average(:value).round(2) } <span>µg/m<sup>3</sup></span>
 
-= react_component 'Graph', { data: Log.data }
+  %h2 Valor limit de la mitjana anual establert per la legislació espanyola:
+  %h1 40 <span>µg/m<sup>3</sup></span>
+
+  %h2 Valor limit de la mitjana anual establert per la Organització Mundial de la Salut:
+  %h1 20 <span>µg/m<sup>3</sup></span>
+
+  = react_component 'Graph', { data: @logs.data }

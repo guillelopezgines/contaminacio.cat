@@ -11,13 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160617121914) do
+ActiveRecord::Schema.define(version: 20160622124526) do
+
+  create_table "locations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "code"
+    t.string   "name"
+    t.string   "city"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_locations_on_code", unique: true, using: :btree
+  end
 
   create_table "logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "value"
+    t.integer  "location_id",   null: false
     t.datetime "registered_at"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.index ["location_id"], name: "index_logs_on_location_id", using: :btree
   end
 
 end

@@ -20,6 +20,15 @@ h1 {
   }
 }
 
+form {
+  margin: 20px auto;
+  max-width: 300px;
+  text-align: center;
+  select, input {
+    font-size: 30px;
+  }
+}
+
 .graph{
   width: 100%;
   max-height: 400px;

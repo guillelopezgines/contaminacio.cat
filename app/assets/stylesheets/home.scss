@@ -1,6 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+}
+
+body {
+  padding: 10px;
+}
 h1, h2, h3, p {
   color: black;
   font-family: "HelveticaNeue", Sans-Serif;
+  font-family: 'Space Mono', monospace;
   margin: 0 auto;
   padding: 0;
   text-align: center;
@@ -37,7 +47,26 @@ form {
   margin: 20px auto;
   max-width: 500px;
   text-align: center;
-  select, input {
+  button {
+    border-radius: 5px;
+    line-height: 0;
+    padding: 4px 4px;
+    background: white;
+    margin: 0;
+    border: 1px solid buttonface;
+    border: 0;
+    vertical-align: middle;
+    box-shadow: 0px 0px 1px buttonface;
+
+    .material-icons {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+    }
+  }
+  div {
+    display: inline-block;
   }
 }
 
@@ -54,27 +83,6 @@ hr {
   max-height: 400px;
   height: 400px;
   margin: 0 auto 20px;
-}
-
-table {
-  width: 100%;
-  font-family: "HelveticaNeue", Sans-Serif;
-  font-size: 12px;
-  background: #fff;
-  border-collapse: collapse;
-  text-align: left;
-  th {
-    font-size: 14px;
-    font-weight: normal;
-    color: black;
-    border-bottom: 2px solid black;
-    padding: 10px 8px;
-  }
-  td {
-    border-bottom: 1px solid #ccc;
-    color: black;
-    padding: 6px 8px;
-  }
 }
 
 footer {

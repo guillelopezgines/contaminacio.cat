@@ -4,7 +4,6 @@ class @Graph extends React.Component
 
   componentDidMount: ->
     data = [this.props.data]
-
   
     yaxis: {
       minTickSize: 1,
@@ -46,7 +45,7 @@ class @Graph extends React.Component
         font:
           size: 10
           weight: "bold"
-          family: "HelveticaNeue"
+          family: "Space Mono"
           color: 'rgba(151, 151, 151, 0.6)'
       yaxis:
         tickSize: 10
@@ -55,7 +54,7 @@ class @Graph extends React.Component
         font:
           size: 9
           weight: "bold"
-          family: "HelveticaNeue"
+          family: "Space Mono"
           color: "black"
 
     $(document).ready ->

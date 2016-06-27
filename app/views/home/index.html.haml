@@ -1,9 +1,9 @@
-%h2 Mesures de:
+%h2 Mesura actual de:
 
 = form_tag filter_path, method: 'post' do |f|
-  = select_tag :pollutant, options_from_collection_for_select(Pollutant.all, "id", "name", @pollutant.id)
-  = select_tag :location, options_from_collection_for_select(Location.all.order(city: :asc), "id", "description", @location.id)
-  = submit_tag 'Veure'
+  = select_tag :pollutant, options_from_collection_for_select(Pollutant.all, "id", "name_with_short_name", @pollutant.id)
+  = select_tag :location, options_from_collection_for_select(Location.all.order(city: :asc), "id", "name", @location.id)
+  = react_component 'GeoLocationButton'
 
 - if @logs.length > 0
   
@@ -25,7 +25,7 @@
   %h2 Aquesta estació no recopila dades d'aquest contaminant.
   %hr
 
-%h2 Qué és el #{@pollutant.name} i quines causes té sobre la salut?
+%h2 Qué és el #{@pollutant.name_html.html_safe} i quines causes té sobre la salut?
 #{@pollutant.description.html_safe}
 
 %footer

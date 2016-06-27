@@ -17,8 +17,11 @@ ActiveRecord::Schema.define(version: 20160627081400) do
     t.string   "code"
     t.string   "name"
     t.string   "city"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.decimal  "latitude",   precision: 8, scale: 6
+    t.decimal  "longitude",  precision: 8, scale: 6
+    t.boolean  "enabled",                            default: true
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
     t.index ["code"], name: "index_locations_on_code", unique: true, using: :btree
   end
 
@@ -35,13 +38,14 @@ ActiveRecord::Schema.define(version: 20160627081400) do
 
   create_table "pollutants", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
-    t.text     "description",      limit: 65535
-    t.string   "unit"
     t.string   "name_html"
+    t.string   "short_name"
+    t.string   "unit"
     t.string   "unit_html"
     t.string   "selector"
     t.decimal  "year_limit_spain",               precision: 8, scale: 2
     t.decimal  "year_limit_oms",                 precision: 8, scale: 2
+    t.text     "description",      limit: 65535
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
   end

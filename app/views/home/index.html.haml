@@ -21,4 +21,12 @@
   = react_component 'Graph', { data: @logs.data, year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms }
 
 - else
+  %hr
   %h2 Aquesta estació no recopila dades d'aquest contaminant.
+  %hr
+
+%h2 Qué és el #{@pollutant.name} i quines causes té sobre la salut?
+#{@pollutant.description.html_safe}
+
+%footer
+  %h3 Ultima actualització: #{Time.now.ago(1.hour)}. Font de les dades: Generalitat de Catalunya. Departament de Territori i Sostenibilitat. <a href="http://dtes.gencat.cat/icqa/">Xarxa de Vigilància i Previsió de la Qualitat de l'Aire</a> (XVPCA). Font dels textos: Ecologistas en Acción, <a href="http://www.ecologistasenaccion.org/article1657.html">Informe La Calidad del aire en el Estado español durante 2015</a>

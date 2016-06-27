@@ -1,10 +1,10 @@
-h1, h2, h3 {
+h1, h2, h3, p {
   color: black;
   font-family: "HelveticaNeue", Sans-Serif;
   margin: 0 auto;
   padding: 0;
   text-align: center;
-  max-width: 500px;
+  max-width: 600px;
 }
 h1 {
   font-size: 3em;
@@ -20,13 +20,33 @@ h1 {
   }
 }
 
+h3 {
+  font-weight: normal;
+  font-size: 0.8em;
+  line-height: 1.6em;
+}
+
+p {
+  margin: 20px auto;
+  line-height: 2em;
+  max-width: 700px;
+  text-align: left;
+}
+
 form {
   margin: 20px auto;
   max-width: 500px;
   text-align: center;
   select, input {
-    font-size: 30px;
   }
+}
+
+hr {
+  max-width: 100px;
+  margin: 50px auto;
+  border: 0;
+  height: 1px;
+  background: black;
 }
 
 .graph{
@@ -55,4 +75,8 @@ table {
     color: black;
     padding: 6px 8px;
   }
+}
+
+footer {
+  margin-top: 60px;
 }

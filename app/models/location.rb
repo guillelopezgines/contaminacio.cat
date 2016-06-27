@@ -24,14 +24,21 @@ class Location < ApplicationRecord
     date = json['data'].to_date
 
     Pollutant.all.each do |p|
-      if contaminant = json['contaminants'][p.selector]
-        contaminant['dadesMesuresDiaria'].each_with_index do |val, index|
-          value = val['valor']
-          if index < 24 and value != ''
-            datetime = date.to_datetime.change({ hour: index})
-            Log.find_or_create_by(registered_at: datetime, pollutant_id: p.id, location_id: self.id) do |log|
-              log.value = value
-              puts "#{p.name} - #{self.name} - #{datetime} - #{value}"
+      if contaminants = json['contaminants']
+        if contaminants.length > 0
+          contaminants.each do |c|
+            contaminant = c.second
+            if contaminant['abreviatura'] == p.selector
+              contaminant['dadesMesuresDiaria'].each_with_index do |val, index|
+                value = val['valor']
+                if index < 24 and value != ''
+                  datetime = date.to_datetime.change({ hour: index})
+                  Log.find_or_create_by(registered_at: datetime, pollutant_id: p.id, location_id: self.id) do |log|
+                    log.value = value
+                    puts "#{p.name} - #{self.name} - #{datetime} - #{value}"
+                  end
+                end
+              end
             end
           end
         end

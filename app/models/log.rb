@@ -1,6 +1,7 @@
 class Log < ApplicationRecord
 
   belongs_to :location
+  belongs_to :pollutant
 
   DEFAULT_LOCATION = "08019043"
 

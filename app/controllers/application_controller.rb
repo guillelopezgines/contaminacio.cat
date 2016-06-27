@@ -4,8 +4,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :set_location
+  before_action :set_pollutant
 
   def set_location
     @location = (session[:location] ? Location.find(session[:location]) : Location.find_by_code(Log::DEFAULT_LOCATION))
+  end
+
+  def set_pollutant
+    @pollutant = (session[:pollutant] ? Pollutant.find(session[:pollutant]) : Pollutant.first)
   end
 end

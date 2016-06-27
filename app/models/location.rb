@@ -1,6 +1,10 @@
 class Location < ApplicationRecord
   has_many :logs, dependent: :destroy
 
+  def description
+    "#{city} - #{name}"
+  end
+
   def self.record_all
     Location.all.each do |location|
       location.record Date.yesterday
@@ -18,13 +22,18 @@ class Location < ApplicationRecord
     data = data.to_s.gsub!('\'','"')
     json = JSON.parse(data)
     date = json['data'].to_date
-    json['contaminants']['contaminant3']['dadesMesuresDiaria'].each_with_index do |val, index|
-      value = val['valor']
-      if index < 24 and value != ''
-        datetime = date.to_datetime.change({ hour: index})
-        Log.find_or_create_by(registered_at: datetime, location_id: self.id) do |log|
-          log.value = value
-          puts "#{self.name} - #{datetime} - #{value}"
+
+    Pollutant.all.each do |p|
+      if contaminant = json['contaminants'][p.selector]
+        contaminant['dadesMesuresDiaria'].each_with_index do |val, index|
+          value = val['valor']
+          if index < 24 and value != ''
+            datetime = date.to_datetime.change({ hour: index})
+            Log.find_or_create_by(registered_at: datetime, pollutant_id: p.id, location_id: self.id) do |log|
+              log.value = value
+              puts "#{p.name} - #{self.name} - #{datetime} - #{value}"
+            end
+          end
         end
       end
     end

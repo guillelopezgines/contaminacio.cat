@@ -9,12 +9,5 @@ class CreateLocations < ActiveRecord::Migration[5.0]
       t.index :code, unique: true
     end
 
-    if (table_exists? :locations)
-      if Location.all.length == 0
-        Location.create code: '08019043', name: 'Eixample', city: 'Barcelona'
-        Location.create code: '08301004', name: 'Viladecans', city: 'Viladecans'
-      end
-    end
-
   end
 end

@@ -36,8 +36,8 @@ class @Graph extends React.Component
         axisMargin: 0
         borderWidth: { top: 1, bottom: 1, left: 0, right: 0 }
         markings: [
-          { color: '#cc0000', lineWidth: 5, yaxis: { from: 40, to: 40 } }
-          { color: '#800000', lineWidth: 5, yaxis: { from: 20, to: 20 } }
+          { color: '#cc0000', lineWidth: 5, yaxis: { from: this.props.year_limit_spain, to: this.props.year_limit_spain } }
+          { color: '#800000', lineWidth: 5, yaxis: { from: this.props.year_limit_oms, to: this.props.year_limit_oms } }
         ]
 
       xaxis:

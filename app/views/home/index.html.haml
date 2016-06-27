@@ -1,20 +1,24 @@
-%h2 Messueres NO<sup>2</sup> a:
+%h2 Mesures de:
 
 = form_tag filter_path, method: 'post' do |f|
-  = select_tag :location, options_from_collection_for_select(Location.all, "id", "name", @location.id)
-  = submit_tag 'Filter'
+  = select_tag :pollutant, options_from_collection_for_select(Pollutant.all, "id", "name", @pollutant.id)
+  = select_tag :location, options_from_collection_for_select(Location.all.order(city: :asc), "id", "description", @location.id)
+  = submit_tag 'Veure'
 
 - if @logs.length > 0
   
-  %h1 #{ @logs.first.value } <span>µg/m<sup>3</sup></span>
+  %h1 #{@logs.first.value} <span>#{@pollutant.unit_html.html_safe}</span>
 
-  %h2 Mitjana Eixample:
-  %h1 #{ @logs.average(:value).round(2) } <span>µg/m<sup>3</sup></span>
+  %h2 Mitjana #{@pollutant.name_html.html_safe} #{@location.name}:
+  %h1 #{@logs.average(:value).round(2)} <span>#{@pollutant.unit_html.html_safe}</span>
 
   %h2 Valor limit de la mitjana anual establert per la legislació espanyola:
-  %h1 40 <span>µg/m<sup>3</sup></span>
+  %h1 #{@pollutant.year_limit_spain} <span>#{@pollutant.unit_html.html_safe}</span>
 
   %h2 Valor limit de la mitjana anual establert per la Organització Mundial de la Salut:
-  %h1 20 <span>µg/m<sup>3</sup></span>
+  %h1 #{@pollutant.year_limit_oms} <span>µg/m<sup>3</sup></span>
 
-  = react_component 'Graph', { data: @logs.data }
+  = react_component 'Graph', { data: @logs.data, year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms }
+
+- else
+  %h2 Aquesta estació no recopila dades d'aquest contaminant.

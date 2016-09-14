@@ -183,23 +183,32 @@ footer {
 @media only screen and (max-width: 600px) {
   header {
     padding: 20px;
+    h1 {
+      font-size: 3em;
+    }
   }
   .page {
-    padding: 0 20px;  
+    padding: 0 10px;  
   }
 
   h1 {
-    font-size: 2em;
+    font-size: 2.8em;
     line-height: 1em;
     &.extra {
       font-size: 4em;
       margin: -20px auto 0;
+    }
+    &.left {
+      text-align: left;
+      font-size: 2.6em;
+      line-height: 1.2em;
     }
   }
   h2 {
     font-size: 1.3em;
     line-height: 1.2em;
     margin: 0 auto 5px;
+    padding: 0 10px;
     &.extra {
       font-size: 1.8em;
     }

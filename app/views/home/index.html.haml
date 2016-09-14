@@ -1,11 +1,11 @@
 %header
-  %h1 Nivell de contaminació atmosfèrica a Catalunya
+  %h1 Nivells de contaminació atmosfèrica a Catalunya
 
 %div.page
 
   %div.module
     = form_tag filter_path, method: 'post' do |f|
-      %h2.extra Mesuara actual de
+      %h2.extra Mesura actual de:
       %div.select.pollutant
         = select_tag :pollutant, options_from_collection_for_select(Pollutant.all, "id", "name_with_short_name", @pollutant.id)
         %svg.select-icon{viewBox: "0 0 24 24"}
@@ -44,12 +44,12 @@
       %h1 #{(Date.today.yday() * 659/365).round} morts
       %h3 * Segons dades de l'estudi <a href="http://ehp.niehs.nih.gov/wp-content/uploads/advpub/2016/6/EHP220.acco.pdf">Urban and Transport Planning Related Exposures and Mortality: A Health Impact Assessment for Cities</a>
 
-= react_component 'Graph', { data: @logs.data, year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms }
+= react_component 'Graph', { data: @logs.data_last_7_days, year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms }
 
 %div.page
 
   %div.module
-    %h1 Qué és el #{@pollutant.name_html.html_safe} i quines causes té sobre la salut?
+    %h1.left Qué és el #{@pollutant.name_html.html_safe} i quines causes té sobre la salut?
     #{@pollutant.description.html_safe}
 
   %footer

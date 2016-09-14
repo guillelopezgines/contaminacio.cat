@@ -37,16 +37,21 @@
 
     %div.module
       %h2 Valor limit de la mitjana anual establert per l'Organització Mundial de la Salut:
-      %h1 #{@pollutant.year_limit_oms} <span>µg/m<sup>3</sup></span>
+      %h1 #{@pollutant.year_limit_oms} <span>#{@pollutant.unit_html.html_safe}</span>
 
     %div.module
       %h2 Morts en el que va d'any computables a la contaminació atmosfèrica a Catalunya:
       %h1 #{(Date.today.yday() * 659/365).round} morts
       %h3 * Segons dades de l'estudi <a href="http://ehp.niehs.nih.gov/wp-content/uploads/advpub/2016/6/EHP220.acco.pdf">Urban and Transport Planning Related Exposures and Mortality: A Health Impact Assessment for Cities</a>
 
+    %div.module
+      %h2 Evolució últims 7 dies <br>a #{@location.name}:
+
 = react_component 'Graph', { data: @logs.data_last_7_days, year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms }
 
 %div.page
+  
+  %h3 * En vermell el valor límit de la legislació espanyola<br> (#{@pollutant.year_limit_spain} #{@pollutant.unit_html.html_safe}) i de la OMS (#{@pollutant.year_limit_oms} #{@pollutant.unit_html.html_safe})
 
   %div.module
     %h1.left Qué és el #{@pollutant.name_html.html_safe} i quines causes té sobre la salut?

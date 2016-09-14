@@ -20,13 +20,13 @@ class @Graph extends React.Component
           show: true
           fill: false
           steps: false
-          lineWidth: 6
+          lineWidth: 3
         points:
           show: false
           fill: true
           radius: 3
       shadowSize: 0
-      colors: ['#ff5252']
+      colors: ['#333']
       grid:
         color: 'rgba(151, 151, 151, 0.6)'
         clickable: false
@@ -35,8 +35,8 @@ class @Graph extends React.Component
         axisMargin: 0
         borderWidth: { top: 1, bottom: 1, left: 0, right: 0 }
         markings: [
-          { color: '#cc0000', lineWidth: 5, yaxis: { from: this.props.year_limit_spain, to: this.props.year_limit_spain } }
-          { color: '#800000', lineWidth: 5, yaxis: { from: this.props.year_limit_oms, to: this.props.year_limit_oms } }
+          { color: '#ff5252', lineWidth: 10, yaxis: { from: this.props.year_limit_spain, to: this.props.year_limit_spain } }
+          { color: '#ff5252', lineWidth: 5, yaxis: { from: this.props.year_limit_oms, to: this.props.year_limit_oms } }
         ]
 
       xaxis:
@@ -45,7 +45,6 @@ class @Graph extends React.Component
         font:
           size: 10
           weight: "bold"
-          family: "Space Mono"
           color: 'rgba(151, 151, 151, 0.6)'
       yaxis:
         tickSize: 10
@@ -54,7 +53,6 @@ class @Graph extends React.Component
         font:
           size: 9
           weight: "bold"
-          family: "Space Mono"
           color: "black"
 
     $(document).ready ->

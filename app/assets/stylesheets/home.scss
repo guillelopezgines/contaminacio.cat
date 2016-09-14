@@ -43,6 +43,10 @@ h2 {
   &.extra {
     font-size: 2em;
   }
+  a {
+    text-decoration: none;
+    border-bottom: 1px solid;
+  }
 }
 h3 {
   font-weight: normal;
@@ -182,9 +186,14 @@ footer {
 
 @media only screen and (max-width: 600px) {
   header {
-    padding: 20px;
+    padding: 0 20px 20px;
     h1 {
       font-size: 3em;
+    }
+    h2 {
+      max-width: 260px;
+      margin:  0 auto 20px;
+      line-height: 1.4em;
     }
   }
   .page {

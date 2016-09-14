@@ -1,12 +1,11 @@
 !!!
 %html
   %head
-    %meta(content="text/html; charset=UTF-8" http-equiv="Content-Type")
-    %meta(name="viewport" content="width=device-width, initial-scale=1.0")
     %title Nivells de contaminació a Catalunya
     %link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
     = stylesheet_link_tag 'application', media: 'all'
     %link(rel="icon" type="image/png" href="/icon.png")
+    = render 'layouts/metas'
     = csrf_meta_tags
   %body{ class: params[:controller].parameterize, id: params[:action].parameterize}
     %main

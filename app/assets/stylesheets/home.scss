@@ -186,11 +186,12 @@ footer {
 
 @media only screen and (max-width: 800px) {
   header {
-    padding: 0 20px 20px;
+    padding: 0 0px 20px;
     h1 {
       font-size: 3em;
     }
     h2 {
+      font-size: 1.2em;
       margin:  0 auto 20px;
       line-height: 1.4em;
     }
@@ -248,14 +249,6 @@ footer {
     }
     div.clear {
       clear: both;
-    }
-  }
-}
-
-@media only screen and (max-width: 800px) {
-  header {
-    h2 {
-      max-width: 260px;
     }
   }
 }

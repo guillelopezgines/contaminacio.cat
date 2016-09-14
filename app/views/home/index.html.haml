@@ -1,7 +1,6 @@
 %header
-  %h1 Nivell de contaminació atmosfèrica a Barcelona
+  %h1 Nivell de contaminació atmosfèrica a Catalunya
 
-  
 %div.page
 
   %div.module
@@ -29,7 +28,7 @@
   - if @logs.length > 0
 
     %div.module
-      %h2 Mitjana últims 7 dies a #{@location.name}:
+      %h2 Mitjana últims #{time_ago_in_words @logs.last.registered_at} a #{@location.name}:
       %h1 #{@logs.average(:value).round(2)} <span>#{@pollutant.unit_html.html_safe}</span>
 
     %div.module

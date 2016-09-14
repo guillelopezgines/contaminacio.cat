@@ -14,6 +14,8 @@ module No2Barcelona
 
     # Set Barcelona's Time Zone
     config.time_zone = 'Brussels'
+
+    config.i18n.default_locale = :ca
     
   end
 end

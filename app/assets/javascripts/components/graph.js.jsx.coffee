@@ -22,7 +22,7 @@ class @Graph extends React.Component
           steps: false
           lineWidth: 3
         points:
-          show: false
+          show: true
           fill: true
           radius: 3
       shadowSize: 0
@@ -30,6 +30,7 @@ class @Graph extends React.Component
       grid:
         color: 'rgba(151, 151, 151, 0.6)'
         clickable: false
+        hoverable: true
         margin: 10
         labelMargin: 10
         axisMargin: 0
@@ -61,7 +62,29 @@ class @Graph extends React.Component
           $('.graph').css('height', $(window).width() * .6)
           $.plot($('.graph'), data, options)
         .trigger 'resize'
-    
+
+      $("<div id='tooltip'></div>").css(
+        position: "absolute"
+        display: "none"
+        border: "1px solid #fdd"
+        padding: "2px"
+        "background-color": "#fee"
+        opacity: 0.80
+      ).appendTo("body")
+
+      $(".graph").bind "plothover", (event, pos, item) ->
+        if (item)
+          x = item.datapoint[0].toFixed(2)
+          y = item.datapoint[1].toFixed(2)
+          amount = item.datapoint[1]
+          date = new Date(item.datapoint[0]);
+
+          $("#tooltip").html(amount + " " + window.unit + "<br>" + date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear())
+            .css({top: item.pageY+5, left: item.pageX+5})
+            .fadeIn(200)
+        else
+          $("#tooltip").hide()
+          
 
   componentWillUnmount: ->
     $(window)

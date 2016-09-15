@@ -60,3 +60,7 @@
 
   %footer
     %p <b>Ultima actualització</b>: #{Time.now.ago(1.hour)}. <b>Font de les dades</b>: Generalitat de Catalunya. Departament de Territori i Sostenibilitat. <a href="http://dtes.gencat.cat/icqa/">Xarxa de Vigilància i Previsió de la Qualitat de l'Aire</a> (XVPCA). <b>Font dels textos</b>: Ecologistas en Acción, <a href="http://www.ecologistasenaccion.org/article1657.html">Informe La Calidad del aire en el Estado español durante 2015</a>
+
+
+:javascript
+  window.unit = "#{@pollutant.unit_html.html_safe}"

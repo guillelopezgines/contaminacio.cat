@@ -22,7 +22,7 @@ class @Graph extends React.Component
           steps: false
           lineWidth: 3
         points:
-          show: true
+          show: false
           fill: true
           radius: 3
       shadowSize: 0
@@ -72,6 +72,10 @@ class @Graph extends React.Component
         opacity: 0.80
       ).appendTo("body")
 
+      add_zero = (i) ->
+        i = "0" + i if (i < 10)
+        return i
+
       $(".graph").bind "plothover", (event, pos, item) ->
         if (item)
           x = item.datapoint[0].toFixed(2)
@@ -79,8 +83,8 @@ class @Graph extends React.Component
           amount = item.datapoint[1]
           date = new Date(item.datapoint[0]);
 
-          $("#tooltip").html(amount + " " + window.unit + "<br>" + date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear())
-            .css({top: item.pageY+5, left: item.pageX+5})
+          $("#tooltip").html(amount + " " + window.unit + " at " + date)
+            .css({top: item.pageY + 5, left: if item.pageX < $(".graph").width() * .5 then (item.pageX + 5) else (item.pageX - $("#tooltip").outerWidth() - 10)})
             .fadeIn(200)
         else
           $("#tooltip").hide()

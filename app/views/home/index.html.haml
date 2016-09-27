@@ -40,10 +40,10 @@
       %h2 Valor limit de la mitjana anual establert per l'Organització Mundial de la Salut:
       %h1 #{@pollutant.year_limit_oms} <span>#{@pollutant.unit_html.html_safe}</span>
 
-    %div.module
-      %h2 Morts en el que va d'any computables a la contaminació atmosfèrica a Catalunya:
-      %h1 #{(Date.today.yday() * 659/365).round} morts
-      %h3 * Segons dades de l'estudi <a href="http://ehp.niehs.nih.gov/wp-content/uploads/advpub/2016/6/EHP220.acco.pdf">Urban and Transport Planning Related Exposures and Mortality: A Health Impact Assessment for Cities</a>
+    / %div.module
+    /   %h2 Morts en el que va d'any computables a la contaminació atmosfèrica a Catalunya:
+    /   %h1 #{(Date.today.yday() * 659/365).round} morts
+    /   %h3 * Segons dades de l'estudi <a href="http://ehp.niehs.nih.gov/wp-content/uploads/advpub/2016/6/EHP220.acco.pdf">Urban and Transport Planning Related Exposures and Mortality: A Health Impact Assessment for Cities</a>
 
     %div.module
       %h2 Evolució horaria de #{@pollutant.name.downcase} (#{@pollutant.short_name}) en els últims 7 dies a #{@location.name}:

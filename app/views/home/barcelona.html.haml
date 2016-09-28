@@ -22,7 +22,12 @@
 = react_component 'Graph', { data: series, year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms }
 
 %div.page
+
   %h3 * En <span style="color: #ff5252">vermell</span> el valor límit de la mitjana anual establert per la legislació espanyola (#{@pollutant.year_limit_spain} #{@pollutant.unit_html.html_safe}) i de l'Organització Mundial de la Salut (#{@pollutant.year_limit_oms} #{@pollutant.unit_html.html_safe})
+
+  %div.module
+    %h1.left Qué és el #{@pollutant.name_html.html_safe} i quines causes té sobre la salut?
+    #{@pollutant.description.html_safe}
 
   %footer
     %p <b>Ultima actualització</b>: #{Time.now.ago(1.hour)}. <b>Font de les dades</b>: Generalitat de Catalunya. Departament de Territori i Sostenibilitat. <a href="http://dtes.gencat.cat/icqa/">Xarxa de Vigilància i Previsió de la Qualitat de l'Aire</a> (XVPCA). <b>Font dels textos</b>: Ecologistas en Acción, <a href="http://www.ecologistasenaccion.org/article1657.html">Informe La Calidad del aire en el Estado español durante 2015</a>

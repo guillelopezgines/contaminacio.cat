@@ -62,7 +62,9 @@ class @Graph extends React.Component
     $(document).ready ->
       $(window)
         .on 'resize', ->
-          $('.graph').css('height', $(window).width() * .6)
+          width = $(window).width()
+          $('.graph').css('height', width * .6)
+          options.series.lines.lineWidth = if width > 600 then 3 else 1
           $.plot($('.graph'), data, options)
         .trigger 'resize'
 

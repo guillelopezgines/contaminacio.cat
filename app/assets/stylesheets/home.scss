@@ -238,6 +238,11 @@ td {
     font-size: 1.2em;
   }
   form {
+    &:after{
+      display: table;
+      content: '';
+      clear: both;
+    }
     .select {
       display: block;
       width: 100%;
@@ -258,6 +263,11 @@ td {
     }
     div.clear {
       clear: both;
+    }
+  }
+  .graph {
+    .legend {
+      display: none;
     }
   }
 }

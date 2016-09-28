@@ -3,8 +3,8 @@ class @Graph extends React.Component
     data: React.PropTypes.array
 
   componentDidMount: ->
-    data = [this.props.data]
-  
+    data = this.props.data
+
     yaxis: {
       minTickSize: 1,
       tickDecimals: 0
@@ -26,7 +26,7 @@ class @Graph extends React.Component
           fill: true
           radius: 3
       shadowSize: 0
-      colors: ['#333']
+      colors: ['#333', '#FE9000', '#FFDD4A', '#5ADBFF', '#3C6997', '#094074']
       grid:
         color: 'rgba(151, 151, 151, 0.6)'
         clickable: false
@@ -39,6 +39,9 @@ class @Graph extends React.Component
           { color: '#ff5252', lineWidth: 10, yaxis: { from: this.props.year_limit_spain, to: this.props.year_limit_spain } }
           { color: '#ff5252', lineWidth: 5, yaxis: { from: this.props.year_limit_oms, to: this.props.year_limit_oms } }
         ]
+      legend:
+        position: "nw"
+        noColumns: 7
 
       xaxis:
         mode: "time"
@@ -82,8 +85,11 @@ class @Graph extends React.Component
           y = item.datapoint[1].toFixed(2)
           amount = item.datapoint[1]
           date = new Date(item.datapoint[0]);
+          content = amount + " " + window.unit + " at " + date
+          content = label + ":<br>" + content if label = item.series.label
 
-          $("#tooltip").html(amount + " " + window.unit + " at " + date)
+          $("#tooltip")
+            .html(content)
             .css({top: item.pageY + 5, left: if item.pageX < $(".graph").width() * .5 then (item.pageX + 5) else (item.pageX - $("#tooltip").outerWidth() - 10)})
             .fadeIn(200)
         else

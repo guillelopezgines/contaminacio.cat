@@ -48,7 +48,7 @@
     %div.module
       %h2 Evolució horaria de #{@pollutant.name.downcase} (#{@pollutant.short_name}) en els últims 7 dies a #{@location.name}:
 
-= react_component 'Graph', { data: @logs.data_last_7_days, year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms }
+= react_component 'Graph', { data: [@logs.data_last_7_days], year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms }
 
 %div.page
   

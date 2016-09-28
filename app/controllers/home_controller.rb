@@ -6,7 +6,7 @@ class HomeController < ApplicationController
   def filter
     session[:location] = params[:location]
     session[:pollutant] = params[:pollutant]
-    redirect_to root_url
+    redirect_to :back
   end
 
   def location
@@ -25,6 +25,10 @@ class HomeController < ApplicationController
     render json: {
       location: location.id
     }
+  end
+
+  def barcelona
+    @locations = Location.where(city: 'Barcelona').order(name: :asc)
   end
 
   private

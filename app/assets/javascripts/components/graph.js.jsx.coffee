@@ -4,16 +4,6 @@ class @Graph extends React.Component
 
   componentDidMount: ->
     data = this.props.data
-
-    yaxis: {
-      minTickSize: 1,
-      tickDecimals: 0
-    },
-    xaxis: {
-      mode: "time",
-      minTickSize: [1, "month"]
-    }
-
     options =
       series:
         lines:
@@ -45,7 +35,6 @@ class @Graph extends React.Component
 
       xaxis:
         mode: "time"
-        minTickSize: [1, "day"]
         font:
           size: 10
           weight: "bold"
@@ -86,7 +75,7 @@ class @Graph extends React.Component
           x = item.datapoint[0].toFixed(2)
           y = item.datapoint[1].toFixed(2)
           amount = item.datapoint[1]
-          date = new Date(item.datapoint[0]);
+          date = new Date(item.datapoint[0] - 2 * 60 * 60 * 1000);
           content = amount + " " + window.unit + " at " + date
           content = label + ":<br>" + content if label = item.series.label
 

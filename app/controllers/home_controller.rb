@@ -3,6 +3,24 @@ class HomeController < ApplicationController
     @logs = @location.logs.where(pollutant: @pollutant).order(registered_at: :desc)
   end
 
+  def index_with_pollutant
+    if pollutant = params[:pollutant]
+      if @pollutant = Pollutant.find_by_short_name(pollutant.upcase)
+        session[:pollutant] = @pollutant.id
+      end
+    end
+    redirect_to action: "index"
+  end
+
+  def index_with_pollutant_and_location
+    if location = params[:location]
+      if @location = Location.find_by_slug(location)
+        session[:location] = @location.id
+      end
+    end
+    redirect_to action: "index_with_pollutant"
+  end
+
   def filter
     session[:location] = params[:location]
     session[:pollutant] = params[:pollutant]

@@ -49,6 +49,15 @@ class HomeController < ApplicationController
     @locations = Location.where(city: 'Barcelona').order(name: :asc)
   end
 
+  def barcelona_with_pollutant
+    if pollutant = params[:pollutant]
+      if @pollutant = Pollutant.find_by_short_name(pollutant.upcase)
+        session[:pollutant] = @pollutant.id
+      end
+    end
+    redirect_to action: "barcelona"
+  end
+
   private
 
   def distance loc1, loc2

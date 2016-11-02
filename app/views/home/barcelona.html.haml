@@ -12,6 +12,10 @@
           %path{d: "M21 5.176l-9.086 9.353L3 5.176.686 7.647 12 19.382 23.314 7.647 21 5.176z"}
 
   %div.module
+    %h2 Mitjana últims 7 dies:
+    %h1 #{@average} <span>#{@pollutant.unit_html.html_safe}</span>
+
+  %div.module
     %h2 Evolució horaria de #{@pollutant.name.downcase} (#{@pollutant.short_name}) en els últims 7 dies a les diferents estacions de Barcelona:
 
 - series = []

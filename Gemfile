@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 gem 'rails', '>= 5.0.0.rc1', '< 5.1'
 gem 'mysql2', '>= 0.3.18', '< 0.5'
 gem 'puma', '~> 3.0'
@@ -49,3 +48,4 @@ gem 'haml-rails'
 gem 'react-rails'
 
 gem 'rails_12factor', group: :production
+gem 'twitter'

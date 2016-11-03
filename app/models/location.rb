@@ -1,6 +1,8 @@
 class Location < ApplicationRecord
   has_many :logs, dependent: :destroy
 
+  scope :from_barcelona, -> { where(city: 'Barcelona').order(name: :asc) }
+
   def description
     "#{city} - #{name}"
   end
@@ -44,6 +46,15 @@ class Location < ApplicationRecord
         end
       end
     end
+  end
+
+  def self.barcelona_tweet_update
+    locations = []
+    pollutant = Pollutant.find_by_short_name("NO2")
+    Location.from_barcelona.each do |location|
+      locations << "#{location.name.split('-').last}: #{location.logs.where(pollutant: pollutant).order(registered_at: :desc).last.value.to_i}" 
+    end
+    "#{Time.now.strftime("%Hh")} - Nivells NO² (µg/m³): #{locations.join(", ")}"
   end
 
 end

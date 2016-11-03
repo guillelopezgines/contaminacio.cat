@@ -46,7 +46,7 @@ class HomeController < ApplicationController
   end
 
   def barcelona
-    @locations = Location.where(city: 'Barcelona').order(name: :asc)
+    @locations = Location.from_barcelona
     # @average = Log.joins(:location).where(pollutant_id: @pollutant.id).where(locations: {city: 'Barcelona'}).average(:value).round(2)
   end
 

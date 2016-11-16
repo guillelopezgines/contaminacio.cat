@@ -54,7 +54,7 @@ class Location < ApplicationRecord
     Location.from_barcelona.each do |location|
       locations << "#{location.name.split('-').last}: #{location.logs.where(pollutant: pollutant).order(registered_at: :desc).first.value.to_i}"
     end
-    "#{Log.last.registered_at.strftime("%Hh")} - Nivells NO² (µg/m³): #{locations.join(", ")}"
+    "#{(Log.last.registered_at - 1.hour).strftime("%Hh")} - Nivells NO² (µg/m³): #{locations.join(", ")}"
   end
 
 end

@@ -48,11 +48,11 @@
     %div.module
       %h2 Evolució horaria de #{@pollutant.name.downcase} (#{@pollutant.short_name}) en els últims 7 dies a #{@location.name}:
 
-= react_component 'Graph', { data: [@logs.data_last_7_days], year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms }
+= react_component 'Graph', { data: [@logs.data_last_7_days], last_week_average: @logs.average(:value).round(2), year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms }
 
 %div.page
   
-  %h3 * En <span style="color: #ff5252">vermell</span> el valor límit de la mitjana anual establert per la legislació espanyola (#{@pollutant.year_limit_spain} #{@pollutant.unit_html.html_safe}) i de l'Organització Mundial de la Salut (#{@pollutant.year_limit_oms} #{@pollutant.unit_html.html_safe})
+  %h3 * En <span style="color: #ff5252; font-weight: bold;">vermell</span> el valor límit de la mitjana anual establert per la legislació espanyola (#{@pollutant.year_limit_spain} #{@pollutant.unit_html.html_safe}) i de l'Organització Mundial de la Salut (#{@pollutant.year_limit_oms} #{@pollutant.unit_html.html_safe}). <br>En <span style="color: #2E4053; font-weight: bold;">gris</span> la mitjana dels últims 7 dies (#{@logs.average(:value).round(2)} #{@pollutant.unit_html.html_safe}).
 
   %div.module
     %h1.left Qué és el #{@pollutant.name_html.html_safe} i quines causes té sobre la salut?

@@ -4,6 +4,12 @@ class @Graph extends React.Component
 
   componentDidMount: ->
     data = this.props.data
+    
+    markings = []
+    markings.push({ color: '#2E4053', lineWidth: 8, yaxis: { from: this.props.last_week_average, to: this.props.last_week_average }}) if this.props.last_week_average
+    markings.push({ color: '#ff5252', lineWidth: 10, yaxis: { from: this.props.year_limit_spain, to: this.props.year_limit_spain }})
+    markings.push({ color: '#ff5252', lineWidth: 5, yaxis: { from: this.props.year_limit_oms, to: this.props.year_limit_oms }})
+
     options =
       series:
         lines:
@@ -25,10 +31,7 @@ class @Graph extends React.Component
         labelMargin: 10
         axisMargin: 0
         borderWidth: { top: 1, bottom: 1, left: 0, right: 0 }
-        markings: [
-          { color: '#ff5252', lineWidth: 10, yaxis: { from: this.props.year_limit_spain, to: this.props.year_limit_spain } }
-          { color: '#ff5252', lineWidth: 5, yaxis: { from: this.props.year_limit_oms, to: this.props.year_limit_oms } }
-        ]
+        markings: markings
       legend:
         position: "nw"
         noColumns: 7

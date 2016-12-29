@@ -6,8 +6,16 @@ class Log < ApplicationRecord
   DEFAULT_LOCATION = "08019043"
   TIME_WINDOW = 1.week.ago.utc
 
-  def tupla
+  def value_tupla
     [registered_at.to_i * 1000, value]
+  end
+
+  def average_tupla
+    [registered_at.to_i * 1000, annual_average]
+  end
+
+  def annual_average
+    annual_sum / annual_registers
   end
 
   def self.data
@@ -15,11 +23,16 @@ class Log < ApplicationRecord
   end
 
   def self.data_last_7_days
-    Log.where("registered_at >= ?", TIME_WINDOW).order(registered_at: :desc).map { |log| log.tupla }
+    Log.where("registered_at >= ?", TIME_WINDOW).order(registered_at: :desc).map { |log| log.value_tupla }
+  end
+
+  def self.averages_last_7_days
+    Log.where("registered_at >= ?", TIME_WINDOW).order(registered_at: :desc).map { |log| log.average_tupla }
   end
 
   def self.destroy_old_ones
     Log.where("registered_at < ?", TIME_WINDOW).destroy_all()
   end
+
 
 end

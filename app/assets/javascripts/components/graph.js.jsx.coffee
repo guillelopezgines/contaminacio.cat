@@ -6,9 +6,8 @@ class @Graph extends React.Component
     data = this.props.data
     
     markings = []
-    markings.push({ color: '#2E4053', lineWidth: 8, yaxis: { from: this.props.last_week_average, to: this.props.last_week_average }}) if this.props.last_week_average
-    markings.push({ color: '#ff5252', lineWidth: 10, yaxis: { from: this.props.year_limit_spain, to: this.props.year_limit_spain }})
-    markings.push({ color: '#ff5252', lineWidth: 5, yaxis: { from: this.props.year_limit_oms, to: this.props.year_limit_oms }})
+    markings.push({ color: '#F94E4E', lineWidth: 10, yaxis: { from: this.props.year_limit_spain, to: this.props.year_limit_spain }})
+    markings.push({ color: '#F94E4E', lineWidth: 5, yaxis: { from: this.props.year_limit_oms, to: this.props.year_limit_oms }})
 
     options =
       series:
@@ -22,7 +21,7 @@ class @Graph extends React.Component
           fill: true
           radius: 3
       shadowSize: 0
-      colors: ['#333', '#FE9000', '#FFDD4A', '#5ADBFF', '#3C6997', '#094074']
+      colors: ['#2E4053', '#E2D44D', '#30C670', '#18181C', '#9092A5', '#F94E4E', '#094074']
       grid:
         color: 'rgba(151, 151, 151, 0.6)'
         clickable: false

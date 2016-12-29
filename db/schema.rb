@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161102160414) do
+ActiveRecord::Schema.define(version: 20161229115525) do
 
   create_table "locations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "code"
@@ -27,12 +27,14 @@ ActiveRecord::Schema.define(version: 20161102160414) do
   end
 
   create_table "logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.decimal  "value",         precision: 8, scale: 2
-    t.integer  "pollutant_id",                          null: false
-    t.integer  "location_id",                           null: false
+    t.decimal  "value",            precision: 8, scale: 2
+    t.integer  "pollutant_id",                             null: false
+    t.integer  "location_id",                              null: false
+    t.decimal  "annual_sum",       precision: 8, scale: 2
+    t.integer  "annual_registers"
     t.datetime "registered_at"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.index ["location_id"], name: "index_logs_on_location_id", using: :btree
     t.index ["pollutant_id"], name: "index_logs_on_pollutant_id", using: :btree
   end

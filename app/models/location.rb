@@ -24,8 +24,9 @@ class Location < ApplicationRecord
     data = data.to_s.gsub!('\'','"')
     json = JSON.parse(data)
     date = json['data'].to_date
+    pollutants = Pollutant.all
 
-    Pollutant.all.each do |p|
+    pollutants.each do |p|
       if contaminants = json['contaminants']
         if contaminants.length > 0
           contaminants.each do |c|
@@ -35,10 +36,25 @@ class Location < ApplicationRecord
                 value = val['valor']
                 if index < 24 and value != ''
                   datetime = date.to_datetime.change({ hour: index})
-                  Log.find_or_create_by(registered_at: datetime, pollutant_id: p.id, location_id: self.id) do |log|
-                    log.value = value
-                    puts "#{p.name} - #{self.name} - #{datetime} - #{value}"
+                  previous_log = Log.where(location_id: self.id, pollutant_id: p.id)
+                                    .where("registered_at < ?", datetime)
+                                    .order(registered_at: :desc)
+                                    .limit(1)
+                                    .last
+                  if previous_log.try(:registered_at).try(:year) == datetime.year
+                    previous_annual_sum = previous_log.try(:annual_sum) || 0
+                    previous_annual_registers = previous_log.try(:annual_registers) || 0
+                  else
+                    previous_annual_sum = 0
+                    previous_annual_registers = 0
                   end
+                  
+                  log = Log.find_or_create_by(registered_at: datetime, pollutant_id: p.id, location_id: self.id)
+                  log.value = value.to_f
+                  log.annual_sum = previous_annual_sum + log.value
+                  log.annual_registers = previous_annual_registers + 1
+                  log.save
+                  puts "#{p.name} - #{self.name} - #{datetime} - #{value} - #{log.annual_sum} - #{log.annual_registers}"
                 end
               end
             end

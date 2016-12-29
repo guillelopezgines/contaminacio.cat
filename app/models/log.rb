@@ -15,7 +15,11 @@ class Log < ApplicationRecord
   end
 
   def annual_average
-    annual_sum / annual_registers
+    begin
+      annual_sum / annual_registers
+    rescue
+      0
+    end
   end
 
   def self.data
@@ -27,7 +31,7 @@ class Log < ApplicationRecord
   end
 
   def self.averages_last_7_days
-    Log.where("registered_at >= ?", TIME_WINDOW).order(registered_at: :desc).map { |log| log.average_tupla }
+    Log.where("registered_at >= ?", TIME_WINDOW).where("annual_sum IS NOT NULL").order(registered_at: :desc).map { |log| log.average_tupla }
   end
 
   def self.destroy_old_ones

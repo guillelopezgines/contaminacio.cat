@@ -29,9 +29,10 @@
 
   - if @logs.length > 0
 
-    %div.module
-      %h2 Mitjana anual a #{@location.name}:
-      %h1 #{@logs.first.annual_average.round(2)} <span>#{@pollutant.unit_html.html_safe}</span>
+    - if @logs.first.annual_average
+      %div.module
+        %h2 Mitjana anual a #{@location.name}:
+        %h1 #{@logs.first.annual_average.round(2)} <span>#{@pollutant.unit_html.html_safe}</span>
 
     %div.module
       %h2 Valor limit de la mitjana anual establert per la legislació espanyola:

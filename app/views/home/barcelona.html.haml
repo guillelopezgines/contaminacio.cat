@@ -5,7 +5,7 @@
 
   %div.module
     = form_tag filter_path, method: 'post' do |f|
-      %h2.extra Mesura actual de:
+      %h2.extra Mesura de:
       %div.select.pollutant
         = select_tag :pollutant, options_from_collection_for_select(Pollutant.all, "id", "name_with_short_name", @pollutant.id)
         %svg.select-icon{viewBox: "0 0 24 24"}
@@ -16,7 +16,7 @@
   /   %h1 #{@average} <span>#{@pollutant.unit_html.html_safe}</span>
 
   %div.module
-    %h2 Evolució horaria de #{@pollutant.name.downcase} (#{@pollutant.short_name}) en els últims 7 dies a les diferents estacions de Barcelona:
+    %h2 Evolució horaria de #{@pollutant.name.downcase} (#{@pollutant.short_name}) en els últims 7 dies a les diferents estacions de Barcelona. Última dada de fa #{time_ago_in_words(@locations.first.logs.last.registered_at)}.
 
 - series = []
 - @locations.each do |location|

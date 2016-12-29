@@ -6,7 +6,7 @@
 
   %div.module
     = form_tag filter_path, method: 'post' do |f|
-      %h2.extra Mesura actual de:
+      %h2.extra Mesura de:
       %div.select.pollutant
         = select_tag :pollutant, options_from_collection_for_select(Pollutant.all, "id", "name_with_short_name", @pollutant.id)
         %svg.select-icon{viewBox: "0 0 24 24"}

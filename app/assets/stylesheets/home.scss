@@ -157,6 +157,11 @@ hr {
   max-height: 400px;
   height: 400px;
   margin: 0 auto 20px;
+  .catalunya &{
+    .legend {
+      display: none;
+    }
+  }
 }
 
 ol, ul {
@@ -181,6 +186,9 @@ footer {
   p {
     font-size: 1em;
     margin: 0;
+  }
+  &.last {
+    margin-top: 0;
   }
 }
 

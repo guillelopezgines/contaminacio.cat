@@ -45,18 +45,24 @@ class HomeController < ApplicationController
     }
   end
 
-  def barcelona
-    @locations = Location.from_barcelona
-    # @average = Log.joins(:location).where(pollutant_id: @pollutant.id).where(locations: {city: 'Barcelona'}).average(:value).round(2)
+  def group
+    begin
+      group = params[:group]
+      @locations = Location.public_send("from_" + group)
+      @group_name = group.titlecase
+      render "home/group"
+    rescue
+      redirect_to action: "index"
+    end
   end
 
-  def barcelona_with_pollutant
+  def group_with_pollutant
     if pollutant = params[:pollutant]
       if @pollutant = Pollutant.find_by_short_name(pollutant.upcase)
         session[:pollutant] = @pollutant.id
       end
     end
-    redirect_to action: "barcelona"
+    redirect_to action: "group"
   end
 
   private

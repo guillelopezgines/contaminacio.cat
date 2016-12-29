@@ -2,16 +2,10 @@ class Location < ApplicationRecord
   has_many :logs, dependent: :destroy
 
   scope :from_barcelona, -> { where(city: 'Barcelona').order(name: :asc) }
+  scope :from_catalunya, -> { all.order(name: :asc) }
 
   def description
     "#{city} - #{name}"
-  end
-
-  def self.record_all
-    Location.all.each do |location|
-      location.record Date.yesterday
-      location.record Date.today
-    end
   end
 
   def record(date)
@@ -61,6 +55,13 @@ class Location < ApplicationRecord
           end
         end
       end
+    end
+  end
+
+  def self.record_all
+    Location.all.each do |location|
+      location.record Date.yesterday
+      location.record Date.today
     end
   end
 

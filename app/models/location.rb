@@ -60,7 +60,7 @@ class Location < ApplicationRecord
 
   def self.record_all
     Location.all.each do |location|
-      location.record Date.yesterday
+      # location.record Date.yesterday
       location.record Date.today
     end
   end

@@ -1,0 +1,66 @@
+%header
+  / %h2 <a href="https://twitter.com/Qualitat_Aire" target="_blank">Plataforma per la Qualitat de l'Aire</a>:
+  %h1 Nivells de contaminació atmosfèrica a Catalunya
+
+%div.page
+
+  %div.module
+    = form_tag filter_path, method: 'post' do |f|
+      %h2.extra Mesura de:
+      %div.select.pollutant
+        = select_tag :pollutant, options_from_collection_for_select(Pollutant.all, "id", "name_with_short_name", @pollutant.id)
+        %svg.select-icon{viewBox: "0 0 24 24"}
+          %path{d: "M21 5.176l-9.086 9.353L3 5.176.686 7.647 12 19.382 23.314 7.647 21 5.176z"}
+      %span a
+      %div.select.location
+        = select_tag :location, options_from_collection_for_select(Location.all.order(city: :asc), "id", "name", @location.id)
+        %svg.select-icon{viewBox: "0 0 24 24"}
+          %path{d: "M21 5.176l-9.086 9.353L3 5.176.686 7.647 12 19.382 23.314 7.647 21 5.176z"}
+      = react_component 'GeoLocationButton'
+
+    - if @logs.length > 0
+      %h1.extra #{@logs.first.value} <span>#{@pollutant.unit_html.html_safe}</span>
+      %h2.extra fa #{time_ago_in_words(@logs.first.registered_at)}
+    
+    - else
+      %hr
+      %h4 Aquesta estació no recopila dades d'aquest contaminant.
+      %hr
+
+  - if @logs.length > 0
+
+    - if @logs.first.annual_average
+      %div.module
+        %h2 Mitjana anual a #{@location.name}:
+        %h1 #{@logs.first.annual_average.round(2)} <span>#{@pollutant.unit_html.html_safe}</span>
+
+    %div.module
+      %h2 Valor limit de la mitjana anual establert per la legislació espanyola:
+      %h1 #{@pollutant.year_limit_spain} <span>#{@pollutant.unit_html.html_safe}</span>
+
+    %div.module
+      %h2 Valor limit de la mitjana anual establert per l'Organització Mundial de la Salut:
+      %h1 #{@pollutant.year_limit_oms} <span>#{@pollutant.unit_html.html_safe}</span>
+
+    %div.module
+      %h2 Evolució horaria de #{@pollutant.name.downcase} (#{@pollutant.short_name}) en els últims 7 dies a #{@location.name}:
+
+= react_component 'Graph', { data: [@logs.data_last_7_days, @logs.averages_last_7_days], year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms }
+
+%div.page
+  
+  %h3 * En <span style="color: #F94E4E; font-weight: bold;">vermell</span> el valor límit de la mitjana anual establert per la legislació espanyola (#{@pollutant.year_limit_spain} #{@pollutant.unit_html.html_safe}) i de l'Organització Mundial de la Salut (#{@pollutant.year_limit_oms} #{@pollutant.unit_html.html_safe}). <br>En <span style="color: #E2D44D; font-weight: bold;">groc</span> la mitjana anual (#{@logs.average(:value).round(2)} #{@pollutant.unit_html.html_safe}) i en <span style="color: #18181C; font-weight: bold;">negre</span> el valor horari.
+
+  %div.module
+    %h1.left Qué és el #{@pollutant.name_html.html_safe} i quines causes té sobre la salut?
+    #{@pollutant.description.html_safe}
+
+  %footer
+    %p <b>Més opcions:</b> dades generals de <a href="/barcelona">Barcelona</a>, de tot <a href="/catalunya">Catalunya</a> o d'una <a href="/">estació específica</a>.
+
+  %footer.last
+    %p <b>Ultima actualització</b>: #{@logs.first.registered_at}. <b>Font de les dades</b>: Generalitat de Catalunya. Departament de Territori i Sostenibilitat. <a href="http://dtes.gencat.cat/icqa/">Xarxa de Vigilància i Previsió de la Qualitat de l'Aire</a> (XVPCA). <b>Font dels textos</b>: Ecologistas en Acción, <a href="http://www.ecologistasenaccion.org/article1657.html">Informe La Calidad del aire en el Estado español durante 2015</a>
+
+
+:javascript
+  window.unit = "#{@pollutant.unit_html.html_safe}"

@@ -1,0 +1,280 @@
+@import 'https://fonts.googleapis.com/css?family=Roboto:400,500,700';
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+}
+
+body {
+  padding: 40px 10px;
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Lora', serif;
+  font-family: 'Roboto', sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  color: rgba(0,0,0,0.87);
+}
+header, .page {
+  margin: 0 auto;
+  max-width: 800px;
+  text-align: center;
+}
+a {
+  color: rgba(0,0,0,0.87);
+}
+h1 {
+  font-size: 3em;
+  font-weight: 700;
+  max-width: 600px;
+  margin: 0 auto;
+  span {
+    font-size: 0.8em;
+  }
+  &.extra {
+    font-size: 5em;
+    margin: 20px auto 0;
+  }
+}
+h2 {
+  font-weight: normal;
+  max-width: 600px;
+  margin: 0 auto 10px;
+  &.extra {
+    font-size: 2em;
+  }
+  a {
+    text-decoration: none;
+    border-bottom: 1px solid;
+  }
+}
+h3 {
+  font-weight: normal;
+  font-size: 0.8em;
+  line-height: 1.6em;
+  margin: 0 auto 10px;
+  max-width: 480px;
+}
+h4 {
+  font-weight: normal;
+  max-width: 420px;
+  margin: 0 auto 10px;
+  font-size: 2em;
+  line-height: 1.3em;
+}
+
+p {
+  margin: 20px auto;
+  line-height: 2em;
+  text-align: left;
+  font-size: 1.4em;
+}
+
+.module {
+  margin: 20px 0 40px;
+  &.left {
+    text-align: left;
+  }
+}
+
+form {
+  .select {
+    display: inline-block;
+    border: 1px solid #d3dbe2;
+    border-radius: 3px;
+    box-sizing: border-box;
+    position: relative;
+    background: #ffffff;
+    overflow: hidden;
+    vertical-align: middle;
+    .select-icon {
+      cursor: pointer;
+      display: block;
+      fill: #798c9c;
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      margin-top: -6px;
+      pointer-events: none;
+      width: 12px;
+      height: 12px;
+      vertical-align: middle;
+    }
+
+    select {
+      font-size: 16px;
+      padding: 7px 10px;
+      padding-right: 32px;
+      border: 0;
+      width: 100%;
+      background: transparent;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+  }
+
+  span {
+    margin: 0 8px;
+    font-size: 1.2em;
+    vertical-align: middle;
+  }
+
+  div {
+    display: inline-block;
+  }
+
+  button {
+    border-radius: 3px;
+    line-height: 0;
+    padding: 7px;
+    background: white;
+    margin: 0;
+    border: 1px solid #d3dbe2;
+    vertical-align: middle;
+    display: inline-block;
+
+    .material-icons {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+    }
+  }
+  span {
+  }
+}
+
+hr {
+  max-width: 100px;
+  margin: 50px auto;
+  border: 0;
+  height: 1px;
+  background: black;
+}
+
+.graph{
+  width: 100%;
+  max-height: 400px;
+  height: 400px;
+  margin: 0 auto 20px;
+  .catalunya &{
+    .legend {
+      display: none;
+    }
+  }
+}
+
+ol, ul {
+  margin: 0 auto;
+  li {
+    margin: 20px 0;
+  }
+}
+
+footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  &:before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    display: block;
+    background: black;
+    position: relative;
+    top: -10px;
+  }
+  p {
+    font-size: 1em;
+    margin: 0;
+  }
+  &.last {
+    margin-top: 0;
+  }
+}
+
+#tooltip {
+  max-width: 220px;
+  line-height: 1.4em;
+}
+
+td {
+  padding: 3px 5px;
+}
+
+@media only screen and (max-width: 800px) {
+  header {
+    padding: 0 0px 20px;
+    h1 {
+      font-size: 3em;
+    }
+    h2 {
+      font-size: 1.2em;
+      margin:  0 auto 20px;
+      line-height: 1.4em;
+    }
+  }
+  .page {
+    padding: 0 10px;  
+  }
+
+  h1 {
+    font-size: 2.8em;
+    line-height: 1em;
+    &.extra {
+      font-size: 4em;
+    }
+    &.left {
+      text-align: left;
+      font-size: 2.6em;
+      line-height: 1.2em;
+    }
+  }
+  h2 {
+    font-size: 1.3em;
+    line-height: 1.2em;
+    margin: 0 auto 5px;
+    padding: 0 10px;
+    &.extra {
+      font-size: 1.6em;
+    }
+  }
+  h3 {
+    margin-top: 10px;
+  }
+  p {
+    font-size: 1.2em;
+  }
+  form {
+    &:after{
+      display: table;
+      content: '';
+      clear: both;
+    }
+    .select {
+      display: block;
+      width: 100%;
+      margin: 5px auto;
+      &.location {
+        width: 88%;
+        margin: 5px 0;
+        float: left;
+      }
+    }
+    span {
+      display: none;
+    }
+    div {
+      width: 10%;
+      float: left;
+      margin: 5px 0 5px 2%;
+    }
+    div.clear {
+      clear: both;
+    }
+  }
+  .graph {
+    .legend {
+      display: none;
+    }
+  }
+}

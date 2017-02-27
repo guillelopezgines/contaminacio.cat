@@ -1,0 +1,15 @@
+!!!
+%html
+  %head
+    %title Nivells de contaminació a Catalunya
+    %link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+    = stylesheet_link_tag 'application', media: 'all'
+    %link(rel="icon" type="image/png" href="/icon.png?v=1")
+    %link(rel="apple-touch-icon" href="/touch-icon.png?v=1")
+    = render 'layouts/metas'
+    = csrf_meta_tags
+  %body{ class: params[:controller].parameterize, id: params[:action].parameterize}
+    %main
+      = yield
+    = javascript_include_tag 'application'
+    = render "layouts/analytics"

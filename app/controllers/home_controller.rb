@@ -32,7 +32,7 @@ class HomeController < ApplicationController
     longitude = params[:longitude].to_f
     min_distance = false
     location = false
-    Location.all.each do |l|
+    Location.enabled.each do |l|
       distance = distance([latitude, longitude], [l.latitude, l.longitude])
       if min_distance == false or distance < min_distance
         min_distance = distance

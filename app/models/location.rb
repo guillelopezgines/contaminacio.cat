@@ -1,6 +1,7 @@
 class Location < ApplicationRecord
   has_many :logs, dependent: :destroy
 
+  scope :enabled, -> { where(enabled: true) }
   scope :from_barcelona, -> { where(city: 'Barcelona').order(name: :asc) }
   scope :from_catalunya, -> { all.order(name: :asc) }
 
@@ -43,11 +44,11 @@ class Location < ApplicationRecord
                     previous_annual_registers = 0
                   end
                   
-                  log = Log.find_or_create_by(registered_at: datetime, pollutant_id: p.id, location_id: self.id)
-                  log.value = value.to_f
-                  log.annual_sum = previous_annual_sum + log.value
-                  log.annual_registers = previous_annual_registers + 1
-                  log.save
+                  Log.find_or_create_by(registered_at: datetime, pollutant_id: p.id, location_id: self.id) do |log|
+                    log.value = value.to_f
+                    log.annual_sum = previous_annual_sum + log.value
+                    log.annual_registers = previous_annual_registers + 1
+                  end
                   puts "#{p.name} - #{self.name} - #{datetime} - #{value} - #{log.annual_sum} - #{log.annual_registers}"
                 end
               end
@@ -59,7 +60,7 @@ class Location < ApplicationRecord
   end
 
   def self.record_all
-    Location.all.each do |location|
+    Location.enabled.each do |location|
       # location.record Date.yesterday
       location.record Date.today
     end
@@ -68,7 +69,7 @@ class Location < ApplicationRecord
   def self.barcelona_tweet_update
     locations = []
     pollutant = Pollutant.find_by_short_name("NO2")
-    Location.from_barcelona.each do |location|
+    Location.enabled.from_barcelona.each do |location|
       locations << "#{location.name.split('-').last}: #{location.logs.where(pollutant: pollutant).order(registered_at: :desc).first.value.to_i}"
     end
     "#{(Log.last.registered_at - 1.hour).strftime("%Hh")} - NO² (µg/m³): #{locations.join(", ")}"

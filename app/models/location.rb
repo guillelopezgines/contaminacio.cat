@@ -43,16 +43,13 @@ class Location < ApplicationRecord
                     previous_annual_sum = 0
                     previous_annual_registers = 0
                   end
-                  
-                  Log.find_or_create_by(registered_at: datetime, pollutant_id: p.id, location_id: self.id) do |log|
-                    if log
-                      log.value = value.to_f
-                      log.annual_sum = previous_annual_sum + log.value
-                      log.annual_registers = previous_annual_registers + 1
-                      puts "#{p.name} - #{self.name} - #{datetime} - #{value} - #{log.annual_sum} - #{log.annual_registers}"
-                    else
-                      puts "No log! For registered_at: #{datetime}, pollutant_id: #{p.id} and location_id: #{self.id}"
-                    end
+
+                  if log = Log.find_or_create_by(registered_at: datetime, pollutant_id: p.id, location_id: self.id)
+                    log.value = value.to_f
+                    log.annual_sum = previous_annual_sum + log.value
+                    log.annual_registers = previous_annual_registers + 1
+                    log.save
+                    puts "#{p.name} - #{self.name} - #{datetime} - #{value} - #{log.annual_sum} - #{log.annual_registers}"
                   end
                 end
               end

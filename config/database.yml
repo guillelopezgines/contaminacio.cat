@@ -10,23 +10,22 @@
 #   http://dev.mysql.com/doc/refman/5.7/en/old-client.html
 #
 default: &default
-  adapter: mysql2
-  encoding: utf8
-  pool: 5
-  username: root
-  password:
-  host: localhost
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
-  database: no2-barcelona_development
+  database: contaminacio_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: no2-barcelona_test
+  database: contaminacio_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -49,6 +48,6 @@ test:
 #
 production:
   <<: *default
-  database: no2-barcelona_production
-  username: no2-barcelona
+  database: contaminacio_production
+  username: contaminacio
   password: <%= ENV['NO2-BARCELONA_DATABASE_PASSWORD'] %>

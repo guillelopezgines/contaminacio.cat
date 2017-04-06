@@ -13,9 +13,11 @@
 
 ActiveRecord::Schema.define(version: 20161229115525) do
 
-  create_table "locations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "locations", force: :cascade do |t|
     t.string   "code"
-    t.string   "slug",                                              null: false
     t.string   "name"
     t.string   "city"
     t.decimal  "latitude",   precision: 8, scale: 6
@@ -23,34 +25,35 @@ ActiveRecord::Schema.define(version: 20161229115525) do
     t.boolean  "enabled",                            default: true
     t.datetime "created_at",                                        null: false
     t.datetime "updated_at",                                        null: false
+    t.string   "slug",                                              null: false
     t.index ["code"], name: "index_locations_on_code", unique: true, using: :btree
   end
 
-  create_table "logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "logs", force: :cascade do |t|
     t.decimal  "value",            precision: 8, scale: 2
-    t.integer  "pollutant_id",                             null: false
-    t.integer  "location_id",                              null: false
-    t.decimal  "annual_sum",       precision: 8, scale: 2
-    t.integer  "annual_registers"
     t.datetime "registered_at"
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
+    t.integer  "location_id",                              null: false
+    t.integer  "pollutant_id",                             null: false
+    t.decimal  "annual_sum",       precision: 8, scale: 2
+    t.integer  "annual_registers"
     t.index ["location_id"], name: "index_logs_on_location_id", using: :btree
     t.index ["pollutant_id"], name: "index_logs_on_pollutant_id", using: :btree
   end
 
-  create_table "pollutants", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "pollutants", force: :cascade do |t|
     t.string   "name"
     t.string   "name_html"
     t.string   "short_name"
     t.string   "unit"
     t.string   "unit_html"
     t.string   "selector"
-    t.decimal  "year_limit_spain",               precision: 8, scale: 2
-    t.decimal  "year_limit_oms",                 precision: 8, scale: 2
-    t.text     "description",      limit: 65535
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
+    t.decimal  "year_limit_spain", precision: 8, scale: 2
+    t.decimal  "year_limit_oms",   precision: 8, scale: 2
+    t.text     "description"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
 end

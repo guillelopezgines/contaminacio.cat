@@ -71,7 +71,9 @@ class Location < ApplicationRecord
     locations = []
     pollutant = Pollutant.find_by_short_name("NO2")
     Location.enabled.from_barcelona.each do |location|
-      locations << "#{location.name.split('-').last}: #{location.logs.where(pollutant: pollutant).order(registered_at: :desc).first.value.to_i}"
+      if value = location.logs.where(pollutant: pollutant).order(registered_at: :desc).try(:first).try(:value).try(:to_i)
+        locations << "#{location.name.split('-').last}: #{value}"
+      end
     end
     "#{(Log.last.registered_at - 1.hour).strftime("%Hh")} - NO² (µg/m³): #{locations.join(", ")}"
   end

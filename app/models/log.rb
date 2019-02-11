@@ -3,7 +3,7 @@ class Log < ApplicationRecord
   belongs_to :location
   belongs_to :pollutant
 
-  DEFAULT_LOCATION = "08019043"
+  DEFAULT_LOCATION = "ES1438A"
   TIME_WINDOW = 1.week.ago.utc
 
   def value_tupla

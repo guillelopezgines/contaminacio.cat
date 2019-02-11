@@ -9,50 +9,22 @@ class Location < ApplicationRecord
     "#{city} - #{name}"
   end
 
-  def record(date)
+  def self.record_all
     require 'open-uri'
     require 'json'
 
-    date = "#{date.day}/#{date.month}/#{date.year}"
-    url = "http://dtes.gencat.cat/icqa/AppJava/getDadesDiaries.do?codiEOI=#{self.code}&data=#{date}"
+    date = Date.today
+    url = "http://mediambient.gencat.cat/web/shared/json/quaire/estat_#{date.strftime("%Y%m%d")}.json"
     data = open(url).read
-    data = data.to_s.gsub!('\'','"')
     json = JSON.parse(data)
-    date = json['data'].to_date
-    pollutants = Pollutant.all
+    features = json["features"]
 
-    pollutants.each do |p|
-      if contaminants = json['contaminants']
-        if contaminants.length > 0
-          contaminants.each do |c|
-            contaminant = c.second
-            if contaminant['abreviatura'] == p.selector
-              contaminant['dadesMesuresDiaria'].each_with_index do |val, index|
-                value = val['valor']
-                if index < 24 and value != ''
-                  datetime = date.to_datetime.change({ hour: index})
-                  previous_log = Log.where(location_id: self.id, pollutant_id: p.id)
-                                    .where("registered_at < ?", datetime)
-                                    .order(registered_at: :desc)
-                                    .limit(1)
-                                    .last
-                  if previous_log.try(:registered_at).try(:year) == datetime.year
-                    previous_annual_sum = previous_log.try(:annual_sum) || 0
-                    previous_annual_registers = previous_log.try(:annual_registers) || 0
-                  else
-                    previous_annual_sum = 0
-                    previous_annual_registers = 0
-                  end
-
-                  if log = Log.find_or_create_by(registered_at: datetime, pollutant_id: p.id, location_id: self.id)
-                    log.value = value.to_f
-                    log.annual_sum = previous_annual_sum + log.value
-                    log.annual_registers = previous_annual_registers + 1
-                    log.save
-                    puts "#{p.name} - #{self.name} - #{datetime} - #{value} - #{log.annual_sum} - #{log.annual_registers}"
-                  end
-                end
-              end
+    features.each do |feature|
+      if location = Location.find_by_code(feature["id"])
+        if properties = feature["properties"]
+          if contaminants = properties["contaminants"]
+            if contaminants.length > 0
+                location.record(date, contaminants)
             end
           end
         end
@@ -60,10 +32,38 @@ class Location < ApplicationRecord
     end
   end
 
-  def self.record_all
-    Location.enabled.each do |location|
-      # location.record Date.yesterday
-      location.record Date.today
+  def record(date, data)
+    Pollutant.all.each do |p|
+      data.each do |contaminant|
+        if contaminant['abbr'] == p.selector
+          contaminant['dadesHoraries'].each_with_index do |val, index|
+            value = val['valor']
+            if index < 24 and value != ''
+              datetime = date.to_datetime.change({ hour: index})
+              previous_log = Log.where(location_id: self.id, pollutant_id: p.id)
+                                .where("registered_at < ?", datetime)
+                                .order(registered_at: :desc)
+                                .limit(1)
+                                .last
+              if previous_log.try(:registered_at).try(:year) == datetime.year
+                previous_annual_sum = previous_log.try(:annual_sum) || 0
+                previous_annual_registers = previous_log.try(:annual_registers) || 0
+              else
+                previous_annual_sum = 0
+                previous_annual_registers = 0
+              end
+
+              if log = Log.find_or_create_by(registered_at: datetime, pollutant_id: p.id, location_id: self.id)
+                log.value = value.to_f
+                log.annual_sum = previous_annual_sum + log.value
+                log.annual_registers = previous_annual_registers + 1
+                log.save
+                puts "#{p.name} - #{self.name} - #{datetime} - #{value} - #{log.annual_sum} - #{log.annual_registers}"
+              end
+            end
+          end
+        end
+      end
     end
   end
 

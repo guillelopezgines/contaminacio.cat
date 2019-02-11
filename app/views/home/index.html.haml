@@ -31,7 +31,7 @@
 
     - if @logs.first.annual_average
       %div.module
-        %h2 Mitjana anual a #{@location.name}:
+        %h2 Mitjana a #{@location.name}:
         %h1 #{@logs.first.annual_average.round(2)} <span>#{@pollutant.unit_html.html_safe}</span>
 
     %div.module
@@ -50,7 +50,7 @@
 
 %div.page
   - if @logs.length > 0
-    %h3 * En <span style="color: #F94E4E; font-weight: bold;">vermell</span> el valor límit de la mitjana anual establert per la legislació espanyola (#{@pollutant.year_limit_spain} #{@pollutant.unit_html.html_safe}) i de l'Organització Mundial de la Salut (#{@pollutant.year_limit_oms} #{@pollutant.unit_html.html_safe}). <br>En <span style="color: #E2D44D; font-weight: bold;">groc</span> la mitjana anual (#{@logs.first.annual_average.round(2)} #{@pollutant.unit_html.html_safe}) i en <span style="color: #18181C; font-weight: bold;">negre</span> el valor horari.
+    %h3 * En <span style="color: #F94E4E; font-weight: bold;">vermell</span> el valor límit de la mitjana anual establert per la legislació europea (#{@pollutant.year_limit_spain} #{@pollutant.unit_html.html_safe}) i de l'Organització Mundial de la Salut (#{@pollutant.year_limit_oms} #{@pollutant.unit_html.html_safe}). <br>En <span style="color: #E2D44D; font-weight: bold;">groc</span> la mitjana (#{@logs.first.annual_average.round(2)} #{@pollutant.unit_html.html_safe}) i en <span style="color: #18181C; font-weight: bold;">negre</span> el valor horari.
 
   %footer
     %p <b>Més opcions:</b> dades generals de <a href="/barcelona">Barcelona</a>, de tot <a href="/catalunya">Catalunya</a> o d'una <a href="/">estació específica</a>.

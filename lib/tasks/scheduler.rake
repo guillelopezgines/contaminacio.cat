@@ -15,7 +15,9 @@ task :record_data => :environment do
       config.access_token        = "794134648154714112-iD7knJyZrQNeUnvGBpgJNITHutlMXqV"
       config.access_token_secret = "DeDK1UtXb0tZoam5qJrB8gUAkLdWE3v5NpVj2q816YTtT"
     end
-    client.update(Location.barcelona_tweet_update)
+    if tweet = Location.barcelona_tweet_update
+      client.update(tweet)
+    end
   end
 
 end

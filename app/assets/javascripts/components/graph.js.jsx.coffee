@@ -1,6 +1,4 @@
 class @Graph extends React.Component
-  @propTypes =
-    data: React.PropTypes.array
 
   componentDidMount: ->
     data = this.props.data

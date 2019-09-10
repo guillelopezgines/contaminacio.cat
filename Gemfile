@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.5.0'
 
-gem 'rails', '>= 5.0.0.rc1', '< 5.1'
+gem 'rails', github: 'rails/rails', branch: "5-0-stable"
 gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets

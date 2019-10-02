@@ -12,7 +12,7 @@
           %path{d: "M21 5.176l-9.086 9.353L3 5.176.686 7.647 12 19.382 23.314 7.647 21 5.176z"}
 
   %div.module
-    %h2 Evolució horaria de #{@pollutant.name.downcase} (#{@pollutant.short_name}) en els últims 7 dies a les diferents estacions de #{@group_name}. Última dada de fa #{time_ago_in_words(@locations.first.logs.last.registered_at)}.
+    %h2 Evolució horaria de #{@pollutant.name.downcase} (#{@pollutant.short_name}) en els últims 7 dies a les diferents estacions de #{@group_name}. Última dada de fa #{time_ago_in_words(@locations.first.logs.last.registered_at + 2.hours)}.
 
 - series = []
 - @locations.each do |location|
@@ -34,7 +34,7 @@
     %p <b>Més opcions:</b> dades generals de <a href="/barcelona">Barcelona</a>, de tot <a href="/catalunya">Catalunya</a> o d'una <a href="/">estació específica</a>.
 
   %footer.last
-    %p <b>Ultima actualització</b>: #{@locations.first.logs.last.registered_at}. <b>Font de les dades</b>: Generalitat de Catalunya. Departament de Territori i Sostenibilitat. <a href="http://dtes.gencat.cat/icqa/">Xarxa de Vigilància i Previsió de la Qualitat de l'Aire</a> (XVPCA). <b>Font dels textos</b>: Ecologistas en Acción, <a href="http://www.ecologistasenaccion.org/article1657.html">Informe La Calidad del aire en el Estado español durante 2015</a>
+    %p <b>Ultima actualització</b>: fa #{time_ago_in_words(@locations.first.logs.last.registered_at + 2.hours)}. <b>Font de les dades</b>: Generalitat de Catalunya. Departament de Territori i Sostenibilitat. <a href="http://dtes.gencat.cat/icqa/">Xarxa de Vigilància i Previsió de la Qualitat de l'Aire</a> (XVPCA). <b>Font dels textos</b>: Ecologistas en Acción, <a href="https://www.ecologistasenaccion.org/wp-content/uploads/2019/06/informe-calidad-aire-2018.pdf">Informe La Calidad del aire en el Estado español durante 2018</a>
 
 
 :javascript

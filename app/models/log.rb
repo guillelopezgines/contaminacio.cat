@@ -6,6 +6,8 @@ class Log < ApplicationRecord
   DEFAULT_LOCATION = "ES1438A"
   TIME_WINDOW = 1.week.ago.utc
 
+  self.skip_time_zone_conversion_for_attributes = [:registered_at]
+
   def value_tupla
     [registered_at.to_i * 1000, value]
   end

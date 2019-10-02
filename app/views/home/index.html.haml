@@ -20,7 +20,7 @@
 
     - if @logs.length > 0
       %h1.extra #{@logs.first.value} <span>#{@pollutant.unit_html.html_safe}</span>
-      %h2.extra fa #{time_ago_in_words(@logs.first.registered_at)}
+      %h2.extra fa #{time_ago_in_words(@logs.first.registered_at + 2.hours)}
     
     - else
       %hr
@@ -60,7 +60,7 @@
 
   - if @logs.length > 0
     %footer.last
-      %p <b>Ultima actualització</b>: #{@logs.first.registered_at}. <b>Font de les dades</b>: Generalitat de Catalunya. Departament de Territori i Sostenibilitat. <a href="http://mediambient.gencat.cat/ca/05_ambits_dactuacio/atmosfera/qualitat_de_laire/vols-saber-que-respires/">Xarxa de Vigilància i Previsió de la Qualitat de l'Aire</a> (XVPCA).
+      %p <b>Ultima actualització</b>: fa #{time_ago_in_words(@logs.first.registered_at + 2.hours)}. <b>Font de les dades</b>: Generalitat de Catalunya. Departament de Territori i Sostenibilitat. <a href="http://mediambient.gencat.cat/ca/05_ambits_dactuacio/atmosfera/qualitat_de_laire/vols-saber-que-respires/">Xarxa de Vigilància i Previsió de la Qualitat de l'Aire</a> (XVPCA).
 
 
 :javascript

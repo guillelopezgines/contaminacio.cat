@@ -73,12 +73,13 @@ class Location < ApplicationRecord
     Location.enabled.from_barcelona.each do |location|
       if value = location.logs.where(pollutant: pollutant).order(registered_at: :desc).try(:first).try(:value).try(:to_i)
         if value > 0
-          locations << "#{location.name.split('-').last}: #{value}"
+          icon = value > 40 ? "🔴": ""
+          locations << "#{location.name.split('-').last}: #{value}#{icon}"
         end
       end
     end
     if locations.length > 0
-      return "#{(Log.last.registered_at - 1.hour).strftime("%Hh")} - NO² (µg/m³): #{locations.join(", ")}"
+      return "#{(Log.last.registered_at).strftime("%Hh")} - NO² (µg/m³): #{locations.join(", ")}"
     else
       return false
     end

@@ -69,17 +69,18 @@ class Location < ApplicationRecord
 
   def self.barcelona_tweet_update
     locations = []
+    icons = []
     pollutant = Pollutant.find_by_short_name("NO2")
     Location.enabled.from_barcelona.each do |location|
       if value = location.logs.where(pollutant: pollutant).order(registered_at: :desc).try(:first).try(:value).try(:to_i)
         if value > 0
-          icon = value > 40 ? "🔴": ""
-          locations << "#{icon}#{location.name.split('-').last}: #{value}"
+          icons << (value > 40 ? "🔴": "⚪️")
+          locations << "#{location.name.split('-').last.strip}: #{value}"
         end
       end
     end
     if locations.length > 0
-      return "#{(Log.last.registered_at).strftime("%Hh")} - NO² (µg/m³): #{locations.join(", ")}"
+      return "#{(Log.last.registered_at).strftime("%Hh")} - NO² (µg/m³): #{icons.join("")}\n#{locations.join(", ")}"
     else
       return false
     end

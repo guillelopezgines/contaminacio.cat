@@ -74,7 +74,8 @@ class Location < ApplicationRecord
       if value = location.logs.where(pollutant: pollutant).order(registered_at: :desc).try(:first).try(:value).try(:to_i)
         if value > 0
           icon = (value > 40 ? "🔴": "⚪️")
-          locations << "#{icon} #{location.name.split('-').last.strip}: #{value}"
+          exclamation = (value >= 150 ? "‼️" : (value >= 100 ? "❗️" : ""))
+          locations << "#{icon} #{location.name.split('-').last.strip}: #{value}#{exclamation}"
         end
       end
     end

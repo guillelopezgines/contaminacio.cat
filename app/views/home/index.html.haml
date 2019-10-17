@@ -8,7 +8,7 @@
     = form_tag filter_path, method: 'post' do |f|
       %h2.extra Mesura de:
       %div.select.pollutant
-        = select_tag :pollutant, options_from_collection_for_select(Pollutant.all, "id", "name_with_short_name", @pollutant.id)
+        = select_tag :pollutant, options_from_collection_for_select(Pollutant.all.order(:id), "id", "name_with_short_name", @pollutant.id)
         %svg.select-icon{viewBox: "0 0 24 24"}
           %path{d: "M21 5.176l-9.086 9.353L3 5.176.686 7.647 12 19.382 23.314 7.647 21 5.176z"}
       %span a

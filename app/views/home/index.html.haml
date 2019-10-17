@@ -13,7 +13,7 @@
           %path{d: "M21 5.176l-9.086 9.353L3 5.176.686 7.647 12 19.382 23.314 7.647 21 5.176z"}
       %span a
       %div.select.location
-        = select_tag :location, options_from_collection_for_select(Location.enabled.order(city: :asc), "id", "name", @location.id)
+        = select_tag :location, options_from_collection_for_select(Location.stations.enabled.order(city: :asc), "id", "name", @location.id)
         %svg.select-icon{viewBox: "0 0 24 24"}
           %path{d: "M21 5.176l-9.086 9.353L3 5.176.686 7.647 12 19.382 23.314 7.647 21 5.176z"}
       = react_component 'GeoLocationButton'

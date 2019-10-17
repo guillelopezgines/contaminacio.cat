@@ -32,7 +32,7 @@ class HomeController < ApplicationController
     longitude = params[:longitude].to_f
     min_distance = false
     location = false
-    Location.enabled.each do |l|
+    Location.stations.enabled.each do |l|
       distance = distance([latitude, longitude], [l.latitude, l.longitude])
       if min_distance == false or distance < min_distance
         min_distance = distance
@@ -48,7 +48,7 @@ class HomeController < ApplicationController
   def group
     begin
       group = params[:group]
-      @locations = Location.public_send("from_" + group)
+      @locations = Location.stations.public_send("from_" + group)
       @group_name = group.titlecase
       render "home/group"
     rescue

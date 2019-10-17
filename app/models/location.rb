@@ -1,7 +1,12 @@
 class Location < ApplicationRecord
   has_many :logs, dependent: :destroy
 
+  TYPE_STATION = "STATION"
+  TYPE_SCHOOL = "SCHOOL"
+
   scope :enabled, -> { where(enabled: true) }
+  scope :stations, -> { where(category: TYPE_STATION) }
+  scope :schools, -> { where(category: TYPE_SCHOOL) }
   scope :from_barcelona, -> { where(city: 'Barcelona').order(name: :asc) }
   scope :from_catalunya, -> { all.order(name: :asc) }
 
@@ -70,7 +75,7 @@ class Location < ApplicationRecord
   def self.barcelona_tweet_update
     locations = []
     pollutant = Pollutant.find_by_short_name("NO2")
-    Location.enabled.from_barcelona.each do |location|
+    Location.stations.enabled.from_barcelona.each do |location|
       if value = location.logs.where(pollutant: pollutant).order(registered_at: :desc).try(:first).try(:value).try(:to_i)
         if value > 0
           icon = (value > 40 ? "🔴": "⚪️")

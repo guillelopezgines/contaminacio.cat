@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161229115525) do
+ActiveRecord::Schema.define(version: 20191017131423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,12 +19,21 @@ ActiveRecord::Schema.define(version: 20161229115525) do
     t.string   "code"
     t.string   "name"
     t.string   "city"
-    t.decimal  "latitude",   precision: 8, scale: 6
-    t.decimal  "longitude",  precision: 8, scale: 6
-    t.boolean  "enabled",                            default: true
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
-    t.string   "slug",                                              null: false
+    t.decimal  "latitude",            precision: 8, scale: 6
+    t.decimal  "longitude",           precision: 8, scale: 6
+    t.boolean  "enabled",                                     default: true
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
+    t.string   "slug",                                                            null: false
+    t.string   "address"
+    t.string   "zipcode"
+    t.string   "category",                                    default: "STATION", null: false
+    t.boolean  "is_kindergarden",                             default: false,     null: false
+    t.boolean  "is_primary_school",                           default: false,     null: false
+    t.boolean  "is_secondary_school",                         default: false,     null: false
+    t.boolean  "is_high_school",                              default: false,     null: false
+    t.boolean  "is_special_school",                           default: false,     null: false
+    t.index ["category"], name: "index_locations_on_category", using: :btree
     t.index ["code"], name: "index_locations_on_code", unique: true, using: :btree
   end
 

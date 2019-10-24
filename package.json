@@ -1,0 +1,25 @@
+{
+  "name": "contaminacio.cat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carlosaviles/contaminacio.cat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carlosaviles/contaminacio.cat/issues"
+  },
+  "homepage": "https://github.com/carlosaviles/contaminacio.cat#readme",
+  "dependencies": {
+    "@types/node": "^12.11.1",
+    "@types/pg": "^7.11.2",
+    "pg": "^7.12.1",
+    "puppeteer": "^1.20.0"
+  }
+}

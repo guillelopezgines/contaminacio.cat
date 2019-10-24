@@ -113,7 +113,7 @@ function processEscoles(escoles, client) {
                     label = _b.sent();
                     if (label.includes('/m')) {
                         value = label.split(' ')[0];
-                        query = 'INSERT INTO logs (location_id, value, pollutant_id, registered_at, created_at, updated_at) VALUES (' + escola.id + ', ' + value + ', 1, to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '))';          client.query(query);
+                        query = 'INSERT INTO logs (location_id, value, pollutant_id, registered_at, created_at, updated_at) VALUES (' + escola.id + ', ' + value + ', 1, to_timestamp(' + (Date.now() + (1000 * 60 * 60 * 2)) / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '))';          client.query(query);
                         return [3 /*break*/, 9];
                     }
                     _b.label = 8;

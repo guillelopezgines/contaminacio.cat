@@ -49,10 +49,10 @@ date = Math.floor(date/(1000 * 60 * 60)) * (1000 * 60 * 60)
 var hour = new Date(date).getHours();
 var day = new Date(date).getDay();
 
-if(day == 0 || day == 6 || hour < 9 || hour >= 17) {
-    console.log('Out of school hours: ' + new Date(date));
-    process.exit(0);
-}
+// if(day == 0 || day == 6 || hour < 9 || hour >= 17) {
+//     console.log('Out of school hours: ' + new Date(date));
+//     process.exit(0);
+// }
 
 function start() {
     return __awaiter(this, void 0, void 0, function () {

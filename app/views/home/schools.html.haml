@@ -4,6 +4,12 @@
 %div.page
 
   %table
+    %tr
+      %th #
+      %th Escola
+      %th Etapes
+      %th Mitjana NO<sup>2</sup>
+
     - @schools.each_with_index do |school, index|
       %tr
         %td #{index + 1} ·

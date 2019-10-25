@@ -16,7 +16,7 @@
       %tr
         %td #{index + 1}
         / %td.category Eixample
-        %td #{school["name"]} (<a target="_blank" href="https://maps.google.com/?q=#{school["latitude"]},#{school["longitude"]}">mapa</a>)
+        %td #{school["name"]} <span class="small">(<a target="_blank" href="https://maps.google.com/?q=#{school["latitude"]},#{school["longitude"]}">MAPA</a>)</span>
         %td.category
           - if school["is_kindergarden"]
             %span.pre-school Parvulari
@@ -28,7 +28,7 @@
             %span.high-school Batxillerat
           - if school["is_special_school"]
             %span.special-school Escola Especial
-        %td #{school["mean"]} <span class="small">µg/m<sup>3</sup></span> (#{school["count"]})
+        %td #{school["mean"]} <span class="small">µg/m<sup>3</sup> (#{school["count"]})</span>
 
 %div.page
   %footer

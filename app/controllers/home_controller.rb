@@ -28,6 +28,26 @@ class HomeController < ApplicationController
           order by mean desc;
         "
 
+    sql = "select
+            count(*) as count,
+            round(sum(value)/count(*),2) as mean,
+            locations.name,
+            locations.latitude,
+            locations.longitude,
+            locations.is_kindergarden,
+            locations.is_primary_school,
+            locations.is_secondary_school,
+            locations.is_high_school,
+            locations.is_special_school
+          from logs
+          left join locations
+          on logs.location_id = locations.id
+          where category = 'SCHOOL'
+          and logs.registered_at > current_date - interval '7' day
+          group by locations.id
+          order by mean desc;
+        "
+
     @schools = ActiveRecord::Base.connection.execute(sql)
 
   end

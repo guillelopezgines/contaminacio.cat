@@ -8,11 +8,11 @@
       %th #
       %th Escola
       %th Etapes
-      %th Mitjana NO<sup>2</sup>
+      %th NO<sup>2</sup>
 
     - @schools.each_with_index do |school, index|
       %tr
-        %td #{index + 1} ·
+        %td #{index + 1}
         %td #{school["name"]} (<a href="https://maps.google.com/?q=#{school["latitude"]},#{school["longitude"]}">mapa</a>)
         %td.category
           - if school["is_kindergarden"]
@@ -25,8 +25,8 @@
             %span.high-school Batxillerat
           - if school["is_special_school"]
             %span.special-school Escola Especial
-        %td #{school["mean"]} µg/m<sup>3</sup>
+        %td #{school["mean"]}</sup>
 
 %div.page
   %footer
-    %p <b>Cóm ho hem calculat?</b> A partir de les dades que proveeix <a href="https://aire-barcelona.lobelia.earth">Lobelia</a>, fem la mitjana del valor horari de diòxid de nitrògen (NO<sup>2</sup>) a cada un dels centres educatius durant l'horari lectiu (9am-5pm) en els últims 7 dies.
+    %p <b>Cóm ho hem calculat?</b> A partir de les dades que proveeix <a href="https://aire-barcelona.lobelia.earth">Lobelia</a>, fem la mitjana del valor horari en µg/m<sup>3</sup> de diòxid de nitrògen (NO<sup>2</sup>) a cada un dels centres educatius durant l'horari lectiu (9am-5pm) en els últims 7 dies.

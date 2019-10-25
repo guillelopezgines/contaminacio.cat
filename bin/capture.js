@@ -42,6 +42,17 @@ pg_1.defaults.ssl = true;
 var results = [];
 var processID = process.pid;
 var postgresSQLURL = process.env.DATABASE_URL;
+
+var date = Date.now() - (1000 * 60 * 60 * 4);
+date = Math.floor(date/(1000 * 60 * 60)) * (1000 * 60 * 60)
+var hour = new Date(date).getHours();
+var day = new Date(date).getDay();
+
+if(day == 0 || day == 6 || hour < 9 || hour >= 17) {
+    console.log('Out of school hours: ' + new Date(date));
+    process.exit(0);
+}
+
 function start() {
     return __awaiter(this, void 0, void 0, function () {
         var section, limit, offset, client, query, rows;
@@ -96,8 +107,8 @@ function processEscoles(escoles, client) {
                 case 3:
                     if (!(_i < escoles_1.length)) return [3 /*break*/, 11];
                     escola = escoles_1[_i];
-                    console.log('[' + processID + '] ' + i + ' Escola ' + escola.name + ' (' + escola.latitude + ',' + escola.longitude + ')');
-                    return [4 /*yield*/, page.goto('https://aire-barcelona.lobelia.earth/ca/?lon=' + escola.longitude + '&lat=' + escola.latitude, { "waitUntil": "networkidle2" })];
+                    console.log('[' + processID + '] ' + i + ' Escola ' + escola.name + ' (' + escola.latitude + ', ' + escola.longitude + ', ' + new Date(date) + ')');
+                    return [4 /*yield*/, page.goto('https://aire-barcelona.lobelia.earth/ca/?lon=' + escola.longitude + '&lat=' + escola.latitude + '&time=' + date, { "waitUntil": "networkidle2" })];
                 case 4:
                     _b.sent();
                     return [4 /*yield*/, page.$$('text')];
@@ -113,7 +124,7 @@ function processEscoles(escoles, client) {
                     label = _b.sent();
                     if (label.includes('/m')) {
                         value = label.split(' ')[0];
-                        query = 'INSERT INTO logs (location_id, value, pollutant_id, registered_at, created_at, updated_at) VALUES (' + escola.id + ', ' + value + ', 1, to_timestamp(' + (Date.now() + (1000 * 60 * 60 * 2)) / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '))';          client.query(query);
+                        query = 'INSERT INTO logs (location_id, value, pollutant_id, registered_at, created_at, updated_at) VALUES (' + escola.id + ', ' + value + ', 1, to_timestamp(' + (date + (1000 * 60 * 60 * 2)) / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '))';          client.query(query);
                         return [3 /*break*/, 9];
                     }
                     _b.label = 8;

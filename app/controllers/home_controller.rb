@@ -21,7 +21,7 @@ class HomeController < ApplicationController
           on logs.location_id = locations.id
           where category = 'SCHOOL'
           and logs.registered_at > current_date - interval '7' day
-          and extract(hour from registered_at) > 8
+          and extract(hour from registered_at) >= 9
           and extract(hour from registered_at) < 17
           and extract(dow from registered_at) != 0
           and extract(dow from registered_at) != 6

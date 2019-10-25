@@ -1,0 +1,29 @@
+%header
+  %h1 Ranking de les escoles més contaminades de Barcelona
+
+%div.page
+
+  %table
+    - @schools.each_with_index do |school, index|
+      %tr
+        %td #{index + 1} ·
+        %td #{school["name"]} (<a href="https://maps.google.com/?q=#{school["latitude"]},#{school["longitude"]}">mapa</a>)
+        %td.category
+          - if school["is_kindergarden"]
+            %span.pre-school Parvulari
+          - if school["is_primary_school"]
+            %span.primary-school Primaria
+          - if school["is_secondary_school"]
+            %span.secondary-school Secundària
+          - if school["is_high_school"]
+            %span.high-school Batxillerat
+          - if school["is_special_school"]
+            %span.special-school Escola Especial
+        %td #{school["mean"]} µg/m<sup>3</sup>
+
+%div.page
+  %footer
+    %p <b>Calcul:</b> Mitjana de l'estimació del valor horari de NO<sup>2</sup> a cada un dels centres educatius durant l'horari lectiu (9am-5pm) dels últims 15 dies.
+
+  %footer.last
+    %p <b>Twitter:</b> subscriu-te a les actualitzacions del nostre bot a <a href="https://twitter.com/contaminacio_" target="_blank">@escolescontaminades</a>.

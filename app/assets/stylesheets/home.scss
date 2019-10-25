@@ -77,6 +77,53 @@ p {
   }
 }
 
+table {
+  border-collapse: collapse;
+  text-align: left;
+  margin: 20px 0;
+  border-top: 1px solid;
+  width: 100%;
+  td {
+    border-bottom: 1px solid;
+    padding: 5px 2px;
+    a {
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    &.category {
+      font-size: 11px;
+      text-transform: uppercase;
+      span {
+       /* &.pre-school {
+          color: #339900;
+        }
+        &.primary-school {
+          color: #339944;
+        }
+        &.secondary-school {
+          color: #339988;
+        }
+        &.high-school {
+          color: #3399CC;
+        }
+        &.special-school {
+          color: #3399FF;
+        }*/
+        &:after {
+          content: ' +';
+        }
+        &:last-child {
+         &:after {
+           content: '';
+         }
+        }
+      }
+    }
+  }
+}
+
 form {
   .select {
     display: inline-block;

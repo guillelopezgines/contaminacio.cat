@@ -3,6 +3,36 @@ class HomeController < ApplicationController
     @logs = @location.logs.where(pollutant: @pollutant).order(registered_at: :desc)
   end
 
+  def schools
+    sql = "select
+            count(*),
+            sum(value),
+            round(sum(value)/count(*),2) as mean,
+            locations.name,
+            locations.latitude,
+            locations.longitude,
+            locations.is_kindergarden,
+            locations.is_primary_school,
+            locations.is_secondary_school,
+            locations.is_high_school,
+            locations.is_special_school
+          from logs
+          left join locations
+          on logs.location_id = locations.id
+          where category = 'SCHOOL'
+          and logs.registered_at > current_date - interval '15' day
+          and extract(hour from registered_at) > 8
+          and extract(hour from registered_at) < 17
+          and extract(dow from registered_at) != 0
+          and extract(dow from registered_at) != 6
+          group by locations.id
+          order by mean desc;
+        "
+
+    @schools = ActiveRecord::Base.connection.execute(sql)
+
+  end
+
   def index_with_pollutant
     if pollutant = params[:pollutant]
       if @pollutant = Pollutant.find_by_short_name(pollutant.upcase)

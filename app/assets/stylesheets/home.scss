@@ -92,6 +92,9 @@ table {
   td, th {
     border-bottom: 1px solid;
     padding: 5px 2px;
+    span.small {
+      font-size: 11px;
+    }
     &.category {
       font-size: 11px;
       text-transform: uppercase;

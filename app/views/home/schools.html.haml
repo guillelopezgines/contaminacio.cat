@@ -28,8 +28,8 @@
             %span.high-school Batxillerat
           - if school["is_special_school"]
             %span.special-school Escola Especial
-        %td #{school["mean"]} (#{school["count"]})
+        %td #{school["mean"]} <span class="small">µg/m<sup>3</sup></span> (#{school["count"]})
 
 %div.page
   %footer
-    %p <b>Cóm ho hem calculat?</b> A partir de les dades que proveeix <a href="https://aire-barcelona.lobelia.earth">Lobelia</a>, calculem la mitjana del valor horari en µg/m<sup>3</sup> de diòxid de nitrògen (NO<sup>2</sup>) per cada un dels centres durant l'horari lectiu de 9:00 a 16:30 en els últims 7 dies.
+    %p <b>Cóm ho hem calculat?</b> A partir de les dades que proveeix <a href="https://aire-barcelona.lobelia.earth">Lobelia</a>, calculem la mitjana del valor horari de diòxid de nitrògen (NO<sup>2</sup>) per cada un dels centres educatius durant l'horari lectiu de 9:00 a 16:30 en els últims 7 dies.

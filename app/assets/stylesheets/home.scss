@@ -19,6 +19,12 @@ header, .page {
   margin: 0 auto;
   max-width: 800px;
   text-align: center;
+  &.large {
+    max-width: 1000px;
+    h1 {
+      max-width: none;
+    }
+  }
 }
 a {
   color: rgba(0,0,0,0.87);

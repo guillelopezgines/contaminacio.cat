@@ -43,7 +43,8 @@ var results = [];
 var processID = process.pid;
 var postgresSQLURL = process.env.DATABASE_URL;
 
-var date = Date.now() - (1000 * 60 * 60 * 4);
+var hoursDelay = 5;
+var date = Date.now() - (1000 * 60 * 60 * hoursDelay);
 date = Math.floor(date/(1000 * 60 * 60)) * (1000 * 60 * 60)
 var hour = new Date(date).getHours();
 var day = new Date(date).getDay();

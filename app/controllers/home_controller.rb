@@ -5,8 +5,7 @@ class HomeController < ApplicationController
 
   def schools
     sql = "select
-            count(*),
-            sum(value),
+            count(*) as count,
             round(sum(value)/count(*),2) as mean,
             locations.name,
             locations.latitude,

@@ -260,6 +260,10 @@ footer {
     font-size: 1em;
     margin: 0;
   }
+  .credit {
+    text-align: right;
+    margin-top: 20px;
+  }
   &.last {
     margin-top: 0;
   }
@@ -277,6 +281,9 @@ td {
 @media only screen and (max-width: 800px) {
   .hide-on-mobile {
     display: none;
+  }
+  body {
+    padding: 30px 10px 20px;
   }
   header {
     padding: 0 0px 20px;
@@ -306,6 +313,13 @@ td {
           font-size: 12px;
         }
       }
+    }
+  }
+
+  footer {
+    .credit {
+      text-align: center;
+      margin-top: 20px;
     }
   }
 

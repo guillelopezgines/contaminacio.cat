@@ -22,7 +22,7 @@ header, .page {
   &.large {
     max-width: 1000px;
     h1 {
-      max-width: 900px;
+      max-width: 800px;
     }
     h2 {
       margin-top: 5px;
@@ -130,6 +130,12 @@ table {
          }
         }
       }
+    }
+    &.empty {
+      text-align: center;
+      padding: 40px 0;
+      font-size: 11px;
+      text-transform: uppercase;
     }
   }
   th {

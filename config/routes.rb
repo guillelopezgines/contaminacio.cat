@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   get '/:group/:pollutant', to: 'home#group_with_pollutant'
   get '/:pollutant/:location', to: 'home#index_with_pollutant_and_location'
   post '/', to: 'home#filter', as: 'filter'
+  post '/escoles', to: 'home#school_filter', as: 'school_filter'
 end

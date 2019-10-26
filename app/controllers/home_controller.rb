@@ -1,12 +1,20 @@
 class HomeController < ApplicationController
-  before_action :require_districts, only: [:schools, :schools_by_district]
+  skip_before_action :verify_authenticity_token, only: [:school_filter]
 
   def index
     @logs = @location.logs.where(pollutant: @pollutant).order(registered_at: :desc)
   end
 
   def schools
-    @title = "Llistat de les escoles amb més contaminació de Barcelona"
+    @title = "Llistat de les escoles més contaminades de #{@district || "Barcelona"}"
+    sql = "select 
+            distinct district as name,
+            district_handle as handle
+          from locations 
+          where district_handle IS NOT NULL 
+          order by district;
+        "
+    @districts = ActiveRecord::Base.connection.execute(sql)
     sql = "select
             count(*) as count,
             round(sum(value)/count(*),2) as mean,
@@ -48,54 +56,22 @@ class HomeController < ApplicationController
           left join locations
           on logs.location_id = locations.id
           where category = 'SCHOOL'
+          #{ @district_handle ? "and district_handle = '#{@district_handle}'" : "" }
+          #{ session[:school_level] ? "and #{session[:school_level]} = true" : "" }
           and logs.registered_at > current_date - interval '7' day
           group by locations.id
           order by mean desc;
         "
+
     @schools = ActiveRecord::Base.connection.execute(sql)
+    @district = nil
+    render action: :schools
   end
 
   def schools_by_district
     @district_handle = params[:district]
-
-    sql = "select
-            count(*) as count,
-            round(sum(value)/count(*),2) as mean,
-            locations.name,
-            locations.district,
-            locations.latitude,
-            locations.longitude,
-            locations.is_kindergarden,
-            locations.is_primary_school,
-            locations.is_secondary_school,
-            locations.is_high_school,
-            locations.is_special_school
-          from logs
-          left join locations
-          on logs.location_id = locations.id
-          where category = 'SCHOOL'
-          and district_handle = '#{@district_handle}'
-          and logs.registered_at > current_date - interval '7' day
-          group by locations.id
-          order by mean desc;
-        "
-    @schools = ActiveRecord::Base.connection.execute(sql)
-    @district = @schools.first["district"]
-    @title = "Llistat de les escoles amb més contaminació de #{@district || "Barcelona"}"
-    render action: :schools
+    schools()
   end
-
-  def require_districts
-    sql = "select 
-            distinct district as name,
-            district_handle as handle
-          from locations 
-          where district_handle IS NOT NULL 
-          order by district;
-        "
-    @districts = ActiveRecord::Base.connection.execute(sql)
-  end
-
 
   def index_with_pollutant
     if pollutant = params[:pollutant]
@@ -119,6 +95,14 @@ class HomeController < ApplicationController
     session[:location] = params[:location]
     session[:pollutant] = params[:pollutant]
     redirect_to :back
+  end
+
+  def school_filter
+    if params[:school_level] == 'all'
+      session.delete(:school_level)
+    else
+      session[:school_level] = params[:school_level]
+    end
   end
 
   def location

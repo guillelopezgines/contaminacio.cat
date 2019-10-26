@@ -42672,8 +42672,15 @@ module.exports = function(reqctx) {
     $('form.pollutant').on('change', function() {
       return $(this).submit();
     });
-    return $('form.district select').on('change', function() {
+    $('select.district').on('change', function() {
       return window.location.href = $(this).val();
+    });
+    return $('select.level').on('change', function() {
+      return $.post("/escoles", {
+        school_level: $(this).val()
+      }, function() {
+        return window.location.reload();
+      });
     });
   });
 

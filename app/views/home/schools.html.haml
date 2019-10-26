@@ -1,13 +1,18 @@
 %header.large
-  %h1 Llistat de les escoles amb més contaminació de #{@district || "Barcelona"}
+  %h1 #{@title}
   %h2 Actualitzat cada hora amb les dades dels últims 7 dies.
 
 %div.page.large
-
   %div.module
-    %form.district
+    %form
+      %span Escoles de 
       %div.select
-        = select_tag :districts, options_for_select([["Tots els districtes", schools_path]] + @districts.map{|d| [d["name"], schools_by_district_path(d["handle"])]}, @district_handle ? schools_by_district_path(@district_handle) : schools_path )
+        = select_tag :districts, options_for_select([["tots els districtes", schools_path]] + @districts.map{|d| [d["name"], schools_by_district_path(d["handle"])]}, @district_handle ? schools_by_district_path(@district_handle) : schools_path ), class: "district"
+        %svg.select-icon{viewBox: "0 0 24 24"}
+          %path{d: "M21 5.176l-9.086 9.353L3 5.176.686 7.647 12 19.382 23.314 7.647 21 5.176z"}
+      %span amb
+      %div.select
+        = select_tag :levels, options_for_select([["qualsevol etapa", 'all'], ["parvulari", "is_kindergarden"], ["primària", "is_primary_school"], ["secundària", "is_secondary_school"], ["batxillerat", "is_high_school"], ["escola especial", "is_special_school"]], session[:school_level]), class: "level"
         %svg.select-icon{viewBox: "0 0 24 24"}
           %path{d: "M21 5.176l-9.086 9.353L3 5.176.686 7.647 12 19.382 23.314 7.647 21 5.176z"}
 
@@ -19,24 +24,28 @@
       %th Etapes
       %th <span class="hide-on-mobile">Mitjana</span> NO<sup>2</sup>
 
-    - @schools.each_with_index do |school, index|
+    - if @schools.count > 0
+      - @schools.each_with_index do |school, index|
+        %tr
+          %td #{index + 1}
+          %td #{school["name"]} <span class="small">(<a target="_blank" href="https://maps.google.com/?q=#{school["latitude"]},#{school["longitude"]}">MAPA</a>)</span>
+          %td.category.hide-on-mobile
+            #{school["district"]}
+          %td.category
+            - if school["is_kindergarden"]
+              %span.pre-school Parvulari
+            - if school["is_primary_school"]
+              %span.primary-school Primària
+            - if school["is_secondary_school"]
+              %span.secondary-school Secundària
+            - if school["is_high_school"]
+              %span.high-school Batxillerat
+            - if school["is_special_school"]
+              %span.special-school Escola Especial
+          %td #{school["mean"]} <span class="small hide-on-mobile">µg/m<sup>3</sup> (#{school["count"]})</span>
+    - else
       %tr
-        %td #{index + 1}
-        %td #{school["name"]} <span class="small">(<a target="_blank" href="https://maps.google.com/?q=#{school["latitude"]},#{school["longitude"]}">MAPA</a>)</span>
-        %td.category.hide-on-mobile
-          #{school["district"]}
-        %td.category
-          - if school["is_kindergarden"]
-            %span.pre-school Parvulari
-          - if school["is_primary_school"]
-            %span.primary-school Primaria
-          - if school["is_secondary_school"]
-            %span.secondary-school Secundària
-          - if school["is_high_school"]
-            %span.high-school Batxillerat
-          - if school["is_special_school"]
-            %span.special-school Escola Especial
-        %td #{school["mean"]} <span class="small hide-on-mobile">µg/m<sup>3</sup> (#{school["count"]})</span>
+        %td.empty{:colspan => 5} No hi ha cap escola amb aquests criteris de cerca
 
 %div.page.large
   %footer

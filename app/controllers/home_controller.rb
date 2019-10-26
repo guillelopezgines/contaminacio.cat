@@ -4,10 +4,12 @@ class HomeController < ApplicationController
   end
 
   def schools
+    @title = "Llistat de les escoles amb més contaminació de Barcelona"
     sql = "select
             count(*) as count,
             round(sum(value)/count(*),2) as mean,
             locations.name,
+            locations.district,
             locations.latitude,
             locations.longitude,
             locations.is_kindergarden,
@@ -32,6 +34,7 @@ class HomeController < ApplicationController
             count(*) as count,
             round(sum(value)/count(*),2) as mean,
             locations.name,
+            locations.district,
             locations.latitude,
             locations.longitude,
             locations.is_kindergarden,

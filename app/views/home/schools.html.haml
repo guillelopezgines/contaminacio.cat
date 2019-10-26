@@ -1,5 +1,5 @@
 %header.large
-  %h1 Ranking de les escoles amb més contaminació atmosfèrica de Barcelona
+  %h1 Llistat de les escoles amb més contaminació de Barcelona
   %h2 Actualitzat cada hora amb les dades dels últims 7 dies.
 
 %div.page.large
@@ -9,6 +9,7 @@
       %th #
       / %th Districte
       %th Escola
+      %th Districte
       %th Etapes
       %th Mitjana NO<sup>2</sup>
 
@@ -17,6 +18,7 @@
         %td #{index + 1}
         / %td.category Eixample
         %td #{school["name"]} <span class="small">(<a target="_blank" href="https://maps.google.com/?q=#{school["latitude"]},#{school["longitude"]}">MAPA</a>)</span>
+        %td <span class="small">#{school["district"]}</span>
         %td.category
           - if school["is_kindergarden"]
             %span.pre-school Parvulari

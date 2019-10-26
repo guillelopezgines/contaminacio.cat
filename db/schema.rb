@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20191017131423) do
     t.string   "slug",                                                            null: false
     t.string   "address"
     t.string   "zipcode"
+    t.string   "district"
     t.string   "category",                                    default: "STATION", null: false
     t.boolean  "is_kindergarden",                             default: false,     null: false
     t.boolean  "is_primary_school",                           default: false,     null: false
@@ -35,6 +36,7 @@ ActiveRecord::Schema.define(version: 20191017131423) do
     t.boolean  "is_special_school",                           default: false,     null: false
     t.index ["category"], name: "index_locations_on_category", using: :btree
     t.index ["code"], name: "index_locations_on_code", unique: true, using: :btree
+    t.index ["district"], name: "index_locations_on_district", using: :btree
   end
 
   create_table "logs", force: :cascade do |t|

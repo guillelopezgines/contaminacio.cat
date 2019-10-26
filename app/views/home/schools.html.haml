@@ -22,13 +22,17 @@
       %th Escola
       %th.hide-on-mobile Districte
       %th Etapes
-      %th <span class="hide-on-mobile">Mitjana</span> NO<sup>2</sup>
+      %th.right <span class="hide-on-mobile">Mitjana</span> NO<sup>2</sup>
 
     - if @schools.count > 0
       - @schools.each_with_index do |school, index|
         %tr
           %td #{index + 1}
-          %td #{school["name"]} <span class="small">(<a target="_blank" href="https://maps.google.com/?q=#{school["latitude"]},#{school["longitude"]}">MAPA</a>)</span>
+          %td 
+            %span
+              #{school["name"]}
+            %span.small
+              (<a target="_blank" href="https://maps.google.com/?q=#{school["latitude"]},#{school["longitude"]}">MAPA</a>)
           %td.category.hide-on-mobile
             #{school["district"]}
           %td.category
@@ -42,7 +46,7 @@
               %span.high-school Batxillerat
             - if school["is_special_school"]
               %span.special-school Escola Especial
-          %td #{school["mean"]} <span class="small hide-on-mobile">µg/m<sup>3</sup> (#{school["count"]})</span>
+          %td.right #{school["mean"]} <span class="small hide-on-mobile">µg/m<sup>3</sup> (#{school["count"]})</span>
     - else
       %tr
         %td.empty{:colspan => 5} No hi ha cap escola amb aquests criteris de cerca
@@ -50,7 +54,15 @@
 %div.page.large
   %footer
     %p
-      <b>Llistat per districtes:</b> #{@districts.map{|district| link_to district["name"], schools_by_district_path(district["handle"]) }.to_sentence.html_safe}.
+      <b>Per districtes:</b> #{@districts.map{|district| link_to district["name"], schools_by_district_path(district["handle"]) }.to_sentence.html_safe}.
 
-  %footer
-    %p <b>Com es calcula?</b> A partir de les dades que proveeix <a href="https://aire-barcelona.lobelia.earth">Lobelia</a>, calculem la mitjana del valor horari de diòxid de nitrogen (NO<sup>2</sup>) per cada un dels centres educatius durant l'horari lectiu de 9:00 a 16:30 en els últims 7 dies.
+  %footer.last
+    %p <b>Com es calcula?</b> Per cada un dels centres educatius, a partir de les dades que proveeix <a href="https://aire-barcelona.lobelia.earth">Lobelia</a>, calculem la mitjana en els últims 7 dies del valor horari de diòxid de nitrogen (NO<sup>2</sup>) durant la franja horaria de 9:00 a 17:00.
+
+  %footer.last
+    %p <b>Crèdits:</b> Un projecte d'<a href="https://www.eixamplerespira.com" target="_blank">Eixample Respira</a> a partir de les dades de <a href="https://lobelia.earth" target="_blank">Lobelia</a>.
+    %div{:style => "text-align: right; margin-top: 20px;"}
+      %a{:href => "https://www.eixamplerespira.com", :target => "_blank", :style => "text-decoration: none;"}
+        %img{:src => "https://www.eixamplerespira.com/assets/images/eixample-respira.jpg", width: 100, style: "border: 1px solid silver; border-radius: 50%; vertical-align: middle;"}
+      %a{:href => "https://lobelia.earth", :target => "_blank",  :style => "text-decoration: none;"}
+        %img{:src => "https://pbs.twimg.com/profile_images/1061224343282290698/IUdQW-R0_400x400.jpg", width: 102, style: "border-radius: 50%; vertical-align: middle;"}

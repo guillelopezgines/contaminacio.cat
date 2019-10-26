@@ -131,6 +131,9 @@ table {
         }
       }
     }
+    &.right {
+      text-align: right;
+    }
     &.empty {
       text-align: center;
       padding: 40px 0;
@@ -285,9 +288,25 @@ td {
       margin:  0 auto 20px;
       line-height: 1.4em;
     }
+    &.large {
+      padding: 0;
+      h1 {
+        font-size: 2.4em;
+        margin-bottom: 10px;
+      }
+    }
   }
   .page {
-    padding: 0 10px;  
+    padding: 0 10px;
+    &.large {
+      .module {
+        margin: 0;
+        select {
+          text-transform: uppercase;
+          font-size: 12px;
+        }
+      }
+    }
   }
 
   h1 {

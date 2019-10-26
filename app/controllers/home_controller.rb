@@ -6,7 +6,6 @@ class HomeController < ApplicationController
   end
 
   def schools
-    @title = "Llistat de les escoles més contaminades de #{@district || "Barcelona"}"
     sql = "select 
             distinct district as name,
             district_handle as handle
@@ -15,30 +14,6 @@ class HomeController < ApplicationController
           order by district;
         "
     @districts = ActiveRecord::Base.connection.execute(sql)
-    sql = "select
-            count(*) as count,
-            round(sum(value)/count(*),2) as mean,
-            locations.name,
-            locations.district,
-            locations.latitude,
-            locations.longitude,
-            locations.is_kindergarden,
-            locations.is_primary_school,
-            locations.is_secondary_school,
-            locations.is_high_school,
-            locations.is_special_school
-          from logs
-          left join locations
-          on logs.location_id = locations.id
-          where category = 'SCHOOL'
-          and logs.registered_at > current_date - interval '7' day
-          and extract(hour from registered_at) >= 9
-          and extract(hour from registered_at) < 17
-          and extract(dow from registered_at) != 0
-          and extract(dow from registered_at) != 6
-          group by locations.id
-          order by mean desc;
-        "
 
     sql = "select
             count(*) as count,
@@ -56,21 +31,30 @@ class HomeController < ApplicationController
           left join locations
           on logs.location_id = locations.id
           where category = 'SCHOOL'
+          and logs.registered_at > current_date - interval '7' day
           #{ @district_handle ? "and district_handle = '#{@district_handle}'" : "" }
           #{ session[:school_level] ? "and #{session[:school_level]} = true" : "" }
-          and logs.registered_at > current_date - interval '7' day
           group by locations.id
           order by mean desc;
         "
+        # and extract(hour from registered_at) >= 9
+        # and extract(hour from registered_at) < 17
+        # and extract(dow from registered_at) != 0
+        # and extract(dow from registered_at) != 6
 
     @schools = ActiveRecord::Base.connection.execute(sql)
-    @district = nil
+    @title = "Llistat de les escoles amb més contaminació de #{@district || "Barcelona"}"
     render action: :schools
   end
 
   def schools_by_district
-    @district_handle = params[:district]
-    schools()
+    if location = Location.find_by_district_handle(params[:district])
+      @district = location.district
+      @district_handle = location.district_handle
+      schools()
+    else
+      redirect_to action: "schools"
+    end
   end
 
   def index_with_pollutant

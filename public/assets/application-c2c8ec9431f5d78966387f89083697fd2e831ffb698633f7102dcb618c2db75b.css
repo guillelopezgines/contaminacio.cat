@@ -163,23 +163,27 @@ table td.category span:last-child:after, table th.category span:last-child:after
   content: '';
 }
 /* line 134, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+table td.right, table th.right {
+  text-align: right;
+}
+/* line 137, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 table td.empty, table th.empty {
   text-align: center;
   padding: 40px 0;
   font-size: 11px;
   text-transform: uppercase;
 }
-/* line 141, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 144, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 table th {
   text-transform: uppercase;
   font-size: 12px;
 }
-/* line 144, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 147, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 table th span {
   text-transform: none;
 }
 
-/* line 151, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 154, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 form .select {
   display: inline-block;
   border: 1px solid #d3dbe2;
@@ -190,7 +194,7 @@ form .select {
   overflow: hidden;
   vertical-align: middle;
 }
-/* line 160, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 163, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 form .select .select-icon {
   cursor: pointer;
   display: block;
@@ -204,7 +208,7 @@ form .select .select-icon {
   height: 12px;
   vertical-align: middle;
 }
-/* line 174, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 177, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 form .select select {
   font-size: 16px;
   padding: 7px 10px;
@@ -215,17 +219,17 @@ form .select select {
   -webkit-appearance: none;
   -moz-appearance: none;
 }
-/* line 186, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 189, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 form span {
   margin: 0 8px;
   font-size: 1.2em;
   vertical-align: middle;
 }
-/* line 192, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 195, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 form div {
   display: inline-block;
 }
-/* line 196, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 199, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 form button {
   border-radius: 3px;
   line-height: 0;
@@ -236,7 +240,7 @@ form button {
   vertical-align: middle;
   display: inline-block;
 }
-/* line 206, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 209, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 form button .material-icons {
   font-size: 18px;
   width: 18px;
@@ -244,7 +248,7 @@ form button .material-icons {
   display: inline-block;
 }
 
-/* line 217, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 220, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 hr {
   max-width: 100px;
   margin: 50px auto;
@@ -253,33 +257,33 @@ hr {
   background: black;
 }
 
-/* line 225, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 228, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 .graph {
   width: 100%;
   max-height: 400px;
   height: 400px;
   margin: 0 auto 20px;
 }
-/* line 231, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 234, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 .catalunya .graph .legend {
   display: none;
 }
 
-/* line 237, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 240, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 ol, ul {
   margin: 0 auto;
 }
-/* line 239, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 242, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 ol li, ul li {
   margin: 20px 0;
 }
 
-/* line 244, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 247, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 footer {
   margin-top: 40px;
   padding-top: 20px;
 }
-/* line 247, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 250, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 footer:before {
   content: '';
   width: 20px;
@@ -289,125 +293,143 @@ footer:before {
   position: relative;
   top: -10px;
 }
-/* line 256, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 259, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 footer p {
   font-size: 1em;
   margin: 0;
 }
-/* line 260, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 263, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 footer.last {
   margin-top: 0;
 }
 
-/* line 265, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 268, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 #tooltip {
   max-width: 220px;
   line-height: 1.4em;
 }
 
-/* line 270, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+/* line 273, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
 td {
   padding: 3px 5px;
 }
 
 @media only screen and (max-width: 800px) {
-  /* line 275, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 278, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   .hide-on-mobile {
     display: none;
   }
 
-  /* line 278, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 281, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   header {
     padding: 0 0px 20px;
   }
-  /* line 280, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 283, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   header h1 {
     font-size: 3em;
   }
-  /* line 283, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 286, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   header h2 {
     font-size: 1.2em;
     margin: 0 auto 20px;
     line-height: 1.4em;
   }
+  /* line 291, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  header.large {
+    padding: 0;
+  }
+  /* line 293, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  header.large h1 {
+    font-size: 2.4em;
+    margin-bottom: 10px;
+  }
 
-  /* line 289, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 299, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   .page {
     padding: 0 10px;
   }
+  /* line 302, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  .page.large .module {
+    margin: 0;
+  }
+  /* line 304, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  .page.large .module select {
+    text-transform: uppercase;
+    font-size: 12px;
+  }
 
-  /* line 293, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 312, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   h1 {
     font-size: 2.8em;
     line-height: 1em;
   }
-  /* line 296, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 315, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   h1.extra {
     font-size: 4em;
   }
-  /* line 299, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 318, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   h1.left {
     text-align: left;
     font-size: 2.6em;
     line-height: 1.2em;
   }
 
-  /* line 305, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 324, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   h2 {
     font-size: 1.3em;
     line-height: 1.2em;
     margin: 0 auto 5px;
     padding: 0 10px;
   }
-  /* line 310, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 329, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   h2.extra {
     font-size: 1.6em;
   }
 
-  /* line 314, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 333, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   h3 {
     margin-top: 10px;
   }
 
-  /* line 317, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 336, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   p {
     font-size: 1.2em;
   }
 
-  /* line 321, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 340, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   form:after {
     display: table;
     content: '';
     clear: both;
   }
-  /* line 326, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 345, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   form .select {
     display: block;
     width: 100%;
     margin: 5px auto;
   }
-  /* line 330, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 349, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   form .select.location {
     width: 88%;
     margin: 5px 0;
     float: left;
   }
-  /* line 336, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 355, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   form span {
     display: none;
   }
-  /* line 339, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 358, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   form div {
     width: 10%;
     float: left;
     margin: 5px 0 5px 2%;
   }
-  /* line 344, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 363, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   form div.clear {
     clear: both;
   }
 
-  /* line 349, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
+  /* line 368, /Users/guillelopezgines/Sites/contaminacio/app/assets/stylesheets/home.scss */
   .graph .legend {
     display: none;
   }

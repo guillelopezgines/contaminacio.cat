@@ -99,6 +99,9 @@ table {
   td, th {
     border-bottom: 1px solid;
     padding: 5px 2px;
+    span.small {
+      font-size: 11px;
+    }
     &.category {
       font-size: 11px;
       text-transform: uppercase;
@@ -263,6 +266,9 @@ td {
 }
 
 @media only screen and (max-width: 800px) {
+  .hide-on-mobile {
+    display: none;
+  }
   header {
     padding: 0 0px 20px;
     h1 {

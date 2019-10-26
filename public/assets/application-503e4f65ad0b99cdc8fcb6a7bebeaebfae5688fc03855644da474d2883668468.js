@@ -42669,8 +42669,11 @@ module.exports = function(reqctx) {
 }).call(this);
 (function() {
   $(document).ready(function() {
-    return $('form').on('change', function() {
+    $('form.pollutant').on('change', function() {
       return $(this).submit();
+    });
+    return $('form.district select').on('change', function() {
+      return window.location.href = $(this).val();
     });
   });
 

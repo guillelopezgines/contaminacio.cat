@@ -81,6 +81,7 @@ class HomeController < ApplicationController
         "
     @schools = ActiveRecord::Base.connection.execute(sql)
     @district = @schools.first["district"]
+    @title = "Llistat de les escoles amb més contaminació de #{@district || "Barcelona"}"
     render action: :schools
   end
 

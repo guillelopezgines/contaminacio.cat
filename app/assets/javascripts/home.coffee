@@ -1,3 +1,5 @@
 $(document).ready ->
-  $('form').on 'change', ->
+  $('form.pollutant').on 'change', ->
     $(this).submit()
+  $('form.district select').on 'change', ->
+    window.location.href = $(this).val()

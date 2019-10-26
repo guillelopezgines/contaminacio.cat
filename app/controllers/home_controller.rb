@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  before_action :require_districts, only: [:schools, :schools_by_district]
+
   def index
     @logs = @location.logs.where(pollutant: @pollutant).order(registered_at: :desc)
   end
@@ -50,10 +52,49 @@ class HomeController < ApplicationController
           group by locations.id
           order by mean desc;
         "
-
     @schools = ActiveRecord::Base.connection.execute(sql)
-
   end
+
+  def schools_by_district
+    @district_handle = params[:district]
+
+    sql = "select
+            count(*) as count,
+            round(sum(value)/count(*),2) as mean,
+            locations.name,
+            locations.district,
+            locations.latitude,
+            locations.longitude,
+            locations.is_kindergarden,
+            locations.is_primary_school,
+            locations.is_secondary_school,
+            locations.is_high_school,
+            locations.is_special_school
+          from logs
+          left join locations
+          on logs.location_id = locations.id
+          where category = 'SCHOOL'
+          and district_handle = '#{@district_handle}'
+          and logs.registered_at > current_date - interval '7' day
+          group by locations.id
+          order by mean desc;
+        "
+    @schools = ActiveRecord::Base.connection.execute(sql)
+    @district = @schools.first["district"]
+    render action: :schools
+  end
+
+  def require_districts
+    sql = "select 
+            distinct district as name,
+            district_handle as handle
+          from locations 
+          where district_handle IS NOT NULL 
+          order by district;
+        "
+    @districts = ActiveRecord::Base.connection.execute(sql)
+  end
+
 
   def index_with_pollutant
     if pollutant = params[:pollutant]

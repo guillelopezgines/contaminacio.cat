@@ -1,13 +1,19 @@
 %header.large
-  %h1 Llistat de les escoles amb més contaminació de Barcelona
+  %h1 Llistat de les escoles amb més contaminació de #{@district || "Barcelona"}
   %h2 Actualitzat cada hora amb les dades dels últims 7 dies.
 
 %div.page.large
 
+  %div.module.hide
+    %form
+      %div.select.pollutant
+        = select_tag :districts, raw(@districts.map{|d| "<option value='#{schools_by_district_path(d["handle"])}'>#{d["name"]}</option>"})
+        %svg.select-icon{viewBox: "0 0 24 24"}
+          %path{d: "M21 5.176l-9.086 9.353L3 5.176.686 7.647 12 19.382 23.314 7.647 21 5.176z"}
+
   %table
     %tr
       %th #
-      / %th Districte
       %th Escola
       %th Districte
       %th Etapes
@@ -16,9 +22,9 @@
     - @schools.each_with_index do |school, index|
       %tr
         %td #{index + 1}
-        / %td.category Eixample
         %td #{school["name"]} <span class="small">(<a target="_blank" href="https://maps.google.com/?q=#{school["latitude"]},#{school["longitude"]}">MAPA</a>)</span>
-        %td <span class="small">#{school["district"]}</span>
+        %td.category
+          #{school["district"]}
         %td.category
           - if school["is_kindergarden"]
             %span.pre-school Parvulari
@@ -32,6 +38,10 @@
             %span.special-school Escola Especial
         %td #{school["mean"]} <span class="small">µg/m<sup>3</sup> (#{school["count"]})</span>
 
-%div.page
+%div.page.large
+  %footer
+    %p
+      <b>Llistat per districtes:</b> #{@districts.map{|district| link_to district["name"], schools_by_district_path(district["handle"]) }.to_sentence.html_safe}.
+
   %footer
     %p <b>Cóm ho hem calculat?</b> A partir de les dades que proveeix <a href="https://aire-barcelona.lobelia.earth">Lobelia</a>, calculem la mitjana del valor horari de diòxid de nitrògen (NO<sup>2</sup>) per cada un dels centres educatius durant l'horari lectiu de 9:00 a 16:30 en els últims 7 dies.

@@ -31,7 +31,7 @@ class HomeController < ApplicationController
           left join locations
           on logs.location_id = locations.id
           where category = 'SCHOOL'
-          and logs.registered_at > current_date - interval '7' day
+          and logs.registered_at > current_date - interval '15' day
           #{ @district_handle ? "and district_handle = '#{@district_handle}'" : "" }
           #{ session[:school_level] ? "and #{session[:school_level]} = true" : "" }
           group by locations.id

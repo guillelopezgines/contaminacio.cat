@@ -39,7 +39,7 @@ class HomeController < ApplicationController
           #{ @district_handle ? "and district_handle = '#{@district_handle}'" : "" }
           #{ session[:school_level] ? "and #{session[:school_level]} = true" : "" }
           group by locations.id
-          order by mean desc;
+          order by mean desc, name;
         "
 
     @schools = ActiveRecord::Base.connection.execute(sql)

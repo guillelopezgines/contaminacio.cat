@@ -3,6 +3,7 @@
   %h2 Actualitzat cada hora amb les dades dels últims 15 dies.
 
 %div.page.large
+
   %div.module
     %form
       %span Escoles de 
@@ -15,6 +16,9 @@
         = select_tag :levels, options_for_select([["qualsevol etapa educativa", 'all'], ["infantil", "is_kindergarden"], ["primària", "is_primary_school"], ["secundària", "is_secondary_school"], ["batxillerat", "is_high_school"], ["educació especial", "is_special_school"]], session[:school_level]), class: "level"
         %svg.select-icon{viewBox: "0 0 24 24"}
           %path{d: "M21 5.176l-9.086 9.353L3 5.176.686 7.647 12 19.382 23.314 7.647 21 5.176z"}
+
+  %div
+    %p{style: "font-size: 12px;"} <b>NORMATIVA:</b> No existeix una legislació específica que reguli la qualitat de l'aire a les escoles. A nivell general però el valor límit establert per la normativa europea pel que fa a diòxid de nitrogen (Directiva 2008/50/CE) es troba fixat en 40.0 µg/m<sup>3</sup> de mitjana anual. A l'hora, no es podrà superar més de 18 ocasions l'any el valor horari màxim de 200 µg/m<sup>3</sup>.
 
   %table.schools
     %tr
@@ -63,9 +67,6 @@
 
   %footer.last
     %p <b>Com es calcula:</b> Per cada un dels centres educatius, a partir de les dades que proveeix <a href="https://aire-barcelona.lobelia.earth">Lobelia</a>, calculem la mitjana en els últims 15 dies del valor horari de diòxid de nitrogen (NO<sup>2</sup>) durant la franja horaria de 9:00 a 17:00.
-
-  %footer.last
-    %p <b>Normativa:</b> No existeix una normativa específica que reguli la qualitat de l'aire a les escoles. A nivell general el valor límit de la mitjana anual establert per la legislació europea pel que fa a diòxid de nitrogen es troba fixat en 40.0 µg/m<sup>3</sup>. A l'hora, no es podrà superar més de 18 ocasions l'any el valor horari màxim de 200 µg/m<sup>3</sup>.
 
   %footer.last
     %p <b>Contacta:</b> Si trobes que falta algun centre o alguna dada és incorrecte, si us plau, contacta amb nosaltres a <a href="mailto:eixample.respira@gmail.com">eixample.respira@gmail.com</a>.

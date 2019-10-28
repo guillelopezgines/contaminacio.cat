@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var puppeteer = require("puppeteer");
-var pg_1 = require("pg");
-pg_1.defaults.ssl = true;
+var pg = require("pg");
+pg.defaults.ssl = true;
 var results = [];
 var processID = process.pid;
 var postgresSQLURL = process.env.DATABASE_URL;
@@ -49,10 +49,10 @@ date = Math.floor(date/(1000 * 60 * 60)) * (1000 * 60 * 60)
 var hour = new Date(date).getHours();
 var day = new Date(date).getDay();
 
-if(day == 0 || day == 6 || hour < 9 || hour >= 17) {
-    console.log('Out of school hours: ' + new Date(date));
-    process.exit(0);
-}
+// if(day == 0 || day == 6 || hour < 9 || hour >= 17) {
+//     console.log('Out of school hours: ' + new Date(date));
+//     process.exit(0);
+// }
 
 function start() {
     return __awaiter(this, void 0, void 0, function () {
@@ -61,13 +61,20 @@ function start() {
             switch (_a.label) {
                 case 0:
                     if (postgresSQLURL == undefined) {
-                        console.log('No postgresSQL url found in the environment variables');
-                        process.exit(0);
+                        client = new pg.Client({
+                          user: '',
+                          host: 'localhost',
+                          database: 'contaminacio_development',
+                          password: '',
+                          port: 5432,
+                          ssl: false
+                        })
+                    } else {
+                        client = new pg.Client({ connectionString: postgresSQLURL });
                     }
                     section = process.argv[2];
                     limit = 150;
                     offset = (parseInt(section) - 1) * limit;
-                    client = new pg_1.Client({ connectionString: postgresSQLURL });
                     return [4 /*yield*/, client.connect()];
                 case 1:
                     _a.sent();

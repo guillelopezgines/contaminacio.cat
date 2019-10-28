@@ -9,3 +9,6 @@ $(document).ready ->
   $('select.level').on 'change', ->
     $.post "/escoles", {school_level: $(this).val()}, ->
       window.location.reload()
+
+  $('td.button').on 'click', ->
+    $('table.schools').addClass('expanded')

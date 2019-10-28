@@ -42675,12 +42675,15 @@ module.exports = function(reqctx) {
     $('select.district').on('change', function() {
       return window.location.href = $(this).val();
     });
-    return $('select.level').on('change', function() {
+    $('select.level').on('change', function() {
       return $.post("/escoles", {
         school_level: $(this).val()
       }, function() {
         return window.location.reload();
       });
+    });
+    return $('td.button').on('click', function() {
+      return $('table.schools').addClass('expanded');
     });
   });
 

@@ -16,13 +16,13 @@
         %svg.select-icon{viewBox: "0 0 24 24"}
           %path{d: "M21 5.176l-9.086 9.353L3 5.176.686 7.647 12 19.382 23.314 7.647 21 5.176z"}
 
-  %table
+  %table.schools
     %tr
       %th #
       %th Escola
       %th.hide-on-mobile Districte
       %th Etapes
-      %th.right <span class="hide-on-mobile">Mitjana</span> NO<sup>2</sup>
+      %th.right <span class="hide-on-mobile">MITJANA</span> NO<sup>2</sup>
 
     - if @schools.count > 0
       - @schools.each_with_index do |school, index|
@@ -51,6 +51,11 @@
       %tr
         %td.empty{:colspan => 5} No hi ha cap escola amb aquests criteris de cerca
 
+    / %tr.button
+    /   %td.button{:colspan => 5}
+    /     %a
+    /       %span Mostrar més escoles
+
 %div.page.large
   %footer
     %p
@@ -61,6 +66,9 @@
 
   %footer.last
     %p <b>Normativa:</b> No existeix una normativa específica que reguli la qualitat de l'aire a les escoles. A nivell general el valor límit de la mitjana anual establert per la legislació europea pel que fa a diòxid de nitrogen es troba fixat en 40.0 µg/m<sup>3</sup>. A l'hora, no es podrà superar més de 18 ocasions l'any el valor horari màxim de 200 µg/m<sup>3</sup>.
+
+  %footer.last
+    %p <b>Contacta:</b> Pots contactar amb nosaltres a <a href="mailto:eixample.respira@gmail.com">eixample.respira@gmail.com</a>.
 
   %footer.last
     %p <b>Crèdits:</b> Un projecte d'<a href="https://www.eixamplerespira.com" target="_blank">Eixample Respira</a> a partir de les dades de <a href="https://lobelia.earth" target="_blank">Lobelia</a>.

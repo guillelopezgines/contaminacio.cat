@@ -42,6 +42,8 @@ header, .page {
     }
     h2 {
       margin-top: 5px;
+      max-width: 800px;
+      line-height: 30px;
     }
     .module {
       margin: 20px 0 20px;
@@ -188,17 +190,13 @@ table {
       text-transform: none;
     }
   }
-  tr.extra {
-    display: none;
-  }
-
-  &.expanded {
-    tr {
-      &.button {
-        display: none;
-      }
-      &.extra {
-        display: table-row;
+  tr {
+    &.extra {
+      display: none;
+    }
+    &.limit {
+      td {
+        border-top: 3px solid;
       }
     }
   }

@@ -17,7 +17,7 @@ class HomeController < ApplicationController
 
     sql = "select
             count(*) as count,
-            round(sum(value)/count(*),2) as mean,
+            round(avg(value),2) as mean,
             locations.name,
             locations.district,
             locations.latitude,
@@ -37,15 +37,20 @@ class HomeController < ApplicationController
           and extract(dow from registered_at) != 0
           and extract(dow from registered_at) != 6
           #{ @district_handle ? "and district_handle = '#{@district_handle}'" : "" }
-          #{ session[:school_level] ? "and #{session[:school_level]} = true" : "" }
+          #{ @filter_by_level }
           group by locations.id
           order by mean desc, name;
         "
 
     @schools = ActiveRecord::Base.connection.execute(sql)
-    @title = "Llistat de les escoles amb més contaminació #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")}"
+    @levels = [["infantil", "infantil"], ["primària", "primaria"], ["secundària", "secundaria"], ["batxillerat", "batxillerat"], ["educació especial", "educacio-especial"]]
+    @level_name = @levels.select {|level| level[1] == @level }.first
+    @title = "Llistat de les escoles #{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? "d'" : "de ") + "#{@level_name[0]} " : ""}amb més contaminació #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")}"
+
     render action: :schools
   end
+
+
 
   def schools_by_district
     if location = Location.find_by_district_handle(params[:district])
@@ -53,9 +58,54 @@ class HomeController < ApplicationController
       @district_handle = location.district_handle
       schools()
     else
-      redirect_to action: "schools"
+      case params[:district]
+      when 'infantil'
+        @level = "infantil"
+        @filter_by_level = "and is_kindergarden = true"
+        schools()
+      when 'primaria'
+        @level = "primaria"
+        @filter_by_level = "and is_primary_school = true"
+        schools()
+      when 'secundaria'
+        @level = "secundaria"
+        @filter_by_level = "and is_secondary_school = true"
+        schools()
+      when 'batxillerat'
+        @level = "batxillerat"
+        @filter_by_level = "and is_high_school = true"
+        schools()
+      when 'educacio-especial'
+        @level = "educacio-especial"
+        @filter_by_level = "and is_special_school = true"
+        schools()
+      else
+        redirect_to action: "schools"
+      end
     end
   end
+
+  def schools_by_district_and_level
+    case params[:level]
+    when 'infantil'
+      @level = "infantil"
+      @filter_by_level = "and is_kindergarden = true"
+    when 'primaria'
+      @level = "primaria"
+      @filter_by_level = "and is_primary_school = true"
+    when 'secundaria'
+      @level = "secundaria"
+      @filter_by_level = "and is_secondary_school = true"
+    when 'batxillerat'
+      @level = "batxillerat"
+      @filter_by_level = "and is_high_school = true"
+    when 'educacio-especial'
+      @level = "educacio-especial"
+      @filter_by_level = "and is_special_school = true"
+    end
+    schools_by_district()
+  end
+
 
   def index_with_pollutant
     if pollutant = params[:pollutant]

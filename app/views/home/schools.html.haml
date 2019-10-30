@@ -73,9 +73,6 @@
   <iframe width="100%" height="700" frameborder="0" src="https://guillelopez.carto.com/builder/8e37d23c-3dff-463a-b7a6-90b30c11df80/embed" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 
 %div.page.large
-  %footer
-    %p <b>Comparteix:</b> a <a target="_blank" href="https://twitter.com/intent/tweet?text=#{CGI.escape(@share)}">Twitter</a>
-
   %footer.last
     %p <b>Per districtes:</b> #{@districts.map{|district| link_to district["name"], schools_by_district_path(district["handle"]) }.to_sentence.html_safe}.
 

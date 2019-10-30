@@ -15,7 +15,7 @@ class HomeController < ApplicationController
         "
     @districts = ActiveRecord::Base.connection.execute(sql)
 
-    sql = "select
+    query = "select
             count(*) as count,
             round(avg(value),2) as mean,
             locations.name,
@@ -42,12 +42,26 @@ class HomeController < ApplicationController
           order by mean desc, name;
         "
 
-    @schools = ActiveRecord::Base.connection.execute(sql)
+    @schools = ActiveRecord::Base.connection.execute(query)
     @levels = [["infantil", "infantil"], ["primària", "primaria"], ["secundària", "secundaria"], ["batxillerat", "batxillerat"], ["educació especial", "educacio-especial"]]
     @level_name = @levels.select {|level| level[1] == @level }.first
     @title = "Llistat de les escoles #{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? "d'" : "de ") + "#{@level_name[0]} " : ""}amb més contaminació #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")}"
 
-    render action: :schools
+    respond_to do |format|
+      format.html{
+        render action: :schools
+      }
+      format.csv{
+        require 'csv'
+        csv_string = CSV.generate do |csv|
+          csv << ["name", "district", "mean", "samples", "latitude", "longitude", "is_kindergarden", "is_primary_school", "is_secondary_school", "is_high_school", "is_special_education"]
+          @schools.each do |school|
+            csv << [school['name'], school['district'], school['mean'], school['count'], school['latitude'], school['longitude'], school['is_kindergarden'], school['is_primary_school'], school['is_secondary_school'], school['is_high_school'], school['is_special_school']]
+          end
+        end
+        send_data csv_string, type: Mime::CSV, disposition: 'inline', filename: "escoles-#{@district_handle ? "#{@district_handle}-" : ""}#{@level ? "#{@level}-" : ""}#{DateTime.now.strftime('%s')}.csv"
+      }
+    end
   end
 
 

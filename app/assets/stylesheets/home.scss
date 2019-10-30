@@ -7,7 +7,7 @@
 }
 
 body {
-  padding: 60px 10px;
+  padding: 0px 0 40px;
   font-family: 'Open Sans', sans-serif;
   font-family: 'Lora', serif;
   font-family: 'Roboto', sans-serif;
@@ -19,10 +19,7 @@ body {
 .top-banner {
   border-bottom: 1px dotted;
   text-align: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
   > div {
     margin: 0 auto;
     padding: 10px;
@@ -34,7 +31,8 @@ body {
   }
 }
 header, .page {
-  margin: 0 auto;
+  margin: 20px auto 0;
+  padding: 0 10px;
   max-width: 800px;
   text-align: center;
   &.large {
@@ -338,9 +336,6 @@ td {
   .hide-on-mobile {
     display: none;
   }
-  body {
-    padding: 75px 10px 20px;
-  }
   .top-banner {
     > div {
       span {
@@ -349,7 +344,7 @@ td {
     }
   }
   header {
-    padding: 0 0px 20px;
+    padding: 0 10px 20px;
     h1 {
       font-size: 3em;
     }
@@ -359,9 +354,10 @@ td {
       line-height: 1.4em;
     }
     &.large {
-      padding: 0;
+      padding: 0 10px;
       h1 {
         font-size: 2.4em;
+        margin-top: 10px;
         margin-bottom: 20px;
       }
     }

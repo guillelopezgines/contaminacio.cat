@@ -70,7 +70,7 @@
       %tr
         %td.empty{:colspan => 5} No hi ha cap escola amb aquests criteris de cerca
 
-  <iframe width="100%" height="700" frameborder="0" src="https://guillelopez.carto.com/builder/8e37d23c-3dff-463a-b7a6-90b30c11df80/embed" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+  <iframe id="map" width="100%" height="700" frameborder="0" src="https://guillelopez.carto.com/builder/8e37d23c-3dff-463a-b7a6-90b30c11df80/embed" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 
 %div.page.large
   %footer.last
@@ -81,7 +81,7 @@
       <b>Per etapes:</b> #{@levels.map{|level| link_to level[0], schools_by_district_path(level[1]) }.to_sentence.html_safe}.
 
   %footer.last
-    %p <b>Com es calcula:</b> Per cada un dels centres educatius, a partir de les dades que proveeix <a href="https://aire-barcelona.lobelia.earth">Lobelia</a>, calculem la mitjana en els últims 15 dies del valor horari de diòxid de nitrogen (NO<sup>2</sup>) durant la franja horaria de 9:00 a 17:00.
+    %p <b>Com es calcula:</b> Per la localització de cada un dels centres educatius, i a partir de les dades que proveeix <a href="https://aire-barcelona.lobelia.earth">Lobelia</a>, calculem la mitjana del valor horari de diòxid de nitrogen (NO<sup>2</sup>) de dilluns a divendres durant la franja horaria de 9:00 a 17:00 dels últims 15 dies.
 
   %footer.last
     %p <b>Dades:</b> Descarrega les dades en format CSV afegint l'extensió ".csv" a qualssevol de les pàgines.

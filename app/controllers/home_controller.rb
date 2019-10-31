@@ -47,7 +47,7 @@ class HomeController < ApplicationController
     @level_name = @levels.select {|level| level[1] == @level }.first
     @title = "Llistat de les escoles #{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? "d'" : "de ") + "#{@level_name[0]} " : ""}amb més contaminació #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")}"
     @headline = "Amb dades dels últims 15 dies, #{@schools.select{|s| s["mean"].to_f > 40.0}.count} de les #{@schools.count} escoles#{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? " d'" : " de ") + "#{@level_name[0]} " : ""} #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")} (#{(100 * @schools.select{|s| s["mean"].to_f > 40.0}.count/@schools.count.to_f).round}%) superen els nivells recomenats de contaminació atmosfèrica durant l'horari escolar."
-    @share = "#{@headline} Consulta la llista de les escoles més contaminiades a: contaminacio.cat/escoles"
+    @share = "#{@headline} Consulta la llista de les escoles més contaminades a: contaminacio.cat/escoles"
 
     respond_to do |format|
       format.html{

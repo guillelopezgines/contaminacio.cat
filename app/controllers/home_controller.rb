@@ -43,6 +43,27 @@ class HomeController < ApplicationController
         "
 
     @schools = ActiveRecord::Base.connection.execute(query)
+    @colors = []
+
+    @schools.each do |school|
+      mean = school["mean"].to_f
+      if mean < 20.0
+        @colors << "#fcde9c"
+      elsif mean < 30.0
+        @colors << "#faa476"
+      elsif mean < 40.0
+        @colors << "#f0746e"
+      elsif mean < 50.0
+        @colors << "#e34f6f"
+      elsif mean < 60.0
+        @colors << "#dc3977"
+      elsif mean < 70.0
+        @colors << "#b9257a"
+      else
+        @colors << "#7c1d6f"
+      end
+    end
+
     @levels = [["infantil", "infantil"], ["primària", "primaria"], ["secundària", "secundaria"], ["batxillerat", "batxillerat"], ["educació especial", "educacio-especial"]]
     @level_name = @levels.select {|level| level[1] == @level }.first
     @title = "Llistat de les escoles #{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? "d'" : "de ") + "#{@level_name[0]} " : ""}amb més contaminació #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")}"

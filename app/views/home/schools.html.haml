@@ -28,12 +28,12 @@
     %p{style: "font-size: 12px;"} <b>NORMATIVA:</b> No existeix una legislació específica que reguli la qualitat de l'aire a les escoles. A nivell general però el valor límit establert per la normativa europea pel que fa a diòxid de nitrogen (Directiva 2008/50/CE) es troba fixat en 40.0 µg/m<sup>3</sup> de mitjana anual. A l'hora, no es podrà superar més de 18 ocasions l'any el valor horari màxim de 200 µg/m<sup>3</sup>.
 
 
-  <div id="map" style="height: 600px; width: 100%;"></div>
+  %div.map{id: "map"}
 
   %script{type: "text/javascript"}
     window.schools = [];
     - @schools.each_with_index do |school, index|
-      window.schools.push({mean: #{school["mean"]}, latitude: #{school["latitude"]},longitude: #{school["longitude"]}});
+      window.schools.push({mean: #{school["mean"]}, color: "#{@colors[index]}", latitude: #{school["latitude"]},longitude: #{school["longitude"]}});
 
   %script{async: true, defer: true, src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCI1nJlcggO5BSBpblSrnm97cpBtbYikoM&callback=initMap"}
 

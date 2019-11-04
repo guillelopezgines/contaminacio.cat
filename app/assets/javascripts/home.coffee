@@ -32,18 +32,32 @@ window.initMap = ->
     document.getElementById('map'), {
       zoom: 13,
       center: {lat: 41.401136, lng: 2.206897},
-      mapTypeId: 'terrain'
+      mapTypeId: 'terrain',
+      zoomControl: true,
+      mapTypeControl: false,
+      scaleControl: false,
+      streetViewControl: false,
+      rotateControl: false,
+      fullscreenControl: true
     }
   )
   for school in window.schools
     marker = new google.maps.Marker({
       position: {lat: school.latitude, lng: school.longitude},
-      map: map
+      map: map,
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: 5,
+        fillColor: school.color,
+        fillOpacity: 1.0,
+        strokeWeight: 0,
+        strokeColor: "#FFF"
+      }
     })
     bounds.extend(marker.position)
   map.fitBounds(bounds)
   setTimeout ( ->
     if map.getZoom() < 13
-      map.setZoom(map.getZoom() + 1)
+      map.setZoom(13)
   ), 200
   window.map = map

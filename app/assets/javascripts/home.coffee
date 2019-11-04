@@ -25,3 +25,25 @@ $(document).ready ->
 
   $('td.button').on 'click', ->
     $('table.schools').addClass('expanded')
+
+window.initMap = ->
+  bounds = new google.maps.LatLngBounds()
+  map = new google.maps.Map(
+    document.getElementById('map'), {
+      zoom: 13,
+      center: {lat: 41.401136, lng: 2.206897},
+      mapTypeId: 'terrain'
+    }
+  )
+  for school in window.schools
+    marker = new google.maps.Marker({
+      position: {lat: school.latitude, lng: school.longitude},
+      map: map
+    })
+    bounds.extend(marker.position)
+  map.fitBounds(bounds)
+  setTimeout ( ->
+    if map.getZoom() < 13
+      map.setZoom(map.getZoom() + 1)
+  ), 200
+  window.map = map

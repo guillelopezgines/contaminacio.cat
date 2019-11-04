@@ -66,8 +66,6 @@ class HomeController < ApplicationController
     end
   end
 
-
-
   def schools_by_district
     if location = Location.find_by_district_handle(params[:district])
       @district = location.district
@@ -121,7 +119,6 @@ class HomeController < ApplicationController
     end
     schools_by_district()
   end
-
 
   def index_with_pollutant
     if pollutant = params[:pollutant]

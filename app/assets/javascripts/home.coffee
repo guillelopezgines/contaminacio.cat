@@ -270,7 +270,8 @@ window.initMap = ->
       position: {lat: school.latitude, lng: school.longitude},
       map: map,
       icon: {
-        url: "https://www.contaminacio.cat/markers/"+ school.color.replace('#','') + ".png",
+        url: "https://www.contaminacio.cat/markers/"+ school.color.replace('#','') + ".png?v=1",
+        scaledSize: new google.maps.Size(16, 16)
       }
     })
     marker.infowindow = new google.maps.InfoWindow({

@@ -42928,7 +42928,6 @@ module.exports = function(reqctx) {
         lat: 41.401136,
         lng: 2.206897
       },
-      mapTypeId: 'terrain',
       zoomControl: true,
       mapTypeControl: false,
       scaleControl: false,

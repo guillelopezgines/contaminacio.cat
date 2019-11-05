@@ -268,7 +268,6 @@ window.initMap = ->
     document.getElementById('map'), {
       zoom: 13,
       center: {lat: 41.401136, lng: 2.206897},
-      mapTypeId: 'terrain',
       zoomControl: true,
       mapTypeControl: false,
       scaleControl: false,

@@ -42700,14 +42700,31 @@ module.exports = function(reqctx) {
         return window.location.href = "/escoles/" + window.location.href.split('/')[4] + level;
       }
     });
-    return $('td.button').on('click', function() {
+    $('td.button').on('click', function() {
       return $('table.schools').addClass('expanded');
+    });
+    return $('[data-action=move][data-latitude][data-longitude][data-index]').on('click', function(e) {
+      var index, infowindow, lat, lng, marker;
+      e.preventDefault();
+      lat = $(this).attr('data-latitude');
+      lng = $(this).attr('data-longitude');
+      index = $(this).attr('data-index');
+      marker = window.markers[index];
+      infowindow = marker.infowindow;
+      window.map.panTo(new google.maps.LatLng(lat, lng));
+      window.map.setZoom(15);
+      infowindow.open(window.map, marker);
+      window.closePreviousInfowindow(infowindow);
+      return $("html, body").animate({
+        scrollTop: $("#map").offset().top - 20
+      }, "slow");
     });
   });
 
   window.initMap = function() {
-    var bounds, i, infowindow, len, map, marker, ref, school, styledMapType;
-    infowindow = false;
+    var bounds, i, j, len, map, marker, ref, school, styledMapType;
+    window.infowindow = false;
+    window.markers = {};
     bounds = new google.maps.LatLngBounds();
     styledMapType = new google.maps.StyledMapType([
       {
@@ -42921,9 +42938,10 @@ module.exports = function(reqctx) {
     });
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
+    i = 0;
     ref = window.schools;
-    for (i = 0, len = ref.length; i < len; i++) {
-      school = ref[i];
+    for (j = 0, len = ref.length; j < len; j++) {
+      school = ref[j];
       marker = new google.maps.Marker({
         position: {
           lat: school.latitude,
@@ -42942,22 +42960,34 @@ module.exports = function(reqctx) {
         var self;
         self = this;
         this.infowindow.open(map, this);
-        if (infowindow) {
-          infowindow.close();
-        }
-        infowindow = this.infowindow;
-        return setTimeout((function() {
-          return self.infowindow.close();
+        google.maps.event.addListener(this.infowindow, 'closeclick', function() {
+          return window.infowindow = false;
+        });
+        window.closePreviousInfowindow(this.infowindow);
+        return window.timeout = setTimeout((function() {
+          self.infowindow.close();
+          return window.infowindow = false;
         }), 5000);
       });
       bounds.extend(marker.position);
+      window.markers[i] = marker;
+      i++;
     }
     map.fitBounds(bounds);
-    return setTimeout((function() {
+    setTimeout((function() {
       if (map.getZoom() < 13) {
         return map.setZoom(13);
       }
     }), 200);
+    return window.map = map;
+  };
+
+  window.closePreviousInfowindow = function(infowindow) {
+    if (window.infowindow) {
+      window.infowindow.close();
+      clearTimeout(window.timeout);
+    }
+    return window.infowindow = infowindow;
   };
 
 }).call(this);

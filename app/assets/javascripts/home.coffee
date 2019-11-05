@@ -26,8 +26,22 @@ $(document).ready ->
   $('td.button').on 'click', ->
     $('table.schools').addClass('expanded')
 
+  $('[data-action=move][data-latitude][data-longitude][data-index]').on 'click', (e) ->
+    e.preventDefault()
+    lat = $(this).attr('data-latitude')
+    lng = $(this).attr('data-longitude')
+    index = $(this).attr('data-index')
+    marker = window.markers[index]
+    infowindow = marker.infowindow
+    window.map.panTo(new google.maps.LatLng(lat, lng))
+    window.map.setZoom(15)
+    infowindow.open(window.map, marker)
+    window.closePreviousInfowindow(infowindow)
+    $("html, body").animate({ scrollTop: $("#map").offset().top - 20 }, "slow");
+
 window.initMap = ->
-  infowindow = false
+  window.infowindow = false
+  window.markers = {}
   bounds = new google.maps.LatLngBounds()
   styledMapType = new google.maps.StyledMapType(
     [
@@ -265,6 +279,7 @@ window.initMap = ->
   )
   map.mapTypes.set('styled_map', styledMapType)
   map.setMapTypeId('styled_map')
+  i = 0
   for school in window.schools
     marker = new google.maps.Marker({
       position: {lat: school.latitude, lng: school.longitude},
@@ -280,15 +295,27 @@ window.initMap = ->
     marker.addListener 'click', () ->
       self = this
       this.infowindow.open(map, this)
-      if infowindow
-        infowindow.close()
-      infowindow = this.infowindow
-      setTimeout ( ->
+      google.maps.event.addListener this.infowindow,'closeclick', ->
+        window.infowindow = false
+      window.closePreviousInfowindow(this.infowindow)
+      window.timeout = setTimeout ( ->
         self.infowindow.close()
+        window.infowindow = false
       ), 5000
+
     bounds.extend(marker.position)
+    window.markers[i] = marker
+    i++
   map.fitBounds(bounds)
   setTimeout ( ->
     if map.getZoom() < 13
       map.setZoom(13)
   ), 200
+  window.map = map
+
+window.closePreviousInfowindow = (infowindow)->
+  if window.infowindow
+    window.infowindow.close()
+    clearTimeout window.timeout
+  window.infowindow = infowindow
+  

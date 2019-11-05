@@ -64,7 +64,7 @@
             %span
               #{school["name"]}
             %span.small
-              (<a target="_blank" href="https://maps.google.com/?q=#{school["latitude"]},#{school["longitude"]}">MAPA</a>)
+              (<a target="_blank" href="https://maps.google.com/?q=#{school["latitude"]},#{school["longitude"]}" data-action="move" data-latitude="#{school["latitude"]}" data-longitude="#{school["longitude"]}" data-index="#{index}">MAPA</a>)
           %td.category.hide-on-mobile
             #{school["district"]}
           %td.category

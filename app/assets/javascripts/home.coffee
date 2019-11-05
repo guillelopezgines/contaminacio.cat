@@ -271,7 +271,7 @@ window.initMap = ->
       map: map,
       icon: {
         url: "https://www.contaminacio.cat/markers/"+ school.color.replace('#','') + ".png?v=1",
-        scaledSize: new google.maps.Size(16, 16)
+        scaledSize: new google.maps.Size(10, 10)
       }
     })
     marker.infowindow = new google.maps.InfoWindow({
@@ -292,4 +292,3 @@ window.initMap = ->
     if map.getZoom() < 13
       map.setZoom(13)
   ), 200
-  window.map = map

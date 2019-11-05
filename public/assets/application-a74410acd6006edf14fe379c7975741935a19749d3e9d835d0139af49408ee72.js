@@ -42931,7 +42931,8 @@ module.exports = function(reqctx) {
         },
         map: map,
         icon: {
-          url: "https://www.contaminacio.cat/markers/" + school.color.replace('#', '') + ".png"
+          url: "https://www.contaminacio.cat/markers/" + school.color.replace('#', '') + ".png?v=1",
+          scaledSize: new google.maps.Size(10, 10)
         }
       });
       marker.infowindow = new google.maps.InfoWindow({
@@ -42952,12 +42953,11 @@ module.exports = function(reqctx) {
       bounds.extend(marker.position);
     }
     map.fitBounds(bounds);
-    setTimeout((function() {
+    return setTimeout((function() {
       if (map.getZoom() < 13) {
         return map.setZoom(13);
       }
     }), 200);
-    return window.map = map;
   };
 
 }).call(this);

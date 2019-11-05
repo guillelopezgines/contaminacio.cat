@@ -116,7 +116,7 @@ sup {
 
 .map {
   width: 100%;
-  height: 600px;
+  height: 400px;
 }
 
 
@@ -146,21 +146,6 @@ table {
       font-size: 11px;
       text-transform: uppercase;
       span {
-       /* &.pre-school {
-          color: #339900;
-        }
-        &.primary-school {
-          color: #339944;
-        }
-        &.secondary-school {
-          color: #339988;
-        }
-        &.high-school {
-          color: #3399CC;
-        }
-        &.special-school {
-          color: #3399FF;
-        }*/
         &:after {
           content: ' +';
         }

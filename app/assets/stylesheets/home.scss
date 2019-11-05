@@ -119,6 +119,17 @@ sup {
   height: 600px;
 }
 
+
+.circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  top: 2px;
+  margin-right: 5px;
+}
+
 table {
   border-collapse: collapse;
   text-align: left;

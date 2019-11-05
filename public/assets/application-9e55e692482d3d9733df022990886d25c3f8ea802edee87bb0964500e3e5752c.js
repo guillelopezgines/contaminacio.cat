@@ -42706,7 +42706,8 @@ module.exports = function(reqctx) {
   });
 
   window.initMap = function() {
-    var bounds, i, len, map, marker, ref, school;
+    var bounds, i, infowindow, len, map, marker, ref, school;
+    infowindow = false;
     bounds = new google.maps.LatLngBounds();
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 13,
@@ -42732,13 +42733,23 @@ module.exports = function(reqctx) {
         },
         map: map,
         icon: {
-          path: google.maps.SymbolPath.CIRCLE,
-          scale: 5,
-          fillColor: school.color,
-          fillOpacity: 1.0,
-          strokeWeight: 0,
-          strokeColor: "#FFF"
+          url: "https://www.contaminacio.cat/markers/" + school.color.replace('#', '') + ".png"
         }
+      });
+      marker.infowindow = new google.maps.InfoWindow({
+        content: school.info
+      });
+      marker.addListener('click', function() {
+        var self;
+        self = this;
+        this.infowindow.open(map, this);
+        if (infowindow) {
+          infowindow.close();
+        }
+        infowindow = this.infowindow;
+        return setTimeout((function() {
+          return self.infowindow.close();
+        }), 5000);
       });
       bounds.extend(marker.position);
     }

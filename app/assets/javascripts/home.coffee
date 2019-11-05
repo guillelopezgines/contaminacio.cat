@@ -27,6 +27,7 @@ $(document).ready ->
     $('table.schools').addClass('expanded')
 
 window.initMap = ->
+  infowindow = false
   bounds = new google.maps.LatLngBounds()
   map = new google.maps.Map(
     document.getElementById('map'), {
@@ -46,14 +47,21 @@ window.initMap = ->
       position: {lat: school.latitude, lng: school.longitude},
       map: map,
       icon: {
-        path: google.maps.SymbolPath.CIRCLE,
-        scale: 5,
-        fillColor: school.color,
-        fillOpacity: 1.0,
-        strokeWeight: 0,
-        strokeColor: "#FFF"
+        url: "https://www.contaminacio.cat/markers/"+ school.color.replace('#','') + ".png",
       }
     })
+    marker.infowindow = new google.maps.InfoWindow({
+      content: school.info
+    })
+    marker.addListener 'click', () ->
+      self = this
+      this.infowindow.open(map, this)
+      if infowindow
+        infowindow.close()
+      infowindow = this.infowindow
+      setTimeout ( ->
+        self.infowindow.close()
+      ), 5000
     bounds.extend(marker.position)
   map.fitBounds(bounds)
   setTimeout ( ->

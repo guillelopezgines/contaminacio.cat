@@ -5,7 +5,7 @@ task :record_data => :environment do
   Location.stations.record_all
   puts "Success!"
   puts "Removing old data..."
-  Log.destroy_old_ones
+  # Log.destroy_old_ones
   puts "Done!"
 
   if Rails.env.production?  

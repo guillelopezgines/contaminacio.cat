@@ -18,9 +18,7 @@ class HomeController < ApplicationController
     @districts = ActiveRecord::Base.connection.execute(query)
 
     query = "select registered_at from logs left join locations on logs.location_id = locations.id order by registered_at limit 1"
-
     result = ActiveRecord::Base.connection.execute(query)
-
     @date = DateTime.parse(result[0]["registered_at"])
 
     query = "select

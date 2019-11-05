@@ -44,6 +44,10 @@ header, .page {
       margin-top: 5px;
       max-width: 800px;
       line-height: 30px;
+      &.headline {
+        line-height: 30px;
+        max-width: 960px;
+      }
     }
     .module {
       margin: 20px 0 20px;
@@ -116,7 +120,7 @@ sup {
 
 .map {
   width: 100%;
-  height: 400px;
+  height: 500px;
 }
 
 
@@ -364,6 +368,14 @@ td {
   .page {
     padding: 0 10px;
     &.large {
+      h2 {
+        &.headline {
+          margin-top: 10px;
+          font-size: 28px;
+          line-height: 36px;
+          max-width: 100%;
+        }
+      }
       .module {
         margin: 0;
         select {
@@ -382,7 +394,7 @@ td {
   }
 
   .map {
-    height: 400px;
+    height: 300px;
   }
 
   h1 {

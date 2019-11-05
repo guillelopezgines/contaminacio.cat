@@ -42969,7 +42969,9 @@ module.exports = function(reqctx) {
           return window.infowindow = false;
         }), 5000);
       });
-      bounds.extend(marker.position);
+      if (school.id !== 632) {
+        bounds.extend(marker.position);
+      }
       window.markers[i] = marker;
       i++;
     }

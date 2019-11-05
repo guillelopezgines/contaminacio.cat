@@ -1,3 +1,5 @@
+include ActionView::Helpers::DateHelper
+
 class HomeController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:school_filter]
 
@@ -6,18 +8,25 @@ class HomeController < ApplicationController
   end
 
   def schools
-    sql = "select 
+    query = "select 
             distinct district as name,
             district_handle as handle
           from locations 
           where district_handle IS NOT NULL 
           order by district;
         "
-    @districts = ActiveRecord::Base.connection.execute(sql)
+    @districts = ActiveRecord::Base.connection.execute(query)
+
+    query = "select registered_at from logs left join locations on logs.location_id = locations.id order by registered_at limit 1"
+
+    result = ActiveRecord::Base.connection.execute(query)
+
+    @date = DateTime.parse(result[0]["registered_at"])
 
     query = "select
             count(*) as count,
             round(avg(value),2) as mean,
+            locations.id,
             locations.name,
             locations.district,
             locations.latitude,
@@ -66,8 +75,8 @@ class HomeController < ApplicationController
 
     @levels = [["infantil", "infantil"], ["primària", "primaria"], ["secundària", "secundaria"], ["batxillerat", "batxillerat"], ["educació especial", "educacio-especial"]]
     @level_name = @levels.select {|level| level[1] == @level }.first
-    @title = "Llistat de les escoles #{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? "d'" : "de ") + "#{@level_name[0]} " : ""}amb més contaminació #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")}"
-    @headline = "Amb dades dels últims 15 dies, #{@schools.select{|s| s["mean"].to_f > 40.0}.count} de les #{@schools.count} escoles#{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? " d'" : " de ") + "#{@level_name[0]} " : ""} #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")} (#{(100 * @schools.select{|s| s["mean"].to_f > 40.0}.count/@schools.count.to_f).round}%) superen els nivells recomenats de contaminació atmosfèrica durant l'horari escolar."
+    @title = "Nivells de contaminació atmosfèrica a les escoles #{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? "d'" : "de ") + "#{@level_name[0]} " : ""} #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")}"
+    @headline = "Segons les dades dels últims #{time_ago_in_words(@date)}, #{@schools.select{|s| s["mean"].to_f > 40.0}.count} de les #{@schools.count} escoles#{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? " d'" : " de ") + "#{@level_name[0]} " : ""} #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")} (#{(100 * @schools.select{|s| s["mean"].to_f > 40.0}.count/@schools.count.to_f).round}%) superen, en horari escolar, els nivells de contaminació recomanats per la mitjana anual"
     @share = "#{@headline} Consulta la llista de les escoles més contaminades a: contaminacio.cat/escoles"
 
     respond_to do |format|

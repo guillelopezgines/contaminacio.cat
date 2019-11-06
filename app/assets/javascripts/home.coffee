@@ -308,7 +308,7 @@ window.initMap = ->
     i++
   map.fitBounds(bounds)
   setTimeout ( ->
-    if map.getZoom() < 13
+    if map.getZoom() == 12
       map.setZoom(13)
   ), 200
   window.map = map

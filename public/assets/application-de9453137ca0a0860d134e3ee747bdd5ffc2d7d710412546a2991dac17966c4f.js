@@ -42976,7 +42976,7 @@ module.exports = function(reqctx) {
     }
     map.fitBounds(bounds);
     setTimeout((function() {
-      if (map.getZoom() < 13) {
+      if (map.getZoom() === 12) {
         return map.setZoom(13);
       }
     }), 200);

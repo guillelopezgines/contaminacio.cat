@@ -39,117 +39,144 @@ exports.__esModule = true;
 var puppeteer = require("puppeteer");
 var pg = require("pg");
 pg.defaults.ssl = true;
-var results = [];
 var processID = process.pid;
 var postgresSQLURL = process.env.DATABASE_URL;
-
 var hoursDelay = 4;
 var date = Date.now() - (1000 * 60 * 60 * hoursDelay);
-date = Math.floor(date/(1000 * 60 * 60)) * (1000 * 60 * 60)
+date = Math.floor(date / (1000 * 60 * 60)) * (1000 * 60 * 60);
 var hour = new Date(date).getHours();
 var day = new Date(date).getDay();
-
-if(day == 0 || day == 6 || hour < 8 || hour >= 16) {
+if (day == 0 || day == 6 || hour < 8 || hour >= 16) {
     console.log('Out of school hours: ' + new Date(date));
     process.exit(0);
 }
-
 function start() {
     return __awaiter(this, void 0, void 0, function () {
-        var section, limit, offset, client, query, rows;
+        var clientOptions, section, limit, offset, client, error_1, query, rows, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    clientOptions = {};
                     if (postgresSQLURL == undefined) {
-                        client = new pg.Client({
-                          user: '',
-                          host: 'localhost',
-                          database: 'contaminacio_development',
-                          password: '',
-                          port: 5432,
-                          ssl: false
-                        })
-                    } else {
-                        client = new pg.Client({ connectionString: postgresSQLURL });
+                        clientOptions.user = '';
+                        clientOptions.host = 'localhost';
+                        clientOptions.database = 'contaminacio_development';
+                        clientOptions.password = '';
+                        clientOptions.port = 54320;
+                        clientOptions.ssl = false;
+                    }
+                    else {
+                        clientOptions.connectionString = postgresSQLURL;
                     }
                     section = process.argv[2];
                     limit = 150;
                     offset = (parseInt(section) - 1) * limit;
-                    return [4 /*yield*/, client.connect()];
+                    console.log('Connecting to postgress using ' + JSON.stringify(clientOptions));
+                    client = new pg.Client(clientOptions);
+                    _a.label = 1;
                 case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, client.connect()];
+                case 2:
                     _a.sent();
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_1 = _a.sent();
+                    console.log('Unable to connect to Postgress: (' + error_1 + ')');
+                    process.exit(0);
+                    return [3 /*break*/, 4];
+                case 4:
                     console.log('Connected to postgresSQL');
                     query = 'SELECT * FROM locations WHERE category=\'SCHOOL\' ORDER BY id LIMIT ' + limit + ' OFFSET ' + offset;
-                    console.log(query);
+                    _a.label = 5;
+                case 5:
+                    _a.trys.push([5, 8, , 9]);
                     return [4 /*yield*/, client.query(query)];
-                case 2:
+                case 6:
                     rows = _a.sent();
                     return [4 /*yield*/, processEscoles(rows.rows, client)];
-                case 3:
+                case 7:
                     _a.sent();
-                    return [2 /*return*/];
+                    return [3 /*break*/, 9];
+                case 8:
+                    error_2 = _a.sent();
+                    console.log('Query for schools failed: (' + error_2 + ')');
+                    process.exit(0);
+                    return [3 /*break*/, 9];
+                case 9: return [2 /*return*/];
             }
         });
     });
 }
 function processEscoles(escoles, client) {
     return __awaiter(this, void 0, void 0, function () {
-        var browser, page, i, _i, escoles_1, escola, elements, _a, elements_1, element, label, value, query;
+        var browser, page, i, _i, escoles_1, escola, elements, _a, elements_1, element, label, value, query, error_3;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     console.log('[' + processID + '] Processing ' + escoles.length + ' schools');
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 14, , 15]);
                     return [4 /*yield*/, puppeteer.launch({
                             userDataDir: '/tmp/user-data-dir',
                             headless: true,
                             args: ['--no-sandbox']
                         })];
-                case 1:
+                case 2:
                     browser = _b.sent();
                     return [4 /*yield*/, browser.newPage()];
-                case 2:
+                case 3:
                     page = _b.sent();
                     i = escoles.length;
                     _i = 0, escoles_1 = escoles;
-                    _b.label = 3;
-                case 3:
-                    if (!(_i < escoles_1.length)) return [3 /*break*/, 11];
+                    _b.label = 4;
+                case 4:
+                    if (!(_i < escoles_1.length)) return [3 /*break*/, 12];
                     escola = escoles_1[_i];
                     console.log('[' + processID + '] ' + i + ' Escola ' + escola.name + ' (' + escola.latitude + ', ' + escola.longitude + ', ' + new Date(date) + ')');
-                    return [4 /*yield*/, page.goto('https://aire-barcelona.lobelia.earth/ca/?lon=' + escola.longitude + '&lat=' + escola.latitude + '&time=' + date, { "waitUntil": "networkidle2" })];
-                case 4:
+                    return [4 /*yield*/, page.goto('https://aire-barcelona.lobelia.earth/ca/?lon=' + escola.longitude + '&lat=' + escola.latitude, { "waitUntil": "networkidle2" })];
+                case 5:
                     _b.sent();
                     return [4 /*yield*/, page.$$('text')];
-                case 5:
+                case 6:
                     elements = _b.sent();
                     _a = 0, elements_1 = elements;
-                    _b.label = 6;
-                case 6:
-                    if (!(_a < elements_1.length)) return [3 /*break*/, 9];
+                    _b.label = 7;
+                case 7:
+                    if (!(_a < elements_1.length)) return [3 /*break*/, 10];
                     element = elements_1[_a];
                     return [4 /*yield*/, page.evaluate(function (el) { return el.innerHTML; }, element)];
-                case 7:
+                case 8:
                     label = _b.sent();
                     if (label.includes('/m')) {
                         value = label.split(' ')[0];
-                        query = 'INSERT INTO logs (location_id, value, pollutant_id, registered_at, created_at, updated_at) VALUES (' + escola.id + ', ' + value + ', 1, to_timestamp(' + (date + (1000 * 60 * 60 * 1)) / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '))';          client.query(query);
-                        return [3 /*break*/, 9];
+                        query = 'INSERT INTO logs (location_id, value, pollutant_id, registered_at, created_at, updated_at) VALUES (' + escola.id + ', ' + value + ', 1, to_timestamp(' + (date + (1000 * 60 * 60 * 1)) / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '))';
+                        console.log(value);
+                        client.query(query);
+                        return [3 /*break*/, 10];
                     }
-                    _b.label = 8;
-                case 8:
-                    _a++;
-                    return [3 /*break*/, 6];
+                    _b.label = 9;
                 case 9:
-                    i = i - 1;
-                    _b.label = 10;
+                    _a++;
+                    return [3 /*break*/, 7];
                 case 10:
+                    i = i - 1;
+                    _b.label = 11;
+                case 11:
                     _i++;
-                    return [3 /*break*/, 3];
-                case 11: return [4 /*yield*/, browser.close()];
-                case 12:
+                    return [3 /*break*/, 4];
+                case 12: return [4 /*yield*/, browser.close()];
+                case 13:
                     _b.sent();
                     process.exit(0);
-                    return [2 /*return*/];
+                    return [3 /*break*/, 15];
+                case 14:
+                    error_3 = _b.sent();
+                    console.log('Error while processing schools: (' + error_3 + ')');
+                    process.exit(0);
+                    return [3 /*break*/, 15];
+                case 15: return [2 /*return*/];
             }
         });
     });

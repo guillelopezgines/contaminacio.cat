@@ -84,9 +84,10 @@ class HomeController < ApplicationController
 
     @levels = [["infantil", "infantil"], ["primària", "primaria"], ["secundària", "secundaria"], ["batxillerat", "batxillerat"], ["educació especial", "educacio-especial"]]
     @level_name = @levels.select {|level| level[1] == @level }.first
-    @title = "Nivells de contaminació atmosfèrica a les escoles #{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? "d'" : "de ") + "#{@level_name[0]} " : ""} #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")}"
-    @headline = "Segons les dades dels últims #{time_ago_in_words(@date)}, #{@schools.select{|s| s["mean"].to_f > 40.0}.count} de les #{@schools.count} escoles#{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? " d'" : " de ") + "#{@level_name[0]} " : ""} #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")} (#{(100 * @schools.select{|s| s["mean"].to_f > 40.0}.count/@schools.count.to_f).round}%) superen, en horari escolar, els nivells de contaminació recomanats per la mitjana anual"
+    @title = "Nivells de contaminació atmosfèrica a les escoles #{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? "d'" : "de ") + "#{@level_name[0]} " : ""}#{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")}"
+    @headline = "Segons les dades dels últims #{time_ago_in_words(@date)}, #{@schools.select{|s| s["mean"].to_f > 40.0}.count} de les #{@schools.count} escoles#{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? " d'" : " de ") + "#{@level_name[0]} " : ""} #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")} (#{(100 * @schools.select{|s| s["mean"].to_f > 40.0}.count/@schools.count.to_f).round}%) superen, en horari escolar, els nivells de contaminació recomanats per la mitjana anual."
     @share = "#{@headline} Consulta la llista de les escoles més contaminades a: contaminacio.cat/escoles"
+    @description = @headline
 
     respond_to do |format|
       format.html{

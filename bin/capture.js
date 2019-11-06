@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var puppeteer = require("puppeteer");
 var pg = require("pg");
-pg.defaults.ssl = true;
+pg.defaults.ssl = false;
 var processID = process.pid;
 var postgresSQLURL = process.env.DATABASE_URL;
 var hoursDelay = 4;
@@ -58,10 +58,10 @@ function start() {
                 case 0:
                     clientOptions = {};
                     if (postgresSQLURL == undefined) {
-                        clientOptions.user = '';
+                        clientOptions.user = 'postgres';
                         clientOptions.host = 'localhost';
-                        clientOptions.database = 'contaminacio_development';
-                        clientOptions.password = '';
+                        clientOptions.database = 'postgres';
+                        clientOptions.password = 'docker';
                         clientOptions.port = 54320;
                         clientOptions.ssl = false;
                     }
@@ -110,14 +110,14 @@ function start() {
 }
 function processEscoles(escoles, client) {
     return __awaiter(this, void 0, void 0, function () {
-        var browser, page, i, _i, escoles_1, escola, elements, _a, elements_1, element, label, value, query, error_3;
+        var browser, page, i, _i, escoles_1, escola, availableRetries, elements, _a, elements_1, element, label, value, query, error_3, error_4;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     console.log('[' + processID + '] Processing ' + escoles.length + ' schools');
                     _b.label = 1;
                 case 1:
-                    _b.trys.push([1, 14, , 15]);
+                    _b.trys.push([1, 19, , 20]);
                     return [4 /*yield*/, puppeteer.launch({
                             userDataDir: '/tmp/user-data-dir',
                             headless: true,
@@ -132,51 +132,72 @@ function processEscoles(escoles, client) {
                     _i = 0, escoles_1 = escoles;
                     _b.label = 4;
                 case 4:
-                    if (!(_i < escoles_1.length)) return [3 /*break*/, 12];
+                    if (!(_i < escoles_1.length)) return [3 /*break*/, 17];
                     escola = escoles_1[_i];
                     console.log('[' + processID + '] ' + i + ' Escola ' + escola.name + ' (' + escola.latitude + ', ' + escola.longitude + ', ' + new Date(date) + ')');
-                    return [4 /*yield*/, page.goto('https://aire-barcelona.lobelia.earth/ca/?lon=' + escola.longitude + '&lat=' + escola.latitude, { "waitUntil": "networkidle2" })];
+                    availableRetries = 3;
+                    _b.label = 5;
                 case 5:
+                    if (!true) return [3 /*break*/, 15];
+                    _b.label = 6;
+                case 6:
+                    _b.trys.push([6, 13, , 14]);
+                    return [4 /*yield*/, page.goto('https://aire-barcelona.lobelia.earth/ca/?lon=' + escola.longitude + '&lat=' + escola.latitude, { "waitUntil": "networkidle2" })];
+                case 7:
                     _b.sent();
                     return [4 /*yield*/, page.$$('text')];
-                case 6:
+                case 8:
                     elements = _b.sent();
                     _a = 0, elements_1 = elements;
-                    _b.label = 7;
-                case 7:
-                    if (!(_a < elements_1.length)) return [3 /*break*/, 10];
+                    _b.label = 9;
+                case 9:
+                    if (!(_a < elements_1.length)) return [3 /*break*/, 12];
                     element = elements_1[_a];
                     return [4 /*yield*/, page.evaluate(function (el) { return el.innerHTML; }, element)];
-                case 8:
+                case 10:
                     label = _b.sent();
                     if (label.includes('/m')) {
                         value = label.split(' ')[0];
                         query = 'INSERT INTO logs (location_id, value, pollutant_id, registered_at, created_at, updated_at) VALUES (' + escola.id + ', ' + value + ', 1, to_timestamp(' + (date + (1000 * 60 * 60 * 1)) / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '))';
                         console.log(value);
                         client.query(query);
-                        return [3 /*break*/, 10];
+                        return [3 /*break*/, 12];
                     }
-                    _b.label = 9;
-                case 9:
-                    _a++;
-                    return [3 /*break*/, 7];
-                case 10:
-                    i = i - 1;
                     _b.label = 11;
                 case 11:
+                    _a++;
+                    return [3 /*break*/, 9];
+                case 12: return [3 /*break*/, 15];
+                case 13:
+                    error_3 = _b.sent();
+                    console.log('Failed to fetch page ' + 'https://aire-barcelona.lobelia.earth/ca/?lon=' + escola.longitude + '&lat=' + escola.latitude);
+                    if (availableRetries != 0) {
+                        console.log('Will retry...');
+                        availableRetries = availableRetries - 1;
+                    }
+                    else {
+                        console.log('Giving up on ' + 'https://aire-barcelona.lobelia.earth/ca/?lon=' + escola.longitude + '&lat=' + escola.latitude);
+                        return [3 /*break*/, 15];
+                    }
+                    return [3 /*break*/, 14];
+                case 14: return [3 /*break*/, 5];
+                case 15:
+                    i = i - 1;
+                    _b.label = 16;
+                case 16:
                     _i++;
                     return [3 /*break*/, 4];
-                case 12: return [4 /*yield*/, browser.close()];
-                case 13:
+                case 17: return [4 /*yield*/, browser.close()];
+                case 18:
                     _b.sent();
                     process.exit(0);
-                    return [3 /*break*/, 15];
-                case 14:
-                    error_3 = _b.sent();
-                    console.log('Error while processing schools: (' + error_3 + ')');
+                    return [3 /*break*/, 20];
+                case 19:
+                    error_4 = _b.sent();
+                    console.log('Error while processing schools: (' + error_4 + ')');
                     process.exit(0);
-                    return [3 /*break*/, 15];
-                case 15: return [2 /*return*/];
+                    return [3 /*break*/, 20];
+                case 20: return [2 /*return*/];
             }
         });
     });

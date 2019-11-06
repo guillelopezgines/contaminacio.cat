@@ -306,11 +306,17 @@ window.initMap = ->
       bounds.extend(marker.position)
     window.markers[i] = marker
     i++
-  map.fitBounds(bounds)
-  setTimeout ( ->
-    if map.getZoom() == 12
-      map.setZoom(13)
-  ), 200
+  if window.district
+    map.fitBounds(bounds)
+    setTimeout ( ->
+      if map.getZoom() == 12
+        map.setZoom(13)
+    ), 200
+  else
+    map.setCenter({lat: 41.40298878760852, lng: 2.1553331613770155})
+    if window.innerWidth < 400
+      map.setZoom(12)
+
   window.map = map
 
 window.closePreviousInfowindow = (infowindow)->

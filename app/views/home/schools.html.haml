@@ -46,6 +46,7 @@
       ≥ 60 <span>µg/m<sup>3</sup></span>
 
   %script{type: "text/javascript"}
+    window.district = #{@district ? true : false};
     window.schools = [];
     - @schools.each_with_index do |school, index|
       window.schools.push({id: #{school["id"]}, info: "<b>#{school["name"]}</b><br><span style='margin-top: 4px; display: block;'>#{school["mean"]} µg/m<sup>3</sup></span>", color: "#{@colors[index]}", latitude: #{school["latitude"]},longitude: #{school["longitude"]}});
@@ -59,7 +60,7 @@
       %th Escola
       %th.hide-on-mobile Districte
       %th Etapes
-      %th.right <span class="hide-on-mobile">MITJANA</span> NO<sup>2</sup>
+      %th.right <span class="hide-on-tablet">MITJANA</span> NO<sup>2</sup>
 
     - if @schools.count > 0
       - has_shown_mark = false
@@ -94,7 +95,7 @@
               %span.high-school Batxillerat
             - if school["is_special_school"]
               %span.special-school Educació Especial
-          %td.right #{school["mean"]} <span class="small hide-on-mobile">µg/m<sup>3</sup></span>
+          %td.right #{school["mean"]} <span class="small hide-on-tablet">µg/m<sup>3</sup></span>
     - else
       %tr
         %td.empty{:colspan => 5} No hi ha cap escola amb aquests criteris de cerca

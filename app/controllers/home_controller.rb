@@ -56,21 +56,6 @@ class HomeController < ApplicationController
 
     @schools.each do |school|
       mean = school["mean"].to_f
-      #   @colors << "#fcde9c"
-      #   @colors << "#faa476"
-      #   @colors << "#f0746e"
-      #   @colors << "#e34f6f"
-      #   @colors << "#dc3977"
-      #   @colors << "#b9257a"
-      #   @colors << "#7c1d6f"
-      
-      #   @colors << "#02b0f0"
-      #   @colors << "#92d050"
-      #   @colors << "#ffc003"
-      #   @colors << "#ff0200"
-      #   @colors << "#ff0200"
-
-
       if mean < 20.0
         @colors << "#02b0f0"
       elsif mean < 40.0

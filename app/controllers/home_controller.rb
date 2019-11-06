@@ -61,14 +61,24 @@ class HomeController < ApplicationController
       #   @colors << "#dc3977"
       #   @colors << "#b9257a"
       #   @colors << "#7c1d6f"
+      
+      #   @colors << "#02b0f0"
+      #   @colors << "#92d050"
+      #   @colors << "#ffc003"
+      #   @colors << "#ff0200"
+      #   @colors << "#ff0200"
+
+
       if mean < 20.0
-        @colors << "#fcde9c"
+        @colors << "#02b0f0"
       elsif mean < 40.0
-        @colors << "#f0746e"
+        @colors << "#92d050"
+      elsif mean < 50.0
+        @colors << "#ffc003"
       elsif mean < 60.0
-        @colors << "#dc3977"
+        @colors << "#ff0200"
       else
-        @colors << "#7c1d6f"
+        @colors << "#c30000"
       end
     end
 

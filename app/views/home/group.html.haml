@@ -4,7 +4,7 @@
 %div.page
 
   %div.module
-    = form_tag filter_path, method: 'post' do |f|
+    = form_tag filter_path, method: 'post', class: "pollutant" do |f|
       %h2.extra Mesura de:
       %div.select.pollutant
         = select_tag :pollutant, options_from_collection_for_select(Pollutant.all.order(:id), "id", "name_with_short_name", @pollutant.id)

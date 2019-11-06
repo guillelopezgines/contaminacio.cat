@@ -286,7 +286,8 @@ window.initMap = ->
       icon: {
         url: "https://www.contaminacio.cat/markers/"+ school.color.replace('#','') + ".png?v=1",
         scaledSize: new google.maps.Size(10, 10)
-      }
+      },
+      zIndex: window.schools.length - i
     })
     marker.infowindow = new google.maps.InfoWindow({
       content: school.info

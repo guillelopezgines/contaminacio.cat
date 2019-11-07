@@ -42587,8 +42587,9 @@ module.exports = function(reqctx) {
           markings: markings
         },
         legend: {
+          show: false,
           position: "nw",
-          noColumns: 7
+          noColumns: 0
         },
         xaxis: {
           mode: "time",

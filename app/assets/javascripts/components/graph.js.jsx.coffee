@@ -30,8 +30,9 @@ class @Graph extends React.Component
         borderWidth: { top: 1, bottom: 1, left: 0, right: 0 }
         markings: markings
       legend:
+        show: false
         position: "nw"
-        noColumns: 7
+        noColumns: 0
 
       xaxis:
         mode: "time"

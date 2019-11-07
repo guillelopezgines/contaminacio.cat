@@ -142,7 +142,7 @@ function processEscoles(escoles, client) {
                     _b.label = 6;
                 case 6:
                     _b.trys.push([6, 13, , 14]);
-                    return [4 /*yield*/, page.goto('https://aire-barcelona.lobelia.earth/ca/?lon=' + escola.longitude + '&lat=' + escola.latitude, { "waitUntil": "networkidle2" })];
+                    return [4 /*yield*/, page.goto('https://aire-barcelona.lobelia.earth/ca/?lon=' + escola.longitude + '&lat=' + escola.latitude + '&time=' + date, { "waitUntil": "networkidle2" })];
                 case 7:
                     _b.sent();
                     return [4 /*yield*/, page.$$('text')];

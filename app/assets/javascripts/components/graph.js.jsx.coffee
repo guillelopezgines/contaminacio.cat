@@ -76,7 +76,7 @@ class @Graph extends React.Component
           x = item.datapoint[0].toFixed(2)
           y = item.datapoint[1].toFixed(2)
           amount = item.datapoint[1]
-          date = new Date(item.datapoint[0] - 2 * 60 * 60 * 1000);
+          date = new Date(item.datapoint[0] - 1 * 60 * 60 * 1000);
           content = amount + " " + window.unit + " at " + date
           content = label + ":<br>" + content if label = item.series.label
 

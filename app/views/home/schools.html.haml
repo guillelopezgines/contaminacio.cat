@@ -108,6 +108,9 @@
     %p <b>Per etapes:</b> #{@levels.map{|level| link_to level[0], schools_by_district_path(level[1]) }.to_sentence.html_safe}.
 
   %footer.last
+    %p <b>Què podem fer per evitar aquest problema?</b> L'article "<a target="_blank" href="https://www.contaminacio.net">Escoles i contaminació</a>" del Miquel Ortega resumeix molt bé les mesures que es podrien portar a terme a Barcelona. També pots fer que la teva escola signi la "<a href="https://docs.google.com/forms/d/e/1FAIpQLSfoRITbcKQHhlq8but80_IIHvcalZBrJKeX9mdxSYPi69AwNg/viewform" target="_blank">Carta de les escoles per un aire més net</a>".
+
+  %footer.last
     %p <b>D'on provenen les dades?</b> Les dades horàries de NO<sup>2</sup> provenen de la web de <a href="https://www.lobelia.earth/ca/" target="_blank">Lobelia Earth</a>. Les dades de les escoles provenen del repositori <a href="https://opendata-ajuntament.barcelona.cat/data/ca/dataset/educacio-ensenyament-reglat" target="_blank">Ensenyament reglat a la ciutat de Barcelona</a> de la web de dades obertes de l'Ajuntament de Barcelona.
 
   %footer.last

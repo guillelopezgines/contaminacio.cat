@@ -111,7 +111,7 @@ class HomeController < ApplicationController
             csv << [school['name'], school['district'], school['mean'], school['count'], school['latitude'], school['longitude'], school['is_kindergarden'], school['is_primary_school'], school['is_secondary_school'], school['is_high_school'], school['is_special_school']]
           end
         end
-        send_data csv_string, type: Mime::CSV, disposition: 'inline', filename: "escoles-#{@district_handle ? "#{@district_handle}-" : ""}#{@level ? "#{@level}-" : ""}#{DateTime.now.strftime('%s')}.csv"
+        send_data csv_string, type: Mime::CSV, disposition: 'inline', filename: "escoles-#{@year == '2018' ? "#{@year}-" : ""}#{@district_handle ? "#{@district_handle}-" : ""}#{@level ? "#{@level}-" : ""}no2.csv"
       }
     end
   end

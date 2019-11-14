@@ -42673,6 +42673,13 @@ module.exports = function(reqctx) {
     $('form.pollutant').on('change', function() {
       return $(this).submit();
     });
+    $('select.year').on('change', function() {
+      if ($(this).val() === '2018') {
+        return window.location.href = '/escoles/2018';
+      } else {
+        return window.location.href = '/escoles';
+      }
+    });
     $('select.district').on('change', function() {
       return window.location.href = $(this).val();
     });
@@ -42687,18 +42694,28 @@ module.exports = function(reqctx) {
       if (num_params === 4) {
         return window.location.href = "/escoles" + level;
       } else if (num_params === 5) {
-        switch (window.location.href.split('/')[4]) {
-          case 'infantil':
-          case 'primaria':
-          case 'secundaria':
-          case 'batxillerat':
-          case 'educacio-especial':
-            return window.location.href = "/escoles" + level;
-          default:
-            return window.location.href = "/escoles/" + window.location.href.split('/')[4] + level;
+        if (window.location.href.split('/')[4] === '2018') {
+          return window.location.href = "/escoles/2018" + level;
+        } else {
+          switch (window.location.href.split('/')[4]) {
+            case 'infantil':
+            case 'primaria':
+            case 'secundaria':
+            case 'batxillerat':
+            case 'educacio-especial':
+              return window.location.href = "/escoles" + level;
+            default:
+              return window.location.href = "/escoles/" + window.location.href.split('/')[4] + level;
+          }
         }
       } else if (num_params === 6) {
-        return window.location.href = "/escoles/" + window.location.href.split('/')[4] + level;
+        if (window.location.href.split('/')[4] === '2018') {
+          return window.location.href = "/escoles/2018/" + window.location.href.split('/')[5] + level;
+        } else {
+          return window.location.href = "/escoles/" + window.location.href.split('/')[4] + level;
+        }
+      } else if (num_params === 7) {
+        return window.location.href = "/escoles/2018/" + window.location.href.split('/')[5] + level;
       }
     });
     $('td.button').on('click', function() {

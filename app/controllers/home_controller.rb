@@ -40,7 +40,6 @@ class HomeController < ApplicationController
           left join locations
           on logs.location_id = locations.id
           where category = 'SCHOOL'
-          and logs.registered_at > current_date - interval '15' day
           and extract(hour from registered_at) >= 9
           and extract(hour from registered_at) < 17
           and extract(dow from registered_at) != 0

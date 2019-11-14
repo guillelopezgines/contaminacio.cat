@@ -371,6 +371,34 @@ td {
   .map {
     height: 400px;
   }
+  form {
+    &:after{
+      display: table;
+      content: '';
+      clear: both;
+    }
+    .select {
+      display: block;
+      width: 100%;
+      margin: 5px auto;
+      &.location {
+        width: 88%;
+        margin: 5px 0;
+        float: left;
+      }
+    }
+    span {
+      display: none;
+    }
+    div {
+      width: 10%;
+      float: left;
+      margin: 5px 0 5px 2%;
+    }
+    div.clear {
+      clear: both;
+    }
+  }
 }
 
 @media only screen and (max-width: 750px) {
@@ -470,34 +498,6 @@ td {
   p {
     font-size: 1.2em;
     line-height: 1.8em;
-  }
-  form {
-    &:after{
-      display: table;
-      content: '';
-      clear: both;
-    }
-    .select {
-      display: block;
-      width: 100%;
-      margin: 5px auto;
-      &.location {
-        width: 88%;
-        margin: 5px 0;
-        float: left;
-      }
-    }
-    span {
-      display: none;
-    }
-    div {
-      width: 10%;
-      float: left;
-      margin: 5px 0 5px 2%;
-    }
-    div.clear {
-      clear: both;
-    }
   }
   .graph {
     .legend {

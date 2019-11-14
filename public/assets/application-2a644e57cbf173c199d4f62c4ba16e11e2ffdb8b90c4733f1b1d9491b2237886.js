@@ -42710,7 +42710,16 @@ module.exports = function(reqctx) {
         }
       } else if (num_params === 6) {
         if (window.location.href.split('/')[4] === '2018') {
-          return window.location.href = "/escoles/2018/" + window.location.href.split('/')[5] + level;
+          switch (window.location.href.split('/')[5]) {
+            case 'infantil':
+            case 'primaria':
+            case 'secundaria':
+            case 'batxillerat':
+            case 'educacio-especial':
+              return window.location.href = "/escoles/2018" + level;
+            default:
+              return window.location.href = "/escoles/2018/" + window.location.href.split('/')[5] + level;
+          }
         } else {
           return window.location.href = "/escoles/" + window.location.href.split('/')[4] + level;
         }

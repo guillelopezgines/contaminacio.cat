@@ -30,7 +30,9 @@ $(document).ready ->
           else window.location.href = "/escoles/" + window.location.href.split('/')[4] + level
     else if num_params == 6
       if(window.location.href.split('/')[4] == '2018')
-        window.location.href = "/escoles/2018/" + window.location.href.split('/')[5] + level
+        switch window.location.href.split('/')[5]
+          when 'infantil', 'primaria', 'secundaria', 'batxillerat', 'educacio-especial' then window.location.href = "/escoles/2018" + level
+          else window.location.href = "/escoles/2018/" + window.location.href.split('/')[5] + level
       else
         window.location.href = "/escoles/" + window.location.href.split('/')[4] + level
     else if num_params == 7

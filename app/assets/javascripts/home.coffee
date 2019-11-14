@@ -3,6 +3,12 @@ $(document).ready ->
   $('form.pollutant').on 'change', ->
     $(this).submit()
 
+  $('select.year').on 'change', ->
+    if $(this).val() == '2018'
+      window.location.href = '/escoles/2018'
+    else
+      window.location.href = '/escoles'
+
   $('select.district').on 'change', ->
     window.location.href = $(this).val()
 
@@ -16,11 +22,19 @@ $(document).ready ->
     if num_params == 4
       window.location.href = "/escoles" + level
     else if num_params == 5
-      switch window.location.href.split('/')[4]
-        when 'infantil', 'primaria', 'secundaria', 'batxillerat', 'educacio-especial' then window.location.href = "/escoles" + level
-        else window.location.href = "/escoles/" + window.location.href.split('/')[4] + level
+      if(window.location.href.split('/')[4] == '2018')
+        window.location.href = "/escoles/2018" + level
+      else
+        switch window.location.href.split('/')[4]
+          when 'infantil', 'primaria', 'secundaria', 'batxillerat', 'educacio-especial' then window.location.href = "/escoles" + level
+          else window.location.href = "/escoles/" + window.location.href.split('/')[4] + level
     else if num_params == 6
-      window.location.href = "/escoles/" + window.location.href.split('/')[4] + level
+      if(window.location.href.split('/')[4] == '2018')
+        window.location.href = "/escoles/2018/" + window.location.href.split('/')[5] + level
+      else
+        window.location.href = "/escoles/" + window.location.href.split('/')[4] + level
+    else if num_params == 7
+      window.location.href = "/escoles/2018/" + window.location.href.split('/')[5] + level
       
 
   $('td.button').on 'click', ->

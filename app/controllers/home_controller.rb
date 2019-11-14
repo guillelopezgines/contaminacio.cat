@@ -23,32 +23,54 @@ class HomeController < ApplicationController
     result = ActiveRecord::Base.connection.execute(query)
     @date = DateTime.parse(result[0]["registered_at"])
 
-    query = "select
-            count(*) as count,
-            round(avg(value),2) as mean,
-            locations.id,
-            locations.name,
-            locations.district,
-            locations.latitude,
-            locations.longitude,
-            locations.is_kindergarden,
-            locations.is_primary_school,
-            locations.is_secondary_school,
-            locations.is_high_school,
-            locations.is_special_school
-          from logs
-          left join locations
-          on logs.location_id = locations.id
-          where category = 'SCHOOL'
-          and extract(hour from registered_at) >= 9
-          and extract(hour from registered_at) < 17
-          and extract(dow from registered_at) != 0
-          and extract(dow from registered_at) != 6
-          #{ @district_handle ? "and district_handle = '#{@district_handle}'" : "" }
-          #{ @filter_by_level }
-          group by locations.id
-          order by mean desc, name;
-        "
+    if @year == '2018'
+      query = "select
+          historics.value as mean,
+          locations.id,
+          locations.name,
+          locations.district,
+          locations.latitude,
+          locations.longitude,
+          locations.is_kindergarden,
+          locations.is_primary_school,
+          locations.is_secondary_school,
+          locations.is_high_school,
+          locations.is_special_school
+        from historics
+        left join locations
+        on historics.location_id = locations.id
+        where category = 'SCHOOL'
+        #{ @district_handle ? "and district_handle = '#{@district_handle}'" : "" }
+        #{ @filter_by_level }
+        order by mean desc, name;"
+    else
+      query = "select
+              count(*) as count,
+              round(avg(value),2) as mean,
+              locations.id,
+              locations.name,
+              locations.district,
+              locations.latitude,
+              locations.longitude,
+              locations.is_kindergarden,
+              locations.is_primary_school,
+              locations.is_secondary_school,
+              locations.is_high_school,
+              locations.is_special_school
+            from logs
+            left join locations
+            on logs.location_id = locations.id
+            where category = 'SCHOOL'
+            and extract(hour from registered_at) >= 9
+            and extract(hour from registered_at) < 17
+            and extract(dow from registered_at) != 0
+            and extract(dow from registered_at) != 6
+            #{ @district_handle ? "and district_handle = '#{@district_handle}'" : "" }
+            #{ @filter_by_level }
+            group by locations.id
+            order by mean desc, name;
+          "
+    end
 
     @schools = ActiveRecord::Base.connection.execute(query)
     @colors = []
@@ -70,8 +92,10 @@ class HomeController < ApplicationController
 
     @levels = [["infantil", "infantil"], ["primària", "primaria"], ["secundària", "secundaria"], ["batxillerat", "batxillerat"], ["educació especial", "educacio-especial"]]
     @level_name = @levels.select {|level| level[1] == @level }.first
-    @title = "Nivells de contaminació atmosfèrica a les escoles #{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? "d'" : "de ") + "#{@level_name[0]} " : ""}#{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")}"
-    @headline = "Segons les dades dels últims #{time_ago_in_words(@date)}, #{@schools.select{|s| s["mean"].to_f > 40.0}.count} de les #{@schools.count} escoles#{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? " d'" : " de ") + "#{@level_name[0]} " : ""} #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")} (#{(100 * @schools.select{|s| s["mean"].to_f > 40.0}.count/@schools.count.to_f).round}%) superen, en horari escolar, els nivells de contaminació recomanats per la mitjana anual."
+    @period = (@year == '2018' ? " l'any 2018" : "")
+    @title = "Nivells de contaminació atmosfèrica a les escoles #{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? "d'" : "de ") + "#{@level_name[0]} " : ""}#{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")}#{@period}"
+    @period = (@year == '2018' ? "de l'any 2018" : "dels últims #{time_ago_in_words(@date)}")
+    @headline = "Segons les dades #{@period}, #{@schools.select{|s| s["mean"].to_f > 40.0}.count} de les #{@schools.count} escoles#{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? " d'" : " de ") + "#{@level_name[0]} " : ""} #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")} (#{(100 * @schools.select{|s| s["mean"].to_f > 40.0}.count/@schools.count.to_f).round}%) superen, en horari escolar, els nivells de contaminació recomanats per la mitjana anual."
     @share = "#{@headline} Consulta la llista de les escoles més contaminades a: contaminacio.cat/escoles"
     @description = @headline
 
@@ -144,6 +168,21 @@ class HomeController < ApplicationController
       @filter_by_level = "and is_special_school = true"
     end
     schools_by_district()
+  end
+
+  def schools_by_year
+    @year = '2018'
+    schools()
+  end
+
+  def schools_by_year_and_district
+    @year = '2018'
+    schools_by_district()
+  end
+
+  def schools_by_year_district_and_level
+    @year = '2018'
+    schools_by_district_and_level()
   end
 
   def index_with_pollutant

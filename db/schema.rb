@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191026092849) do
+ActiveRecord::Schema.define(version: 20191114122936) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "historics", force: :cascade do |t|
+    t.integer "year"
+    t.integer "location_id",                          null: false
+    t.integer "pollutant_id",                         null: false
+    t.decimal "value",        precision: 8, scale: 2
+    t.index ["location_id"], name: "index_historics_on_location_id", using: :btree
+    t.index ["pollutant_id"], name: "index_historics_on_pollutant_id", using: :btree
+    t.index ["year"], name: "index_historics_on_year", using: :btree
+  end
 
   create_table "locations", force: :cascade do |t|
     t.string   "code"

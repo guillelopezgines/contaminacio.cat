@@ -17,17 +17,16 @@ body {
 }
 
 .top-banner {
-  /*border-bottom: 1px dotted;*/
   text-align: center;
   width: 100%;
-  background: #92d050;
-  background: rgba(146, 208, 80, 0.7);
+  background: #F5F5F5;
   > div {
     margin: 0 auto;
-    padding: 10px;
+    padding: 9px 10px 12px;
     font-size: 14px;
     a {
-      /*font-weight: bold;*/
+      text-decoration: none;
+      border-bottom: 1px solid;
     }
   }
 }

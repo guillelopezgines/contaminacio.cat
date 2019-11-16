@@ -42,7 +42,7 @@ pg.defaults.ssl = false;
 var processID = process.pid;
 var postgresSQLURL = process.env.DATABASE_URL;
 var hoursDelay = 4;
-var date = Date.now() - (1000 * 60 * 60 * hoursDelay);
+var date = +(process.argv[3] == undefined ? Date.now() - (1000 * 60 * 60 * hoursDelay) : process.argv[3]);
 date = Math.floor(date / (1000 * 60 * 60)) * (1000 * 60 * 60);
 var hour = new Date(date).getHours();
 var day = new Date(date).getDay();
@@ -110,7 +110,7 @@ function start() {
 }
 function processEscoles(escoles, client) {
     return __awaiter(this, void 0, void 0, function () {
-        var browser, page, i, _i, escoles_1, escola, availableRetries, elements, _a, elements_1, element, label, value, query, error_3, error_4;
+        var browser, page, i, _i, escoles_1, escola, availableRetries, elements, found, _a, elements_1, element, label, value, query, error_3, error_4;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -148,6 +148,7 @@ function processEscoles(escoles, client) {
                     return [4 /*yield*/, page.$$('text')];
                 case 8:
                     elements = _b.sent();
+                    found = false;
                     _a = 0, elements_1 = elements;
                     _b.label = 9;
                 case 9:
@@ -161,13 +162,18 @@ function processEscoles(escoles, client) {
                         query = 'INSERT INTO logs (location_id, value, pollutant_id, registered_at, created_at, updated_at) VALUES (' + escola.id + ', ' + value + ', 1, to_timestamp(' + (date + (1000 * 60 * 60 * 1)) / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '))';
                         console.log(value);
                         client.query(query);
+                        found = true;
                         return [3 /*break*/, 12];
                     }
                     _b.label = 11;
                 case 11:
                     _a++;
                     return [3 /*break*/, 9];
-                case 12: return [3 /*break*/, 15];
+                case 12:
+                    if (!found) {
+                        console.log('NO2 value not found for school.');
+                    }
+                    return [3 /*break*/, 15];
                 case 13:
                     error_3 = _b.sent();
                     console.log('Failed to fetch page ' + 'https://aire-barcelona.lobelia.earth/ca/?lon=' + escola.longitude + '&lat=' + escola.latitude + '&time=' + date);

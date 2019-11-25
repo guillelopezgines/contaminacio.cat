@@ -74,7 +74,7 @@ class Location < ApplicationRecord
 
   def self.barcelona_tweet_update
     locations = []
-    pollutant = Pollutant.find_by_short_name("NO2")
+    pollutant = Pollutant.find_by_short_name("NO₂")
     Location.stations.enabled.from_barcelona.each do |location|
       if value = location.logs.where(pollutant: pollutant).order(registered_at: :desc).try(:first).try(:value).try(:to_i)
         if value > 0

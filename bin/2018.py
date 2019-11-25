@@ -61,7 +61,77 @@ for index in hours:
   if(time >= datetime(2018, 12, 22)):
     continue
 
-  print time.strftime("%c")
+  # print time.strftime("%c")
+
+  times.append(int(index))
+  
+# print times
+
+schools = []
+# # -*- coding: iso-8859-15 -*-
+
+from netCDF4 import Dataset
+from datetime import datetime, timedelta
+import numpy as np
+
+nc = Dataset("barcelona_201801-201812_no2.nc", "r")
+for i in nc.variables:
+  print(i)
+
+print '----'
+
+no2 = nc['no2']
+hours = nc['time']
+lat = nc['lat'][:]
+lon = nc['lon'][:]
+
+times = []
+for index in hours:
+  time = datetime(2018, 1, 1) + timedelta(hours=int(index))
+  weekday = int(time.strftime("%w"))
+  hour = int(time.strftime("%H"))
+
+  # exclude weekends
+  if (weekday == 0 or weekday == 6):
+    continue
+
+  # exclude out of school time
+  if (hour < 9 or hour > 16):
+    continue
+
+  # exclude christmas
+  if(time < datetime(2018, 1, 8)):
+    continue
+
+  # exclude setmana santa
+  if(time >= datetime(2018, 3, 24) and time <= datetime(2018, 4, 3)):
+    continue
+
+  # exclude summer vacations
+  if(time >= datetime(2018, 6, 23) and time <= datetime(2018, 9, 12)):
+    continue
+
+  # exclude la mercé
+  if(time >= datetime(2018, 9, 24) and time < datetime(2018, 9, 25)):
+    continue
+
+  # exclude dia de l'hispanitat
+  if(time >= datetime(2018, 10, 12) and time < datetime(2018, 10, 13)):
+    continue
+
+  # exclude tot sants
+  if(time >= datetime(2018, 11, 1) and time < datetime(2018, 11, 2)):
+    continue
+
+  # exclude la constitució
+  if(time >= datetime(2018, 12, 6) and time < datetime(2018, 12, 7)):
+    continue
+
+  # exclude christmas
+  if(time >= datetime(2018, 12, 22)):
+    continue
+
+  # print time.strftime("%c")
 
   times.append(int(index))
   
@@ -146,7 +216,7 @@ schools.append({"id": 97, "name": "LLI privada Bressol del Nen Jesús", "lat": 4
 schools.append({"id": 98, "name": "Sant Felip Neri", "lat": 41.383279, "lon": 2.174974})
 schools.append({"id": 99, "name": "Sagrat Cor", "lat": 41.375497, "lon": 2.165668})
 schools.append({"id": 100, "name": "Maristes Anna Ravell", "lat": 41.371976, "lon": 2.16217})
-schools.append({"id": 101, "name": "Escola De Bosc de Montjuïc", "lat": 41.368827, "lon": 2.161113})
+schools.append({"id": 101, "name": "Escola De Bosc de Montjuïc", "lat": 41.369498, "lon": 2.161105})
 schools.append({"id": 102, "name": "Salesià de Sant Josep", "lat": 41.37741, "lon": 2.15598})
 schools.append({"id": 103, "name": "Maria Auxiliadora", "lat": 41.378468, "lon": 2.156026})
 schools.append({"id": 104, "name": "Jesús Maria", "lat": 41.374244, "lon": 2.155302})
@@ -630,7 +700,7 @@ schools.append({"id": 581, "name": "Trencapins", "lat": 41.404989, "lon": 2.1549
 schools.append({"id": 582, "name": "Xenius", "lat": 41.40257, "lon": 2.138435})
 schools.append({"id": 583, "name": "Pinocho", "lat": 41.390162, "lon": 2.145005})
 schools.append({"id": 584, "name": "LLI privada Xiulet", "lat": 41.380248, "lon": 2.149959})
-schools.append({"id": 585, "name": "Institut Bosc de Montjuïc", "lat": 41.369375, "lon": 2.1651})
+schools.append({"id": 585, "name": "Institut Bosc de Montjuïc", "lat": 41.369181, "lon": 2.161441})
 schools.append({"id": 586, "name": "Escola Mediterrània", "lat": 41.379415, "lon": 2.192151})
 schools.append({"id": 587, "name": "La Poma", "lat": 41.385583, "lon": 2.152943})
 schools.append({"id": 588, "name": "L'Airet", "lat": 41.419315, "lon": 2.177557})
@@ -818,6 +888,11 @@ schools.append({"id": 771, "name": "Llar d'infants Bon Camí", "lat": 41.431665,
 schools.append({"id": 772, "name": "Llar d'infants El Camí Feliç Les Corts", "lat": 41.387313, "lon": 2.134594})
 schools.append({"id": 773, "name": "Institut Pedralbes", "lat": 41.38635, "lon": 2.105796})
 schools.append({"id": 774, "name": "Institut Escola Arts", "lat": 41.375791, "lon": 2.142388})
+schools.append({"id": 775, "name": "Escola Ferdinand de Lesseps", "lat": 41.397590, "lon": 2.178396})
+
+for school in schools:
+  print str(school["id"]) + ": " + str(np.nanmean(no2[times, (np.abs(lat - float(school['lat']))).argmin(), (np.abs(lon - float(school['lon']))).argmin()]))
+
 
 for school in schools:
   print str(school["id"]) + ": " + str(np.nanmean(no2[times, (np.abs(lat - float(school['lat']))).argmin(), (np.abs(lon - float(school['lon']))).argmin()]))

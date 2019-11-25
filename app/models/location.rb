@@ -85,7 +85,7 @@ class Location < ApplicationRecord
       end
     end
     if locations.length > 0
-      return "#{(Log.last.registered_at).strftime("%Hh")} - NO² (µg/m³):\n#{locations.join("\n")}"
+      return "#{(Log.last.registered_at).strftime("%Hh")} - NO₂ (µg/m³):\n#{locations.join("\n")}"
     else
       return false
     end

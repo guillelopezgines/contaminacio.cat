@@ -107,6 +107,10 @@ sup {
   vertical-align: super;
   line-height: 0;
 }
+sub {
+  vertical-align: sub;
+  line-height: 0;
+}
 .module {
   margin: 20px 0 40px;
   &.left {

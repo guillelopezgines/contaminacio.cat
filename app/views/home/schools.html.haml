@@ -11,7 +11,7 @@
     %form
       %span Amb
       %div.select
-        = select_tag :year, options_for_select([["dades dels últims #{time_ago_in_words(@date)}", '2019'], ["dades de l'any 2018", '2018']], @year), class: "year"
+        = select_tag :year, options_for_select([["dades dels últims #{((Time.now - @date)/ 1.day).to_i} dies", '2019'], ["dades de l'any 2018", '2018']], @year), class: "year"
         %svg.select-icon{viewBox: "0 0 24 24"}
           %path{d: "M21 5.176l-9.086 9.353L3 5.176.686 7.647 12 19.382 23.314 7.647 21 5.176z"}
       %span a les escoles de 
@@ -90,6 +90,10 @@
               #{school["name"]}
             %span.small
               (<a target="_blank" href="https://maps.google.com/?q=#{school["latitude"]},#{school["longitude"]}" data-action="move" data-latitude="#{school["latitude"]}" data-longitude="#{school["longitude"]}" data-index="#{index}">MAPA</a>)
+            - if school["adhered"]
+              %span.highlight
+                %a{href: "https://docs.google.com/document/d/1DiuWagjPAnYPjKyM1KrujtwAZOgBs8GMhPmXioiUo_A", target:"_blank"}
+                  Adherida ✔
           %td.category.hide-on-mobile
             #{school["district"]}
           %td.category

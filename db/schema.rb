@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191114122936) do
+ActiveRecord::Schema.define(version: 20191128142459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20191114122936) do
     t.boolean  "is_high_school",                              default: false,     null: false
     t.boolean  "is_special_school",                           default: false,     null: false
     t.string   "district_handle"
+    t.boolean  "adhered",                                     default: false,     null: false
     t.index ["category"], name: "index_locations_on_category", using: :btree
     t.index ["code"], name: "index_locations_on_code", unique: true, using: :btree
     t.index ["district_handle"], name: "index_locations_on_district_handle", using: :btree

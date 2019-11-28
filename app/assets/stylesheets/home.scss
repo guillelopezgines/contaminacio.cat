@@ -163,8 +163,27 @@ table {
   td, th {
     border-bottom: 1px solid;
     padding: 5px 2px;
-    span.small {
-      font-size: 11px;
+    span {
+      &.small {
+        font-size: 11px;
+        margin-right: 5px;
+        position: relative;
+        top: -1px;
+      }
+      &.highlight {
+        font-size: 10px;
+        text-transform: uppercase;
+        background: #6FD350;
+        border-radius: 4px;
+        padding: 2px 4px;
+        position: relative;
+        top: -1px;
+        a {
+          text-decoration: none;
+          color: white;
+          display: inline-block;
+        }
+      }
     }
     &.category {
       font-size: 11px;

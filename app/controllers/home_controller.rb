@@ -112,7 +112,7 @@ class HomeController < ApplicationController
     @pollutant = Pollutant.find(1)
     @logs = @school.logs.where(pollutant: @pollutant).order(registered_at: :desc)
     values = @logs.map{|log| log.value }
-    @mean = values.sum / values.size.to_f
+    @mean = (values.sum / values.size.to_f).round(2)
     @color = get_color(@mean)
 
     respond_to do |format|

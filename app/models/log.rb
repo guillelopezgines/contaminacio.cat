@@ -28,6 +28,10 @@ class Log < ApplicationRecord
     Log.order(registered_at: :desc).map { |log| log.value_tupla }
   end
 
+  def self.data_last_days(num_days)
+    Log.where("registered_at >= ?", num_days.days.ago.utc).order(registered_at: :desc).map { |log| log.value_tupla }
+  end
+
   def self.data_last_7_days
     Log.where("registered_at >= ?", TIME_WINDOW).order(registered_at: :desc).map { |log| log.value_tupla }
   end

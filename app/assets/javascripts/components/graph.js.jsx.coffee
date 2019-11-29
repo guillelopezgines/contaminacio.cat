@@ -6,6 +6,8 @@ class @Graph extends React.Component
     markings = []
     markings.push({ color: '#F94E4E', lineWidth: 10, yaxis: { from: this.props.year_limit_spain, to: this.props.year_limit_spain }})
     markings.push({ color: '#F94E4E', lineWidth: 5, yaxis: { from: this.props.year_limit_oms, to: this.props.year_limit_oms }})
+    if (this.props.mean && this.props.color)
+      markings.push({ color: this.props.color, lineWidth: 5, yaxis: { from: this.props.mean, to: this.props.mean }})
 
     options =
       series:
@@ -15,7 +17,7 @@ class @Graph extends React.Component
           steps: false
           lineWidth: 3
         points:
-          show: false
+          show: true
           fill: true
           radius: 3
       shadowSize: 0
@@ -35,7 +37,8 @@ class @Graph extends React.Component
         noColumns: 0
 
       xaxis:
-        mode: "time"
+        mode : "time"
+        minTickSize : [1, "hour"]
         font:
           size: 10
           weight: "bold"
@@ -77,7 +80,7 @@ class @Graph extends React.Component
           y = item.datapoint[1].toFixed(2)
           amount = item.datapoint[1]
           date = new Date(item.datapoint[0] - 1 * 60 * 60 * 1000);
-          content = amount + " " + window.unit + " at " + date
+          content = amount + " " + window.unit + " a les " + date.getHours() + "h del " + date.getDay() + "/" + date.getMonth() + "/" + (date.getFullYear() - 2000)
           content = label + ":<br>" + content if label = item.series.label
 
           $("#tooltip")

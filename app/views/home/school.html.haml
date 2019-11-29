@@ -1,8 +1,36 @@
-= render 'schools_banner'
+%div.school-profile
+  %div.left
+    %div.number{style: "display: none;"}
+      %div.value
+        #{@logs.first.value}<span>µg/m<sup>3</sup></span> 
+      %div.explanation
+        Mitjana horaria de NO<sub>2</sub> dels últims #{((Time.now - @logs.last.registered_at)/ 1.day).to_i} dies durant l'horari lectiu (9-16h)
+    %div.number{style: "border-color: #{@color}"}
+      %div.value{style: "color: #{@color}"}
+        #{@mean}<span>µg/m<sup>3</sup></span> 
+      %div.explanation{style: "color: #{@color}"}
+        Últim valor horari de NO<sub>2</sub> a les #{@logs.first.registered_at.strftime("%Hh del %d/%m/%Y")}
 
-%div.page
-  %div.module
-    %h2
+    %div.circle{style: "background: #{@color}"}
+    %div.legend
+      %div
+        %div.circle{style: "background: #02b0f0"}
+        < 20 <span>µg/m<sup>3</sup></span>
+      %div
+        %div.circle{style: "background: #92d050"}
+        < 40 <span>µg/m<sup>3</sup></span>
+      %div
+        %div.circle{style: "background: #ffc003"}
+        ≥ 40 <span>µg/m<sup>3</sup></span>
+      %div
+        %div.circle{style: "background: #ff0200"}
+        ≥ 50 <span>µg/m<sup>3</sup></span>
+      %div
+        %div.circle{style: "background: #c30000"}
+        ≥ 60 <span>µg/m<sup>3</sup></span>
+  %div.info
+    %div.category
+      <b>ETAPES: </b>
       - if @school.is_kindergarden
         %span.pre-school Infantil
       - if @school.is_primary_school
@@ -13,16 +41,24 @@
         %span.high-school Batxillerat
       - if @school.is_special_school
         %span.special-school Educació Especial
-    %div.circle{style: "background: #{@color}"}
-    %h1 #{@school.name}
-    %h2 #{@school.address}, #{@school.zipcode}, #{@school.district}
-    %h2 Mean value: #{@mean} <span>µg/m<sup>3</sup></span> pels últims #{((Time.now - @logs.last.registered_at)/ 1.day).to_i} dies
-    %h2 Last value: #{@logs.first.value} <span>µg/m<sup>3</sup></span> at #{@logs.first.registered_at}
-    = react_component 'Graph', { data: [@logs.data_last_7_days, @logs.averages_last_7_days], year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms }
-    %div.map{id: "map"}
-    %script{type: "text/javascript"}
-      window.schools = [{id: #{@school.id}, info: "<b>#{@school.name}</b><br><span style='margin-top: 4px; display: block;'>#{@logs.first.value} µg/m<sup>3</sup></span>", color: "#{@color}", latitude: #{@school.latitude},longitude: #{@school.longitude}}];
-      window.unit = "#{@pollutant.unit_html.html_safe}"
-    %script{async: true, defer: true, src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCI1nJlcggO5BSBpblSrnm97cpBtbYikoM&callback=initMap"}
+    %div.name 
+      #{@school.name}
+    %div.address
+      #{@school.address}, #{@school.zipcode}, #{@school.district}, #{@school.city}
+    %div.adhered
+      - if @school.adhered
+        %span
+          %a{href: "https://docs.google.com/document/d/1DiuWagjPAnYPjKyM1KrujtwAZOgBs8GMhPmXioiUo_A", target:"_blank"}
+            Adherida a la carta
+      - else
+        %span.highlight.no
+          %a{href: "https://docs.google.com/document/d/1DiuWagjPAnYPjKyM1KrujtwAZOgBs8GMhPmXioiUo_A", target:"_blank"}
+            Encara No Adherida a la carta
 
+  %div.map{id: "map"}
     
+= react_component 'Graph', { data: [@logs.data_last_days(150)], year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms, mean: @mean, color: @color }
+%script{type: "text/javascript"}
+  window.schools = [{id: #{@school.id}, info: "<b>#{@school.name}</b><br><span style='margin-top: 4px; display: block;'>#{@logs.first.value} µg/m<sup>3</sup></span>", color: "#{@color}", latitude: #{@school.latitude},longitude: #{@school.longitude}}];
+  window.unit = "#{@pollutant.unit_html.html_safe}"
+%script{async: true, defer: true, src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCI1nJlcggO5BSBpblSrnm97cpBtbYikoM&callback=initMap"}

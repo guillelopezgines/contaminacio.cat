@@ -42555,6 +42555,16 @@ module.exports = function(reqctx) {
           to: this.props.year_limit_oms
         }
       });
+      if (this.props.mean && this.props.color) {
+        markings.push({
+          color: this.props.color,
+          lineWidth: 5,
+          yaxis: {
+            from: this.props.mean,
+            to: this.props.mean
+          }
+        });
+      }
       options = {
         series: {
           lines: {
@@ -42564,7 +42574,7 @@ module.exports = function(reqctx) {
             lineWidth: 3
           },
           points: {
-            show: false,
+            show: true,
             fill: true,
             radius: 3
           }
@@ -42593,6 +42603,7 @@ module.exports = function(reqctx) {
         },
         xaxis: {
           mode: "time",
+          minTickSize: [1, "hour"],
           font: {
             size: 10,
             weight: "bold",
@@ -42642,7 +42653,7 @@ module.exports = function(reqctx) {
             y = item.datapoint[1].toFixed(2);
             amount = item.datapoint[1];
             date = new Date(item.datapoint[0] - 1 * 60 * 60 * 1000);
-            content = amount + " " + window.unit + " at " + date;
+            content = amount + " " + window.unit + " a les " + date.getHours() + "h del " + date.getDay() + "/" + date.getMonth() + "/" + (date.getFullYear() - 2000);
             if (label = item.series.label) {
               content = label + ":<br>" + content;
             }
@@ -43015,7 +43026,7 @@ module.exports = function(reqctx) {
           lat: schools[0].latitude,
           lng: schools[0].longitude
         });
-        map.setZoom(15);
+        map.setZoom(14);
       } else {
         map.setCenter({
           lat: 41.40298878760852,

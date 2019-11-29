@@ -43010,12 +43010,20 @@ module.exports = function(reqctx) {
         }
       }), 200);
     } else {
-      map.setCenter({
-        lat: 41.40298878760852,
-        lng: 2.1553331613770155
-      });
-      if (window.innerWidth < 400) {
-        map.setZoom(12);
+      if (schools.length === 1) {
+        map.setCenter({
+          lat: schools[0].latitude,
+          lng: schools[0].longitude
+        });
+        map.setZoom(15);
+      } else {
+        map.setCenter({
+          lat: 41.40298878760852,
+          lng: 2.1553331613770155
+        });
+        if (window.innerWidth < 400) {
+          map.setZoom(12);
+        }
       }
     }
     return window.map = map;

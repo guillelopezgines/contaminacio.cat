@@ -1,0 +1,27 @@
+= render 'schools_banner'
+
+%div.page
+  %div.module
+    %h2
+      - if @school.is_kindergarden
+        %span.pre-school Infantil
+      - if @school.is_primary_school
+        %span.primary-school Primària
+      - if @school.is_secondary_school
+        %span.secondary-school Secundària
+      - if @school.is_high_school
+        %span.high-school Batxillerat
+      - if @school.is_special_school
+        %span.special-school Educació Especial
+    %div.circle{style: "background: #{@color}"}
+    %h1 #{@school.name}
+    %h2 #{@school.address}, #{@school.zipcode}, #{@school.district}
+    %h2 Mean value: #{@mean} <span>µg/m<sup>3</sup></span> pels últims #{((Time.now - @logs.last.registered_at)/ 1.day).to_i} dies
+    %h2 Last value: #{@logs.first.value} <span>µg/m<sup>3</sup></span> at #{@logs.first.registered_at}
+    = react_component 'Graph', { data: [@logs.data, @logs.averages], year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms }
+    %div.map{id: "map"}
+    %script{type: "text/javascript"}
+      window.schools = [{id: #{@school.id}, info: "<b>#{@school.name}</b><br><span style='margin-top: 4px; display: block;'>#{@logs.first.value} µg/m<sup>3</sup></span>", color: "#{@color}", latitude: #{@school.latitude},longitude: #{@school.longitude}}];
+    %script{async: true, defer: true, src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCI1nJlcggO5BSBpblSrnm97cpBtbYikoM&callback=initMap"}
+
+    

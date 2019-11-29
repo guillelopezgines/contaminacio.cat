@@ -79,17 +79,7 @@ class HomeController < ApplicationController
 
     @schools.each do |school|
       mean = school["mean"].to_f
-      if mean < 20.0
-        @colors << "#02b0f0"
-      elsif mean < 40.0
-        @colors << "#92d050"
-      elsif mean < 50.0
-        @colors << "#ffc003"
-      elsif mean < 60.0
-        @colors << "#ff0200"
-      else
-        @colors << "#c30000"
-      end
+      @colors << get_color(mean)
     end
 
     @levels = [["infantil", "infantil"], ["primària", "primaria"], ["secundària", "secundaria"], ["batxillerat", "batxillerat"], ["educació especial", "educacio-especial"]]
@@ -118,8 +108,25 @@ class HomeController < ApplicationController
     end
   end
 
+  def school
+    @pollutant = Pollutant.find(1)
+    @logs = @school.logs.where(pollutant: @pollutant).order(registered_at: :desc)
+    values = @logs.map{|log| log.value }
+    @mean = values.sum / values.size.to_f
+    @color = get_color(@mean)
+
+    respond_to do |format|
+      format.html{
+        render action: :school
+      }
+    end
+  end
+
   def schools_by_district
-    if location = Location.find_by_district_handle(params[:district])
+    if location = Location.find_by_slug(params[:district])
+      @school = location
+      school()
+    elsif location = Location.find_by_district_handle(params[:district])
       @district = location.district
       @district_handle = location.district_handle
       schools()
@@ -274,6 +281,20 @@ class HomeController < ApplicationController
     c = 2 * Math::atan2(Math::sqrt(a), Math::sqrt(1-a))
 
     rm * c # Delta in meters
+  end
+
+  def get_color mean
+    if mean < 20.0
+      return "#02b0f0"
+    elsif mean < 40.0
+      return "#92d050"
+    elsif mean < 50.0
+      return "#ffc003"
+    elsif mean < 60.0
+      return "#ff0200"
+    else
+      return "#c30000"
+    end
   end
 
 end

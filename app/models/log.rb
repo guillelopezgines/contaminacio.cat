@@ -25,11 +25,15 @@ class Log < ApplicationRecord
   end
 
   def self.data
-    Log.order(registered_at: :desc).map { |log| log.tupla }
+    Log.order(registered_at: :desc).map { |log| log.value_tupla }
   end
 
   def self.data_last_7_days
     Log.where("registered_at >= ?", TIME_WINDOW).order(registered_at: :desc).map { |log| log.value_tupla }
+  end
+
+  def self.averages
+    Log.where("annual_sum IS NOT NULL").order(registered_at: :desc).map { |log| log.average_tupla }
   end
 
   def self.averages_last_7_days

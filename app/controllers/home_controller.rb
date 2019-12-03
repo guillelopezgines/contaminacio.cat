@@ -123,6 +123,9 @@ class HomeController < ApplicationController
       @values_for_graph << [tupla['day'].to_date.strftime('%Q').to_i, tupla['mean'].to_f]
     end
 
+    @title = "Nivells de contaminació a #{@school.name}"
+    @description = "Mitjana horaria de NO2 dels últims dies durant l'horari lectiu de 9h a 16h."
+
     respond_to do |format|
       format.html{
         render action: :school

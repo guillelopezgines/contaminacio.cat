@@ -18,7 +18,14 @@ default: &default
 
 development:
   <<: *default
-  database: contaminacio_development
+  # database: contaminacio_development
+  database: d94nfa9vov9b4e
+  username: riwmagomyvlzja
+  password: 01d6079c58de40e15cb7f5bdebf6e61036561876655c8a5f7a95a705c453f7bb
+  host: ec2-174-129-252-228.compute-1.amazonaws.com
+  port: 5432
+
+
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

@@ -9,7 +9,7 @@
     %link(rel="apple-touch-icon" href="/touch-icon.png?v=1")
     = render 'layouts/metas'
     = csrf_meta_tags
-  %body{ class: params[:controller].parameterize, id: params[:action].parameterize}
+  %body{ class: params[:controller].parameterize + " #{@school ? 'full' : ''}", id: params[:action].parameterize}
     %main
       = yield
     = render "layouts/analytics"

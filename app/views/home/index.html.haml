@@ -42,7 +42,7 @@
       %h1 #{@pollutant.year_limit_oms} <span>#{@pollutant.unit_html.html_safe}</span>
 
     %div.module
-      %h2 Evolució horaria de #{@pollutant.name.downcase} (#{@pollutant.short_name}) en els últims 7 dies a #{@location.name}:
+      %h2 Evolució horaria de #{@pollutant.name.downcase} (#{@pollutant.short_name}) en els últims dies a #{@location.name}:
 
 - if @logs.length > 0
   = react_component 'Graph', { data: [@logs.data_last_7_days, @logs.averages_last_7_days], year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms }

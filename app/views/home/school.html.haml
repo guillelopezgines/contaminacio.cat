@@ -1,64 +1,30 @@
-%div.school-profile
-  %div.left
-    %div.number{style: "display: none;"}
-      %div.value
-        #{@logs.first.value}<span>µg/m<sup>3</sup></span> 
-      %div.explanation
-        Mitjana horaria de NO<sub>2</sub> dels últims #{((Time.now - @logs.last.registered_at)/ 1.day).to_i} dies durant l'horari lectiu (9-16h)
-    %div.number{style: "border-color: #{@color}"}
-      %div.value{style: "color: #{@color}"}
-        #{@mean}<span>µg/m<sup>3</sup></span> 
-      %div.explanation{style: "color: #{@color}"}
-        Últim valor horari de NO<sub>2</sub> a les #{@logs.first.registered_at.strftime("%Hh del %d/%m/%Y")}
+%div.school
+  %div.inner
+    %div.header
+      %div.info
+        %div.category
+          - if @school.is_kindergarden
+            %span.pre-school Infantil
+          - if @school.is_primary_school
+            %span.primary-school Primària
+          - if @school.is_secondary_school
+            %span.secondary-school Secundària
+          - if @school.is_high_school
+            %span.high-school Batxillerat
+          - if @school.is_special_school
+            %span.special-school Educació Especial
+        %div.name 
+          #{@school.name}
+        %div.address
+          #{@school.address}, #{@school.zipcode}, #{@school.district}, #{@school.city}
+      %div.number
+        %div.value
+          #{@mean}<span>µg/m<sup>3</sup></span> 
+        %div.explanation
+          Mitjana horaria de NO<sub>2</sub> dels últims #{((Time.now - @logs.last.registered_at)/ 1.day).to_i} dies durant l'horari lectiu de 9h a 16h
+    = react_component 'Graph', { data: [@values_for_graph], year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms, mean: @mean, color: "#E2D44D", dots: true}
+    %div.license
+      En <span style="color: #F94E4E; font-weight: bold;">vermell</span> el valor límit de la mitjana anual establert per la legislació europea (40.0 µg/m3). En <span style="color: #E2D44D; font-weight: bold;">groc</span> la mitjana (#{@mean} µg/m3) i en <span style="color: #000; font-weight: bold;">negre</span> el valor de la mitjana diari en horari lectiu.
 
-    %div.circle{style: "background: #{@color}"}
-    %div.legend
-      %div
-        %div.circle{style: "background: #02b0f0"}
-        < 20 <span>µg/m<sup>3</sup></span>
-      %div
-        %div.circle{style: "background: #92d050"}
-        < 40 <span>µg/m<sup>3</sup></span>
-      %div
-        %div.circle{style: "background: #ffc003"}
-        ≥ 40 <span>µg/m<sup>3</sup></span>
-      %div
-        %div.circle{style: "background: #ff0200"}
-        ≥ 50 <span>µg/m<sup>3</sup></span>
-      %div
-        %div.circle{style: "background: #c30000"}
-        ≥ 60 <span>µg/m<sup>3</sup></span>
-  %div.info
-    %div.category
-      <b>ETAPES: </b>
-      - if @school.is_kindergarden
-        %span.pre-school Infantil
-      - if @school.is_primary_school
-        %span.primary-school Primària
-      - if @school.is_secondary_school
-        %span.secondary-school Secundària
-      - if @school.is_high_school
-        %span.high-school Batxillerat
-      - if @school.is_special_school
-        %span.special-school Educació Especial
-    %div.name 
-      #{@school.name}
-    %div.address
-      #{@school.address}, #{@school.zipcode}, #{@school.district}, #{@school.city}
-    %div.adhered
-      - if @school.adhered
-        %span
-          %a{href: "https://docs.google.com/document/d/1DiuWagjPAnYPjKyM1KrujtwAZOgBs8GMhPmXioiUo_A", target:"_blank"}
-            Adherida a la carta
-      - else
-        %span.highlight.no
-          %a{href: "https://docs.google.com/document/d/1DiuWagjPAnYPjKyM1KrujtwAZOgBs8GMhPmXioiUo_A", target:"_blank"}
-            Encara No Adherida a la carta
-
-  %div.map{id: "map"}
-    
-= react_component 'Graph', { data: [@logs.data_last_days(150)], year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms, mean: @mean, color: @color }
 %script{type: "text/javascript"}
-  window.schools = [{id: #{@school.id}, info: "<b>#{@school.name}</b><br><span style='margin-top: 4px; display: block;'>#{@logs.first.value} µg/m<sup>3</sup></span>", color: "#{@color}", latitude: #{@school.latitude},longitude: #{@school.longitude}}];
   window.unit = "#{@pollutant.unit_html.html_safe}"
-%script{async: true, defer: true, src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCI1nJlcggO5BSBpblSrnm97cpBtbYikoM&callback=initMap"}

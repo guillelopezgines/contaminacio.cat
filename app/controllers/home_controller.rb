@@ -28,6 +28,7 @@ class HomeController < ApplicationController
           historics.value as mean,
           locations.id,
           locations.name,
+          locations.slug,
           locations.adhered,
           locations.district,
           locations.latitude,
@@ -50,6 +51,7 @@ class HomeController < ApplicationController
               round(avg(value),2) as mean,
               locations.id,
               locations.name,
+              locations.slug,
               locations.adhered,
               locations.district,
               locations.latitude,
@@ -114,6 +116,12 @@ class HomeController < ApplicationController
     values = @logs.map{|log| log.value }
     @mean = (values.sum / values.size.to_f).round(2)
     @color = get_color(@mean)
+    query = "select date_trunc('day', registered_at) as day, round(avg(value),2) as mean from logs where location_id =#{@school.id} and pollutant_id=#{@pollutant.id} group by 1;"
+    @values_by_days = ActiveRecord::Base.connection.execute(query)
+    @values_for_graph = []
+    @values_by_days.each do |tupla|
+      @values_for_graph << [tupla['day'].to_date.strftime('%Q').to_i, tupla['mean'].to_f]
+    end
 
     respond_to do |format|
       format.html{

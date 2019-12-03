@@ -42574,7 +42574,7 @@ module.exports = function(reqctx) {
             lineWidth: 3
           },
           points: {
-            show: true,
+            show: this.props.dots,
             fill: true,
             radius: 3
           }
@@ -42653,7 +42653,7 @@ module.exports = function(reqctx) {
             y = item.datapoint[1].toFixed(2);
             amount = item.datapoint[1];
             date = new Date(item.datapoint[0] - 1 * 60 * 60 * 1000);
-            content = amount + " " + window.unit + " a les " + date.getHours() + "h del " + date.getDay() + "/" + date.getMonth() + "/" + (date.getFullYear() - 2000);
+            content = amount + " " + window.unit;
             if (label = item.series.label) {
               content = label + ":<br>" + content;
             }

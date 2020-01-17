@@ -1,5 +1,7 @@
 $(document).ready ->
 
+  window.map = initMap() if $('#map').length
+
   $('form.pollutant').on 'change', ->
     $(this).submit()
 
@@ -38,7 +40,6 @@ $(document).ready ->
     else if num_params == 7
       window.location.href = "/escoles/2018/" + window.location.href.split('/')[5] + level
       
-
   $('td.button').on 'click', ->
     $('table.schools').addClass('expanded')
 
@@ -47,302 +48,123 @@ $(document).ready ->
     lat = $(this).attr('data-latitude')
     lng = $(this).attr('data-longitude')
     index = $(this).attr('data-index')
-    marker = window.markers[index]
-    infowindow = marker.infowindow
-    window.map.panTo(new google.maps.LatLng(lat, lng))
-    window.map.setZoom(15)
-    infowindow.open(window.map, marker)
-    window.closePreviousInfowindow(infowindow)
+    coordinates = [lng, lat]
+
+    window.map.flyTo({ 
+      center: [lng, lat],
+      zoom: Math.max(window.map.getZoom(), 16)
+    })
+    window.popup.remove() if window.popup
+    window.popup = new mapboxgl.Popup({
+      offset: 8,
+      closeButton: false
+    })
+      .setLngLat(coordinates)
+      .setHTML(window.schools[index].info)
+      .addTo(window.map);
     $("html, body").animate({ scrollTop: $("#map").offset().top - 20 }, "slow");
 
 window.initMap = ->
-  window.infowindow = false
-  window.markers = {}
-  bounds = new google.maps.LatLngBounds()
-  styledMapType = new google.maps.StyledMapType(
-    [
-      {
-        "elementType": "geometry",
-        "stylers": [
-          {
-            "color": "#f5f5f5"
-          }
-        ]
-      },
-      {
-        "elementType": "labels",
-        "stylers": [
-          {
-            "visibility": "off"
-          }
-        ]
-      },
-      {
-        "elementType": "labels.icon",
-        "stylers": [
-          {
-            "visibility": "off"
-          }
-        ]
-      },
-      {
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#616161"
-          }
-        ]
-      },
-      {
-        "elementType": "labels.text.stroke",
-        "stylers": [
-          {
-            "color": "#f5f5f5"
-          }
-        ]
-      },
-      {
-        "featureType": "administrative.land_parcel",
-        "stylers": [
-          {
-            "visibility": "off"
-          }
-        ]
-      },
-      {
-        "featureType": "administrative.land_parcel",
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#bdbdbd"
-          }
-        ]
-      },
-      {
-        "featureType": "administrative.neighborhood",
-        "stylers": [
-          {
-            "visibility": "off"
-          }
-        ]
-      },
-      {
-        "featureType": "poi",
-        "elementType": "geometry",
-        "stylers": [
-          {
-            "color": "#eeeeee"
-          }
-        ]
-      },
-      {
-        "featureType": "poi",
-        "elementType": "labels.text",
-        "stylers": [
-          {
-            "visibility": "off"
-          }
-        ]
-      },
-      {
-        "featureType": "poi",
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#757575"
-          }
-        ]
-      },
-      {
-        "featureType": "poi.business",
-        "stylers": [
-          {
-            "visibility": "off"
-          }
-        ]
-      },
-      {
-        "featureType": "poi.park",
-        "elementType": "geometry",
-        "stylers": [
-          {
-            "color": "#e5e5e5"
-          }
-        ]
-      },
-      {
-        "featureType": "poi.park",
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#9e9e9e"
-          }
-        ]
-      },
-      {
-        "featureType": "road",
-        "elementType": "geometry",
-        "stylers": [
-          {
-            "color": "#ffffff"
-          }
-        ]
-      },
-      {
-        "featureType": "road",
-        "elementType": "labels.icon",
-        "stylers": [
-          {
-            "visibility": "off"
-          }
-        ]
-      },
-      {
-        "featureType": "road.arterial",
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#757575"
-          }
-        ]
-      },
-      {
-        "featureType": "road.highway",
-        "elementType": "geometry",
-        "stylers": [
-          {
-            "color": "#dadada"
-          }
-        ]
-      },
-      {
-        "featureType": "road.highway",
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#616161"
-          }
-        ]
-      },
-      {
-        "featureType": "road.local",
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#9e9e9e"
-          }
-        ]
-      },
-      {
-        "featureType": "transit",
-        "stylers": [
-          {
-            "visibility": "off"
-          }
-        ]
-      },
-      {
-        "featureType": "transit.line",
-        "elementType": "geometry",
-        "stylers": [
-          {
-            "color": "#e5e5e5"
-          }
-        ]
-      },
-      {
-        "featureType": "transit.station",
-        "elementType": "geometry",
-        "stylers": [
-          {
-            "color": "#eeeeee"
-          }
-        ]
-      },
-      {
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [
-          {
-            "color": "#c9c9c9"
-          }
-        ]
-      },
-      {
-        "featureType": "water",
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#9e9e9e"
-          }
-        ]
-      }
-    ],
-    {name: 'Styled Map'}
-  )
-  map = new google.maps.Map(
-    document.getElementById('map'), {
-      zoom: 13,
-      center: {lat: 41.401136, lng: 2.206897},
-      zoomControl: true,
-      mapTypeControl: false,
-      scaleControl: false,
-      streetViewControl: false,
-      rotateControl: false,
-      fullscreenControl: true
-    }
-  )
-  map.mapTypes.set('styled_map', styledMapType)
-  map.setMapTypeId('styled_map')
-  i = 0
+  mapboxgl.accessToken = 'pk.eyJ1IjoiZ3VpbGxlbG9wZXpnaW5lcyIsImEiOiJjazVncnMxYmUwYTFjM2xwYmh4ajdiajJsIn0.-3EAGbfQ0UCr3PiBD1CGKA'
+  zoom = if window.innerWidth < 400 then 11 else 12
+  pitch = 50
+  prebearing = -55
+  bearing = -45
+  bounds = new mapboxgl.LngLatBounds()
   for school in window.schools
-    marker = new google.maps.Marker({
-      position: {lat: school.latitude, lng: school.longitude},
-      map: map,
-      icon: {
-        url: "https://www.contaminacio.cat/markers/"+ school.color.replace('#','') + ".png?v=1",
-        scaledSize: new google.maps.Size(10, 10)
-      },
-      zIndex: window.schools.length - i
-    })
-    marker.infowindow = new google.maps.InfoWindow({
-      content: school.info
-    })
-    marker.addListener 'click', () ->
-      self = this
-      this.infowindow.open(map, this)
-      google.maps.event.addListener this.infowindow,'closeclick', ->
-        window.infowindow = false
-      window.closePreviousInfowindow(this.infowindow)
-      window.timeout = setTimeout ( ->
-        self.infowindow.close()
-        window.infowindow = false
-      ), 5000
+    bounds.extend [school.longitude, school.latitude] unless school.id == 632
 
-    if school.id != 632
-      bounds.extend(marker.position)
-    window.markers[i] = marker
-    i++
-  if window.district
-    map.fitBounds(bounds)
-    setTimeout ( ->
-      if map.getZoom() == 12
-        map.setZoom(13)
-    ), 200
-  else
-    if schools.length == 1
-      map.setCenter({lat: schools[0].latitude, lng: schools[0].longitude})
-      map.setZoom(14)
+  map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/light-v10',
+    center: [2.17591, 41.39006],
+    zoom: zoom,
+    hash: false,
+    pitch: pitch,
+    bearing: prebearing
+  })
+    .addControl(new mapboxgl.FullscreenControl())
+    .on 'click', 'schools', (e) ->
+      coordinates = e.features[0].geometry.coordinates.slice()
+      description = e.features[0].properties.description
+      while Math.abs(e.lngLat.lng - coordinates[0]) > 180
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360
+      window.popup = new mapboxgl.Popup({
+          offset: 8,
+          closeButton: false
+        })
+        .setLngLat(coordinates)
+        .setHTML(description)
+        .addTo(map);
+      map.flyTo({ 
+        center: coordinates,
+        zoom: Math.max(window.map.getZoom(), 14)
+      })
+    .on 'mouseenter', 'schools', ->
+      map.getCanvas().style.cursor = 'pointer'
+    .on 'mouseleave', 'schools', ->
+      map.getCanvas().style.cursor = ''
+    .on "load", ->
+      for layer in map.getStyle().layers
+        if layer.type == "symbol" and layer.layout["text-field"]
+          map.addLayer({
+            id: "3d-buildings",
+            source: "composite",
+            "source-layer": "building",
+            filter: ["==", "extrude", "true"],
+            type: "fill-extrusion",
+            minzoom: 15,
+            paint: {
+              "fill-extrusion-color": "#aaa",
+              "fill-extrusion-height": ["interpolate", ["linear"], ["zoom"], 15, 0, 15.05, ["get", "height"]],
+              "fill-extrusion-base": ["interpolate", ["linear"], ["zoom"], 15, 0, 15.05, ["get", "min_height"]],
+              "fill-extrusion-opacity": 0.6
+            }
+          }, layer.id)
+          break
+      features = []
+      for school, index in window.schools.slice(0).reverse()
+        features.push {
+          'type': 'Feature',
+          'properties': {
+            'description': school.info,
+            'color': school.color
+          },
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [school.longitude, school.latitude]
+          }
+        }
+      map
+        .addSource('schools-source', {
+          'type': 'geojson',
+          'data': {
+            'type': 'FeatureCollection',
+            'features': features
+          }
+        })
+        .addLayer({
+          'id': 'schools',
+          'type': 'circle',
+          'source': 'schools-source',
+          'paint': {
+            'circle-radius': 6,
+            'circle-color': ["get", "color"]
+          }
+        })
+    
+    if window.district
+      if schools.length == 1
+        map.fitBounds bounds, {bearing: bearing, zoom: zoom + 2 }
+      else
+        map.fitBounds bounds
     else
-      map.setCenter({lat: 41.40298878760852, lng: 2.1553331613770155})
-      if window.innerWidth < 400
-        map.setZoom(12)
+      setTimeout ->
+        map.flyTo({
+          zoom: zoom + 0.5,
+          speed: 0.05,
+          bearing: bearing
+        }, )
+      , 1
 
-  window.map = map
-
-window.closePreviousInfowindow = (infowindow)->
-  if window.infowindow
-    window.infowindow.close()
-    clearTimeout window.timeout
-  window.infowindow = infowindow
-  
+    return map

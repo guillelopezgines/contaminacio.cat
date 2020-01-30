@@ -1,3 +1,5 @@
+= render 'home_banner'
+
 %header
   %h1 Nivells de contaminació atmosfèrica a Catalunya
 
@@ -52,7 +54,7 @@
     %h3 * En <span style="color: #F94E4E; font-weight: bold;">vermell</span> el valor límit de la mitjana anual establert per la legislació europea (#{@pollutant.year_limit_spain} #{@pollutant.unit_html.html_safe}) i de l'Organització Mundial de la Salut (#{@pollutant.year_limit_oms} #{@pollutant.unit_html.html_safe}). <br>En <span style="color: #E2D44D; font-weight: bold;">groc</span> la mitjana (#{@logs.first.annual_average.round(2)} #{@pollutant.unit_html.html_safe}) i en <span style="color: #18181C; font-weight: bold;">negre</span> el valor horari.
 
   %footer
-    %p <b>Més opcions:</b> dades generals de <a href="/barcelona">Barcelona</a>, de tot <a href="/catalunya">Catalunya</a> o d'una <a href="/">estació específica</a>.
+    %p <b>Més opcions:</b> dades generals de <a href="/barcelona">Barcelona</a>, de tot <a href="/catalunya">Catalunya</a> d'una <a href="/">estació específica</a> o  de <a href="/escoles">les escoles de Barcelona</a>.
 
   %footer.last
     %p <b>Twitter:</b> subscriu-te a les actualitzacions del nostre bot a <a href="https://twitter.com/contaminacio_" target="_blank">@contaminacio</a>.

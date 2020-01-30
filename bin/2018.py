@@ -819,7 +819,10 @@ schools = []
 # schools.append({"id": 773, "name": "Institut Pedralbes", "lat": 41.38635, "lon": 2.105796})
 # schools.append({"id": 774, "name": "Institut Escola Arts", "lat": 41.375791, "lon": 2.142388})
 # schools.append({"id": 775, "name": "Escola Ferdinand de Lesseps", "lat": 41.397590, "lon": 2.178396})
-schools.append({"id": 776, "name": "Jesuïtes Gràcia - Kostka", "lat": 41.410721, "lon": 2.155389})
+# schools.append({"id": 776, "name": "Jesuïtes Gràcia - Kostka", "lat": 41.410721, "lon": 2.155389})
+schools.append({"id": 777, "name": "EBM Aurora", "lat": 41.378102, "lon": 2.167135})
+schools.append({"id": 778, "name": "Lycée Français Maternelle", "lat": 41.405546, "lon": 2.129328})
+schools.append({"id": 779, "name": "Lycée Français de Barcelone", "lat": 41.392748, "lon": 2.118463})
 
 for school in schools:
   print str(school["id"]) + ": " + str(np.nanmean(no2[times, (np.abs(lat - float(school['lat']))).argmin(), (np.abs(lon - float(school['lon']))).argmin()]))

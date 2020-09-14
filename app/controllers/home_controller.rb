@@ -92,7 +92,7 @@ class HomeController < ApplicationController
     @level_name = @levels.select {|level| level[1] == @level }.first
     @period = (@year == '2018' ? " l'any 2018" : "")
     @title = "Nivells de contaminació atmosfèrica a les escoles #{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? "d'" : "de ") + "#{@level_name[0]} " : ""}#{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")}#{@period}"
-    @period = (@year == '2018' ? "de l'any 2018" : "dels últims #{((Time.now - @date)/ 1.day).to_i} dies")
+    @period = (@year == '2018' ? "de l'any 2018" : "dels últims #{((Time.now - @date)/ 1.day).to_i + 1} dies")
     if @schools.count > 0
       @headline = "Segons les dades #{@period}, #{@schools.select{|s| s["mean"].to_f > 40.0}.count} de les #{@schools.count} escoles#{@level_name ? (@level_name[0] =~ /^[aeiou]/i ? " d'" : " de ") + "#{@level_name[0]} " : ""} #{(@district ? (@district == 'Eixample' ? "de l'#{@district}" : (@district == 'Horta-Guinardó' ? "d'#{@district}" : "de #{@district}")) : "de Barcelona")} (#{(100 * @schools.select{|s| s["mean"].to_f > 40.0}.count/@schools.count.to_f).round}%) superen, en horari escolar, els nivells de contaminació recomanats per la mitjana anual."
     else

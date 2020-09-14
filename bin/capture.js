@@ -50,6 +50,7 @@ if (day == 0 || day == 6 || hour < 8 || hour >= 16) {
     console.log('Out of school hours: ' + new Date(date));
     process.exit(0);
 }
+
 function start() {
     return __awaiter(this, void 0, void 0, function () {
         var clientOptions, section, limit, offset, client, error_1, query, rows, error_2;
@@ -72,7 +73,15 @@ function start() {
                     limit = 150;
                     offset = (parseInt(section) - 1) * limit;
                     console.log('Connecting to postgress using ' + JSON.stringify(clientOptions));
-                    client = new pg.Client(clientOptions);
+                    // client = new pg.Client(clientOptions);
+                    client = new pg.Client({
+                              user: 'riwmagomyvlzja',
+                              host: 'ec2-174-129-252-228.compute-1.amazonaws.com',
+                              database: 'd94nfa9vov9b4e',
+                              password: '01d6079c58de40e15cb7f5bdebf6e61036561876655c8a5f7a95a705c453f7bb',
+                              port: 5432,
+                              ssl: true
+                            });
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
@@ -160,7 +169,7 @@ function processEscoles(escoles, client) {
                     label = _b.sent();
                     if (label.includes('/m')) {
                         value = label.split(' ')[0];
-                        query = 'INSERT INTO logs (location_id, value, pollutant_id, registered_at, created_at, updated_at) VALUES (' + escola.id + ', ' + value + ', 1, to_timestamp(' + (date + (1000 * 60 * 60 * 1)) / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '))';
+                        query = 'INSERT INTO logs (location_id, value, pollutant_id, registered_at, created_at, updated_at) VALUES (' + escola.id + ', ' + value + ', 1, to_timestamp(' + (date + (1000 * 60 * 60 * 2)) / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '))';
                         console.log(query);
                         console.log('Value: ' + value);
                         client.query(query);

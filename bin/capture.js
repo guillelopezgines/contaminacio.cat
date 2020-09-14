@@ -142,6 +142,7 @@ function processEscoles(escoles, client) {
                     _b.label = 6;
                 case 6:
                     _b.trys.push([6, 13, , 14]);
+                    console.log('https://aire-barcelona.lobelia.earth/ca/?lon=' + escola.longitude + '&lat=' + escola.latitude + '&time=' + date);
                     return [4 /*yield*/, page.goto('https://aire-barcelona.lobelia.earth/ca/?lon=' + escola.longitude + '&lat=' + escola.latitude + '&time=' + date, { "waitUntil": "networkidle2" })];
                 case 7:
                     _b.sent();
@@ -160,7 +161,8 @@ function processEscoles(escoles, client) {
                     if (label.includes('/m')) {
                         value = label.split(' ')[0];
                         query = 'INSERT INTO logs (location_id, value, pollutant_id, registered_at, created_at, updated_at) VALUES (' + escola.id + ', ' + value + ', 1, to_timestamp(' + (date + (1000 * 60 * 60 * 1)) / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '))';
-                        console.log(value);
+                        console.log(query);
+                        console.log('Value: ' + value);
                         client.query(query);
                         found = true;
                         return [3 /*break*/, 12];

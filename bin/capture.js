@@ -64,9 +64,9 @@ function start() {
                         clientOptions.user = 'guillelopezgines';
                         clientOptions.host = 'localhost';
                         clientOptions.database = 'contaminacio_development';
-                        clientOptions.password = 'root';
+                        clientOptions.password = '';
                         clientOptions.port = 54320;
-                        clientOptions.ssl = false;
+                        clientOptions.ssl = true;
                     }
                     else {
                         clientOptions.connectionString = postgresSQLURL;
@@ -76,6 +76,14 @@ function start() {
                     offset = (parseInt(section) - 1) * limit;
                     console.log('Connecting to postgress using ' + JSON.stringify(clientOptions));
                     client = new pg.Client(clientOptions);
+                    // client = new pg.Client({
+                    //   user: 'riwmagomyvlzja',
+                    //   host: 'ec2-174-129-252-228.compute-1.amazonaws.com',
+                    //   database: 'd94nfa9vov9b4e',
+                    //   password: '01d6079c58de40e15cb7f5bdebf6e61036561876655c8a5f7a95a705c453f7bb',
+                    //   port: 5432,
+                    //   ssl: true
+                    // });
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
@@ -163,7 +171,7 @@ function processEscoles(escoles, client) {
                     label = _b.sent();
                     if (label.includes('/m')) {
                         value = label.split(' ')[0];
-                        query = 'INSERT INTO logs (location_id, value, pollutant_id, registered_at, created_at, updated_at) VALUES (' + escola.id + ', ' + value + ', 1, \'' + localDate.toISOString().substr(0, 19).replace('T', ' ') + '\', to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '))';
+                        query = 'INSERT INTO logs (location_id, value, pollutant_id, registered_at, created_at, updated_at) VALUES (' + escola.id + ', ' + value + ', 1, \'' + localDate.getFullYear() + '-' + (localDate.getMonth() + 1) + '-' + localDate.getDate() + ' ' + localDate.getHours() + ':' + localDate.getMinutes() + ":" + localDate.getSeconds() + '\', to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '))';
                         console.log(query);
                         console.log('Value: ' + value);
                         client.query(query);

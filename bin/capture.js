@@ -41,12 +41,12 @@ var pg = require("pg");
 pg.defaults.ssl = false;
 var processID = process.pid;
 var postgresSQLURL = process.env.DATABASE_URL;
-var hoursDelay = 4;
+var hoursDelay = 2;
 var date = +(process.argv[3] == undefined ? Date.now() - (1000 * 60 * 60 * hoursDelay) : process.argv[3]);
 date = Math.floor(date / (1000 * 60 * 60)) * (1000 * 60 * 60);
 var hour = new Date(date).getHours();
 var day = new Date(date).getDay();
-if (day == 0 || day == 6 || hour < 8 || hour >= 16) {
+if (day == 0 || day == 6 || hour < 9 || hour >= 17) {
     console.log('Out of school hours: ' + new Date(date));
     process.exit(0);
 }
@@ -73,15 +73,7 @@ function start() {
                     limit = 150;
                     offset = (parseInt(section) - 1) * limit;
                     console.log('Connecting to postgress using ' + JSON.stringify(clientOptions));
-                    // client = new pg.Client(clientOptions);
-                    client = new pg.Client({
-                              user: 'riwmagomyvlzja',
-                              host: 'ec2-174-129-252-228.compute-1.amazonaws.com',
-                              database: 'd94nfa9vov9b4e',
-                              password: '01d6079c58de40e15cb7f5bdebf6e61036561876655c8a5f7a95a705c453f7bb',
-                              port: 5432,
-                              ssl: true
-                            });
+                    client = new pg.Client(clientOptions);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);

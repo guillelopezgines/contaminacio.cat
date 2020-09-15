@@ -41,13 +41,15 @@ var pg = require("pg");
 pg.defaults.ssl = false;
 var processID = process.pid;
 var postgresSQLURL = process.env.DATABASE_URL;
-var hoursDelay = 2;
+var hoursDelay = 4;
 var date = +(process.argv[3] == undefined ? Date.now() - (1000 * 60 * 60 * hoursDelay) : process.argv[3]);
 date = Math.floor(date / (1000 * 60 * 60)) * (1000 * 60 * 60);
-var hour = new Date(date).getHours();
-var day = new Date(date).getDay();
+var localDate = new Date(new Date(date).toLocaleString("en-US", {timeZone: "Europe/Paris"}))
+
+var hour = localDate.getHours();
+var day = localDate.getDay();
 if (day == 0 || day == 6 || hour < 9 || hour >= 17) {
-    console.log('Out of school hours: ' + new Date(date));
+    console.log('Out of school hours: ' + localDate);
     process.exit(0);
 }
 
@@ -59,10 +61,10 @@ function start() {
                 case 0:
                     clientOptions = {};
                     if (postgresSQLURL == undefined) {
-                        clientOptions.user = 'postgres';
+                        clientOptions.user = 'guillelopezgines';
                         clientOptions.host = 'localhost';
-                        clientOptions.database = 'postgres';
-                        clientOptions.password = 'docker';
+                        clientOptions.database = 'contaminacio_development';
+                        clientOptions.password = 'root';
                         clientOptions.port = 54320;
                         clientOptions.ssl = false;
                     }
@@ -135,7 +137,7 @@ function processEscoles(escoles, client) {
                 case 4:
                     if (!(_i < escoles_1.length)) return [3 /*break*/, 17];
                     escola = escoles_1[_i];
-                    console.log('[' + processID + '] ' + i + ' Escola ' + escola.name + ' (' + escola.latitude + ', ' + escola.longitude + ', ' + new Date(date) + ')');
+                    console.log('[' + processID + '] ' + i + ' Escola ' + escola.name + ' (' + escola.latitude + ', ' + escola.longitude + ', ' + localDate + ')');
                     availableRetries = 3;
                     _b.label = 5;
                 case 5:
@@ -161,7 +163,7 @@ function processEscoles(escoles, client) {
                     label = _b.sent();
                     if (label.includes('/m')) {
                         value = label.split(' ')[0];
-                        query = 'INSERT INTO logs (location_id, value, pollutant_id, registered_at, created_at, updated_at) VALUES (' + escola.id + ', ' + value + ', 1, to_timestamp(' + (date + (1000 * 60 * 60 * 2)) / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '))';
+                        query = 'INSERT INTO logs (location_id, value, pollutant_id, registered_at, created_at, updated_at) VALUES (' + escola.id + ', ' + value + ', 1, \'' + localDate.toISOString().substr(0, 19).replace('T', ' ') + '\', to_timestamp(' + Date.now() / 1000.0 + '), to_timestamp(' + Date.now() / 1000.0 + '))';
                         console.log(query);
                         console.log('Value: ' + value);
                         client.query(query);

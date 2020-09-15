@@ -21,7 +21,7 @@
         %div.value
           #{@mean}<span>µg/m<sup>3</sup></span> 
         %div.explanation
-          Mitjana horaria de NO<sub>2</sub> dels últims #{((Time.now - @logs.last.registered_at)/ 1.day).to_i} dies durant l'horari lectiu de 9h a 16h
+          Mitjana horaria de NO<sub>2</sub> dels últims #{((Time.now - @logs.last.registered_at)/ 1.day).to_i + 1} dies durant l'horari lectiu de 9h a 16h
     = react_component 'Graph', { data: [@values_for_graph], year_limit_spain: @pollutant.year_limit_spain, year_limit_oms: @pollutant.year_limit_oms, mean: @mean, color: "#E2D44D", dots: true}
     %div.license
       En <span style="color: #F94E4E; font-weight: bold;">vermell</span> el valor límit de la mitjana anual establert per la legislació europea (40.0 µg/m3). En <span style="color: #E2D44D; font-weight: bold;">groc</span> la mitjana (#{@mean} µg/m3) i en <span style="color: #000; font-weight: bold;">negre</span> el valor de la mitjana diari en horari lectiu.

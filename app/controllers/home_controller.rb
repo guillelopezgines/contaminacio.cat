@@ -8,6 +8,7 @@ class HomeController < ApplicationController
   end
 
   def schools
+    @year = '2018'
     query = "select 
             distinct district as name,
             district_handle as handle
